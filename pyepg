@@ -1,0 +1,97 @@
+#!/usr/bin/env python
+#
+# pyepg - Front end script for pyepg
+#
+# Copyright (C) 2012 Adam Sutton <dev@adamsutton.me.uk>
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, version 3 of the License.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+"""
+"""
+
+# ###########################################################################
+# Imports
+# ###########################################################################
+
+# System
+import os, sys, datetime
+from optparse import OptionParser
+
+# Local
+sys.path.append(os.path.join(os.path.dirname(sys.argv[0]), 'lib'))
+import pyepg.log             as log
+import pyepg.conf            as conf
+import pyepg.cache           as cache
+import pyepg.grabber.atlas   as grabber
+from pyepg.model import EPG
+
+# ###########################################################################
+# Configuration
+# ###########################################################################
+
+# TODO: make grabber/formatter configurable
+
+optp = OptionParser()
+optp.add_option('-c', '--config', default=None,
+                help='Specify alternative configuration directory')
+optp.add_option('-a', '--cache',  default=None,
+                help='Specify alternative cache directory')
+optp.add_option('-o', '--option', default=[], action='append',
+                help='Specify configuration option')
+optp.add_option('-g', '--grabber', default='atlas',
+                help='Specify grabber')
+optp.add_option('-f', '--formatter', default='xmltv',
+                help='Specify formatter')
+
+# ###########################################################################
+# Run
+# ###########################################################################
+
+if __name__ == '__main__':
+
+  # Process command line
+  (opts,args) = optp.parse_args()
+  tmp = {}
+  for o in opts.option:
+    p = o.split('=')
+    if len(p) == 2:
+      tmp[p[0]] = p[1]
+
+  # Load configuration
+  conf.init(tmp)
+
+  # Initialise log
+  log.init()
+
+  # Initialise the cache
+  cache.init() 
+
+  # Initialise EPG
+  epg = EPG()
+
+  # Get config
+  channels = [ 'bbcone', 'bbchd', 'cbeebies' ]
+  days     = 7
+  today    = datetime.datetime.today()
+
+  # Get grabber/formatter
+  def _import ( fmt, n ):
+    return __import__(fmt % n, globals(), locals(), [n])
+  grabber   = _import('pyepg.grabber.%s', opts.grabber)
+  formatter = _import('pyepg.formatter.%s', opts.formatter)
+
+  # Get EPG
+  grabber.grab(epg, channels, today, today + datetime.timedelta(days=days))
+
+  # Output
+  formatter.format(epg, sys.stdout)
