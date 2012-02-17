@@ -86,8 +86,8 @@ if __name__ == '__main__':
   epg = EPG()
 
   # Get config
-  channels = conf.get('channels')
-  days     = conf.get('days')
+  channels = conf.get('channels', [])
+  days     = conf.get('days', 7)
   today    = datetime.datetime.today()
 
   # Get grabber/formatter

@@ -411,7 +411,7 @@ def grab ( epg, channels, start, stop ):
 
   # Config
   key     = conf.get('atlas_apikey', None)
-  pubs    = conf.get('atlas_publishers', [ 'pressassociation.com' ])
+  pubs    = conf.get('atlas_publishers', [ 'bbc.co.uk' ])
   anno    = [ 'broadcasts', 'extended_description', 'series_summary',\
               'brand_summary', 'people' ]
   csize   = conf.get('atlas_channel_chunk', len(channels))
