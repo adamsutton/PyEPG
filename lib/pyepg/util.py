@@ -19,6 +19,8 @@
 """
 """
 
+from datetime import tzinfo, timedelta
+
 # Numeric words
 NUMBERS = {
   'one'       : 1,
@@ -99,6 +101,26 @@ def str2num ( s ):
         r = r + c
     ret = r
   return ret
+
+#
+# Timezone
+#
+class TimeZoneSimple ( tzinfo ):
+  def __init__ ( self, of = None ):
+    if of is not None:
+      self.of = of
+  def utcoffset ( self, dt ):
+    return timedelta(minutes=self.of)
+  def dst ( self, dt ):
+    return timedelta(0)
+  def tzname ( self, dt ):
+    r = ''
+    if self.of >= 0: r = '+'
+    else:            r = '-'
+    r = r + '%02d%02d' % (self.of / 60, self.of % 60)
+    return r
+  def __cmp__ ( self, other ):
+    return cmp(self.of, other.of)
 
 # ###########################################################################
 # Testing

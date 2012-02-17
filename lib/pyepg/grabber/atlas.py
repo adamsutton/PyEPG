@@ -33,6 +33,7 @@ import pyepg.conf  as conf
 import pyepg.cache as cache
 import pyepg.util  as util
 from pyepg.model import Channel, Schedule, Brand, Series, Episode, Person
+import pyepg.model.genre as genre
 
 # ###########################################################################
 # Atlas API
@@ -59,7 +60,9 @@ def atlas_fetch_content ( uri, key = None ):
 # Parse time
 def atlas_p_time ( tm ):
   # TODO: all times are Zulu?
-  return datetime.datetime.strptime(tm, '%Y-%m-%dT%H:%M:%SZ')
+  ret = datetime.datetime.strptime(tm, '%Y-%m-%dT%H:%M:%SZ')
+  ret = ret.replace(tzinfo=util.TimeZoneSimple(0))
+  return ret
 
 # ###########################################################################
 # Data fetch routines
@@ -93,7 +96,7 @@ def get_brand ( uri, data = None ):
   # Get remote
   if ret is None:
     try:
-      if not data:
+      if not data or data.keys() == ['uri'] :
         data = get_content(uri, 'brand')
       if data:
         ret = process_brand(data)
@@ -115,7 +118,7 @@ def get_series ( uri, data = None ):
   # Get remote
   if ret is None:
     try:
-      if not data:
+      if not data or data.keys() == [ 'uri' ]:
         data = get_content(uri, 'series')
       if data:
         ret = process_series(data)
@@ -166,19 +169,30 @@ def get_channel ( uri, data ):
 # Convert generes
 #
 GENRE_MAP = {
-  'http://ref.atlasapi.org/genres/atlas/comedy'        : 'comedy',
-  'http://ref.atlasapi.org/genres/atlas/childrens'     : 'childrens',
-  'http://ref.atlasapi.org/genres/atlas/drama'         : 'drama',
-  'http://ref.atlasapi.org/genres/atlas/learning'      : 'learning',
-  'http://ref.atlasapi.org/genres/atlas/music'         : 'music',
-  'http://ref.atlasapi.org/genres/atlas/news'          : 'news',
-  'http://ref.atlasapi.org/genres/atlas/factual'       : 'factual',
-  'http://ref.atlasapi.org/genres/atlas/sports'        : 'sports',
-  'http://ref.atlasapi.org/genres/atlas/lifestyle'     : 'lifestyle',
-  'http://ref.atlasapi.org/genres/atlas/animals'       : 'animals',
-  'http://ref.atlasapi.org/genres/atlas/entertainment' : 'entertainment',
-  'http://ref.atlasapi.org/genres/atlas/film'          : 'film',
-  'http://ref.atlasapi.org/genres/atlas/animation'     : 'animation'
+  'http://ref.atlasapi.org/genres/atlas/comedy'        : genre.COMEDY,
+  'http://ref.atlasapi.org/genres/atlas/childrens'     : genre.CHILDRENS,
+  'http://ref.atlasapi.org/genres/atlas/drama'         : genre.DRAMA,
+  'http://ref.atlasapi.org/genres/atlas/learning'      : genre.LEARNING,
+  'http://ref.atlasapi.org/genres/atlas/music'         : genre.MUSIC,
+  'http://ref.atlasapi.org/genres/atlas/news'          : genre.NEWS,
+  'http://ref.atlasapi.org/genres/atlas/factual'       : genre.FACTUAL,
+  'http://ref.atlasapi.org/genres/atlas/sports'        : genre.SPORTS,
+  'http://ref.atlasapi.org/genres/atlas/lifestyle'     : genre.LIFESTYLE,
+  'http://ref.atlasapi.org/genres/atlas/animals'       : genre.ANIMALS,
+  'http://ref.atlasapi.org/genres/atlas/entertainment' : genre.ENTERTAINMENT,
+  'http://ref.atlasapi.org/genres/atlas/film'          : genre.FILM,
+  'http://ref.atlasapi.org/genres/atlas/animation'     : genre.ANIMATION,
+  'http://pressassociation.com/genres/2000'            : genre.NEWS,
+  'http://pressassociation.com/genres/2F02'            : genre.NEWS,
+  'http://pressassociation.com/genres/2F03'            : genre.NEWS,
+  'http://pressassociation.com/genres/2F04'            : genre.NEWS,
+  'http://pressassociation.com/genres/2F05'            : genre.NEWS,
+  'http://pressassociation.com/genres/2F06'            : genre.NEWS,
+  'http://pressassociation.com/genres/9000'            : genre.FACTUAL,
+  'http://pressassociation.com/genres/3100'            : genre.ENTERTAINMENT,
+  'http://pressassociation.com/genres/1000'            : genre.FILM,
+  'http://pressassociation.com/genres/1400'            : genre.COMEDY,
+  'http://pressassociation.com/genres/5000'            : genre.CHILDRENS,
 }
 def get_genres ( gs ):
   ret = set()
@@ -273,9 +287,9 @@ def process_episode ( data ):
     if 'series_summary' in data and 'uri' in data['series_summary']:
       s_uri = data['series_summary']['uri']
     if c_uri and c_uri != s_uri:
-      e.brand  = get_brand(c_uri)
+      e.brand  = get_brand(c_uri, data['container'])
     if s_uri:
-      e.series = get_series(s_uri)
+      e.series = get_series(s_uri, data['series_summary'])
 
     # Film?
     if 'specialization' in data:
@@ -319,6 +333,7 @@ def process_schedule ( epg, sched ):
     chn = get_channel(sched['channel_uri'], sched)
 
   # Process items
+  p = None
   if chn and 'items' in sched:
     for i in sched['items']:
       
@@ -335,7 +350,12 @@ def process_schedule ( epg, sched ):
       # Timing
       s.start = atlas_p_time(bc['transmission_time'])
       s.stop  = atlas_p_time(bc['transmission_end_time'])
-    
+
+      # Zero-length (followed by entry)
+      if s.start == s.stop:
+        if p: p.followedby = e
+        continue
+        
       # Metadata
       if 'high_definition' in bc:
         s.hd         = bc['high_definition']
@@ -356,13 +376,8 @@ def process_schedule ( epg, sched ):
 
       # Add
       epg.add_entry(s)
+      p = s
 
-# Process annotation results
-def process_annotations ( data ):
-  for i in data['items']:
-    if 'container' in i:
-      get_brand(i['container']['uri'], i['container'])
-    
 # ###########################################################################
 # Grabber API
 # ###########################################################################
@@ -371,9 +386,7 @@ def process_annotations ( data ):
 def grab ( epg, channels, start, stop ):
 
   # Determine publishers
-  # TODO: find this out
-  pubs = 'bbc.co.uk,pressassociation.com'
-  pubs = 'pressassociation.com'
+  pubs = conf.get('publishers', 'pressassociation.com')
 
   # API key
   key  = conf.get('apikey', None)
@@ -385,16 +398,15 @@ def grab ( epg, channels, start, stop ):
   # Map the channels
   chns = ','.join(channels)
 
+  # Annotations
+  anno = [ 'broadcasts', 'extended_description', 'series_summary',\
+           'brand_summary', 'people' ]
+
   # URL
   url = 'schedule.json?channel=%s&from=%d&to=%d&publisher=%s'\
       % (chns, tm_from, tm_to, pubs)
-  if key: url = url + '&apiKey=%s' % key
-
-  # Fetch annotations first
-  #data = atlas_fetch(url + '&annotations=brand_summary')
-  #if 'schedule' in data:
-  #  for c in data['schedule']:
-  #    process_annotations(c)
+  if key:  url = url + '&apiKey=' + key
+  if anno: url = url + '&annotations=' + ','.join(anno)
 
   # Fetch data
   data  = atlas_fetch(url)

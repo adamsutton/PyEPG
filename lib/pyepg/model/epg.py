@@ -63,3 +63,9 @@ class EPG:
     if b: self.brands.add(b)
     if s: self.series.add(s)
     self.episodes.add(e)
+
+  def get_sched_count ( self ):
+    sc = 0
+    for c in self.schedule:
+      sc = sc + len(self.schedule[c])
+    return sc

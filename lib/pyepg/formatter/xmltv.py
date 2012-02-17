@@ -36,11 +36,19 @@ XMLTV_ENCODING    = 'utf8'
 # Output routines
 # ###########################################################################
 
+# Format string
+def xmltv_fmt ( s ):
+  ret = s.replace('&', '&amp;')
+  ret = ret.encode(XMLTV_ENCODING)
+  return ret
+
+# Output channel
 def print_channel ( c, out ):
   print >>out, '  <channel id="%s">' % c.uri
   print >>out, '    <display-name>%s</display-name>' % c.title
   print >>out, '  </channel>'
 
+# Output episode
 def print_episode ( e, out ):
   s   = e
   e   = s.episode
@@ -52,18 +60,15 @@ def print_episode ( e, out ):
   # Title
   t = e.get_title()
   if t:
-    t = t.encode(XMLTV_ENCODING)
-    print >>out, '    <title>%s</title>' % t
+    print >>out, '    <title>%s</title>' % xmltv_fmt(t)
   st = e.get_subtitle()
   if st:
-    st = st.encode(XMLTV_ENCODING)
-    print >>out, '    <sub-title>%s</sub-title>' % st
+    print >>out, '    <sub-title>%s</sub-title>' % xmltv_fmt(st)
 
   # Description
   d = e.get_summary()
   if d:
-    d = d.encode(XMLTV_ENCODING)
-    print >>out, '    <desc>%s</desc>' % d
+    print >>out, '    <desc>%s</desc>' % xmltv_fmt(d)
   
   # Credits
   credits = e.get_credits()
@@ -72,8 +77,7 @@ def print_episode ( e, out ):
     for r in [ 'director', 'presenter', 'actor', 'commentator', 'guest' ]:
       if r in credits:
         for p in credits[r]:
-          n = p.name.encode(XMLTV_ENCODING)
-          print >>out, '      <%s>%s</%s>' % (r, n, r)
+          print >>out, '      <%s>%s</%s>' % (r, xmltv_fmt(p.name), r)
     print >>out, '    </credits>'
 
   # Date
@@ -85,11 +89,13 @@ def print_episode ( e, out ):
     print >>out, '    <category>%s</category>' % g
 
   # Episode number
+  # TODO: this needs to change
   n = e.get_number()
   if n:
     ns = n[0]
     if ns is None: ns = 0
-    ne = n[1]
+    else: ns = ns - 1
+    ne = n[1] - 1
     print >>out, '    <episode-num system="xmltv_ns">%d.%d.0</episode-num>' % (ns, ne)
   
   # Video metadata

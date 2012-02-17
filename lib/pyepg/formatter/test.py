@@ -83,10 +83,3 @@ def format ( epg, out ):
       print >>out, '  <stop>%s</stop>' % str(s.stop)
       sc = sc + 1
       print >>out, '</schedule>'
-  
-  # Stats
-  print >>out, 'Channel  Count: %d' % len(epg.get_channels())
-  print >>out, 'Brand    Count: %d' % len(epg.get_brands())
-  print >>out, 'Series   Count: %d' % len(epg.get_series())
-  print >>out, 'Episode  Count: %d' % len(epg.get_episodes())
-  print >>out, 'Schedule Count: %d' % sc

@@ -41,7 +41,6 @@ def init ( path, override ):
   conf = []
 
   # Load config file
-  print path
   for l in open(path):
     i = l.find('#')
     if i != -1:
@@ -69,9 +68,6 @@ def init ( path, override ):
         v = eval(v)
       except: pass
       CONFIG[i[0]] = v
-
-  import pprint
-  pprint.pprint(CONFIG)
 
 # Get configuration value
 def get ( key, default = None ):

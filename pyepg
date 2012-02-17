@@ -100,3 +100,10 @@ if __name__ == '__main__':
 
   # Output
   formatter.format(epg, sys.stdout)
+
+  # Stats
+  log.info('Channel  Count: %d' % len(epg.get_channels()))
+  log.info('Brand    Count: %d' % len(epg.get_brands()))
+  log.info('Series   Count: %d' % len(epg.get_series()))
+  log.info('Episode  Count: %d' % len(epg.get_episodes()))
+  log.info('Schedule Count: %d' % epg.get_sched_count())

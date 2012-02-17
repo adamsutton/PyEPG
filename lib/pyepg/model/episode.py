@@ -45,9 +45,10 @@ class Episode ( Object ):
     return self.title
 
   def get_subtitle ( self ):
-    if self.brand and self.brand.title or self.series and self.series.title:
+    title = self.get_title()
+    if self.title and self.title != title:  
       return self.title
-    if self.subtitle != self.get_title():
+    if self.subtitle and self.subtitle != title:
       return self.subtitle
     return None
 

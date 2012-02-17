@@ -34,6 +34,7 @@ class Schedule:
     self.signed     = False
     self.subtitled  = False
     self.audio_desc = False
+    self.followedby = None
 
   def __cmp__ ( self, other ):
     ret = cmp(self.channel, other.channel)
