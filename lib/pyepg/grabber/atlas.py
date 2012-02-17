@@ -385,34 +385,36 @@ def process_schedule ( epg, sched ):
 # Grab specified data
 def grab ( epg, channels, start, stop ):
 
-  # Determine publishers
-  pubs = conf.get('publishers', 'pressassociation.com')
+  # Config
+  key     = conf.get('atlas_apikey', None)
+  pubs    = conf.get('atlas_publishers', [ 'pressassociation.com' ])
+  anno    = [ 'broadcasts', 'extended_description', 'series_summary',\
+              'brand_summary', 'people' ]
+  csize   = conf.get('atlas_channel_chunk', 5)
 
-  # API key
-  key  = conf.get('apikey', None)
+  # TODO: channel mappings
 
   # Time
   tm_from = time.mktime(start.timetuple())
   tm_to   = time.mktime(stop.timetuple())
 
-  # Map the channels
-  chns = ','.join(channels)
-
-  # Annotations
-  anno = [ 'broadcasts', 'extended_description', 'series_summary',\
-           'brand_summary', 'people' ]
-
-  # URL
-  url = 'schedule.json?channel=%s&from=%d&to=%d&publisher=%s'\
-      % (chns, tm_from, tm_to, pubs)
+  # URL base
+  url = 'schedule.json?from=%d&to=%d&publisher=%s'\
+      % (tm_from, tm_to, ','.join(pubs))
   if key:  url = url + '&apiKey=' + key
   if anno: url = url + '&annotations=' + ','.join(anno)
 
-  # Fetch data
-  data  = atlas_fetch(url)
-  if 'schedule' in data:
-    for c in data['schedule']:
-      process_schedule(epg, c)
+  # For each channel chunk
+  for chns in util.chunk(channels, csize):
+
+    # Fetch data
+    u     = url + '&channel=' + ','.join(chns)
+    data  = atlas_fetch(u)
+
+    # Processs
+    if 'schedule' in data:
+      for c in data['schedule']:
+        process_schedule(epg, c)
 
 # ###########################################################################
 # Editor

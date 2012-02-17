@@ -122,6 +122,20 @@ class TimeZoneSimple ( tzinfo ):
   def __cmp__ ( self, other ):
     return cmp(self.of, other.of)
 
+#
+# Chunk an array into an array of smaller arrays
+#
+def chunk ( items, num ):
+  ret = []
+  t   = []
+  for i in items:
+    t.append(i)
+    if len(t) == num:
+      ret.append(t)
+      t = []
+  if t: ret.append(t)
+  return ret
+
 # ###########################################################################
 # Testing
 # ###########################################################################
