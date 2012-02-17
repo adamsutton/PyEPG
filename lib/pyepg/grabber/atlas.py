@@ -269,15 +269,17 @@ def process_people ( data ):
         p.character = d['character']
 
       # Process (PA has some strange ideas)
-      if p.character in [ 'Presenter', 'Host', 'Commentator' ]:
-        p.role      = 'presenter'
-        p.character = None
-      elif p.character in [ 'Narrator', 'Reader' ]:
-        p.role      = 'narrator'
-        p.character = None
-      elif 'Guest' in p.character or p.character in [ 'Contributor', 'Performer' ]:
-        p.role      = 'guest'
-        p.character = None
+      if p.character:
+        if p.character in [ 'Presenter', 'Host', 'Commentator' ]:
+          p.role      = 'presenter'
+          p.character = None
+        elif p.character in [ 'Narrator', 'Reader' ]:
+          p.role      = 'narrator'
+          p.character = None
+        elif 'Guest' in p.character or\
+             p.character in [ 'Contributor', 'Performer' ]:
+          p.role      = 'guest'
+          p.character = None
       
       # Some atlas mappings (simplifications)
       if p.role in [ 'commentator', 'reporter' ]:
@@ -294,62 +296,57 @@ def process_people ( data ):
  
 # Process episode
 def process_episode ( data ):
-  ret = None
-  try:
-    e = Episode()
-    e.uri   = data['uri']
-    if 'title'          in data: e.title   = data['title']
-    if 'description'    in data: e.summary = data['description']
-    if 'episode_number' in data: e.number  = data['episode_number']
-    if 'genres'         in data: e.genres  = get_genres(data['genres'])
+  e = Episode()
+  e.uri   = data['uri']
+  if 'title'          in data: e.title   = data['title']
+  if 'description'    in data: e.summary = data['description']
+  if 'episode_number' in data: e.number  = data['episode_number']
+  if 'genres'         in data: e.genres  = get_genres(data['genres'])
 
-    # Media type (ignore virtual entries)
-    if 'schedule_only' not in data or not data['schedule_only']:
-      if 'media_type'     in data: e.media   = data['media_type']
+  # Media type (ignore virtual entries)
+  if 'schedule_only' not in data or not data['schedule_only']:
+  if 'media_type'     in data: e.media   = data['media_type']
 
-    # Brand/Series
-    c_uri = None
-    s_uri = None
-    if 'container' in data and 'uri' in data['container']:
-      c_uri = data['container']['uri']
-    if 'series_summary' in data and 'uri' in data['series_summary']:
-      s_uri = data['series_summary']['uri']
-    if c_uri and c_uri != s_uri:
-      e.brand  = get_brand(c_uri, data['container'])
-    if s_uri:
-      e.series = get_series(s_uri, data['series_summary'])
+  # Brand/Series
+  c_uri = None
+  s_uri = None
+  if 'container' in data and 'uri' in data['container']:
+    c_uri = data['container']['uri']
+  if 'series_summary' in data and 'uri' in data['series_summary']:
+    s_uri = data['series_summary']['uri']
+  if c_uri and c_uri != s_uri:
+    e.brand  = get_brand(c_uri, data['container'])
+  if s_uri:
+    e.series = get_series(s_uri, data['series_summary'])
 
-    # Film?
-    if 'specialization' in data:
-      e.film = data['specialization'] == 'film'
-      if 'year' in data:
-        e.year = int(data['year'])
+  # Film?
+  if 'specialization' in data:
+    e.film = data['specialization'] == 'film'
+    if 'year' in data:
+      e.year = int(data['year'])
 
-    # Black and White?
-    if 'black_and_white' in data:
-      e.baw = data['black_and_white']
+  # Black and White?
+  if 'black_and_white' in data:
+    e.baw = data['black_and_white']
 
-    # People
-    if 'people' in data:
-      e.credits = process_people(data['people'])
+  # People
+  if 'people' in data:
+    e.credits = process_people(data['people'])
 
-    # Title
-    if e.title:
-      r = re.search('^Episode (\d+)$', e.title)
-      if r:
-        e.title = None
-        if e.number is None: 
-          e.number = util.str2num(r.group(1))
-      elif re.search('^\d+/\d+/\d+$', e.title):
-        e.title = None
+  # Title
+  if e.title:
+    r = re.search('^Episode (\d+)$', e.title)
+    if r:
+      e.title = None
+      if e.number is None: 
+        e.number = util.str2num(r.group(1))
+    elif re.search('^\d+/\d+/\d+$', e.title):
+      e.title = None
 
-    # OK
-    ret = e
-    log.info('episode = %s' % e)
- 
-  except Exception, e:
-    log.error(str(e))
-  return ret
+  # OK
+  ret = e
+  log.info('episode = %s' % e)
+  return e
 
 # Process schedule
 def process_schedule ( epg, sched ):
