@@ -52,7 +52,13 @@ class EPG:
       ret = self.schedule
     return ret
 
-  def add_entry ( self, entry ):
+  def get_sched_count ( self ):
+    sc = 0
+    for c in self.schedule:
+      sc = sc + len(self.schedule[c])
+    return sc
+
+  def add_broadcast ( self, entry ):
     c = entry.channel
     if c not in self.schedule:
       self.schedule[c] = []
@@ -63,9 +69,3 @@ class EPG:
     if b: self.brands.add(b)
     if s: self.series.add(s)
     self.episodes.add(e)
-
-  def get_sched_count ( self ):
-    sc = 0
-    for c in self.schedule:
-      sc = sc + len(self.schedule[c])
-    return sc

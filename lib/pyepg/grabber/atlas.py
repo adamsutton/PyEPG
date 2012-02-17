@@ -32,7 +32,7 @@ import pyepg.log   as log
 import pyepg.conf  as conf
 import pyepg.cache as cache
 import pyepg.util  as util
-from pyepg.model import Channel, Schedule, Brand, Series, Episode, Person
+from pyepg.model import Channel, Broadcast, Brand, Series, Episode, Person
 import pyepg.model.genre as genre
 
 # ###########################################################################
@@ -342,7 +342,7 @@ def process_schedule ( epg, sched ):
       if not e: continue
 
       # Create schedule
-      s = Schedule()
+      s = Broadcast()
       s.channel = chn
       s.episode = e
       bc = i['broadcasts'][0]
@@ -375,7 +375,7 @@ def process_schedule ( epg, sched ):
         s.audio_desc = bc['audio_described']
 
       # Add
-      epg.add_entry(s)
+      epg.add_broadcast(s)
       p = s
 
 # ###########################################################################

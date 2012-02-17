@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 #
-# schedule.py - Schedule entry
+# broadcast.py - Broadcast entry
 #
 # Copyright (C) 2012 Adam Sutton <dev@adamsutton.me.uk>
 #
@@ -19,7 +19,7 @@
 """
 """
 
-class Schedule:
+class Broadcast:
   
   def __init__ ( self ):
     self.channel    = None
