@@ -403,6 +403,82 @@ def process_schedule ( epg, sched ):
       epg.add_broadcast(s)
       p = s
 
+#
+# Overlay two publisher entries
+#
+PUB_PRIO = [ 'pressassociation.com', 'bbc.co.uk' ]
+def publisher_overlay ( a, b ):
+  pa = a['publisher']['key']
+  pb = b['publisher']['key']
+  #log.debug('Pub A: %s' % pa)
+  #log.debug('Pub B: %s' % pb)
+  ia = -1
+  ib = -1
+  try:
+    ia = PUB_PRIO.index(pa)
+  except: pass
+  try:
+    ib = PUB_PRIO.index(pb)  
+  except: pass
+  #log.debug('Idx A: %d' % ia)
+  #log.debug('Idx B: %d' % ib)
+  def _overlay ( a, b ):
+    #log.debug('overlay: %s' % str(a))
+    #log.debug('overlay: %s' % str(b))
+    if type(b) == dict:
+      for k in b:
+        if k not in a:
+          a[k] = b[k]
+        else:
+          #log.debug('overlay key %s' % k)
+          a[k] = _overlay(a[k], b[k])
+      return a
+    elif type(b) == list:
+      for i in range(len(b)):
+        if i < len(a):
+          #log.debug('overlay idx %d' % i)
+          a[i] = _overlay(a[i], b[i])
+        else:
+          a.append(b[i])
+      return a
+    else:
+      return b
+  ret = None
+  if ia > ib:
+    ret = _overlay(b, a)
+  else:
+    ret = _overlay(a, b)
+  return ret
+ 
+# Process publisher overlap
+#
+def process_publisher_overlay ( sched ):
+  ret = { 'items' : [] }
+
+  # Non schedule info
+  for k in sched:
+    if k != 'items':
+      ret[k] = sched[k]
+
+  # Items
+  s = sched['items']
+  g = []
+  for i in range(len(s)):
+    if i in g: continue
+    g.append(i)
+    a = s[i]
+    t = []
+    for j in range(i, len(s)):
+      if j in g: continue
+      b = s[j]
+      if a['broadcasts'][0]['transmission_time'] == b['broadcasts'][0]['transmission_time']:
+        t.append(b)
+        g.append(j)
+    for k in t:
+      a = publisher_overlay(a, k)
+    ret['items'].append(a)
+  return ret
+
 # ###########################################################################
 # Grabber API
 # ###########################################################################
@@ -441,7 +517,9 @@ def grab ( epg, channels, start, stop ):
       # Processs
       if 'schedule' in data:
         for c in data['schedule']:
-          process_schedule(epg, c)
+          s = process_publisher_overlay(c)
+          log.debug(s, pprint=True)
+          process_schedule(epg, s)
 
     # Update
     tm_from = tm_from + tsize
