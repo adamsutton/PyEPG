@@ -40,8 +40,6 @@ from pyepg.model import EPG
 # Configuration
 # ###########################################################################
 
-# TODO: make grabber/formatter configurable
-
 optp = OptionParser()
 optp.add_option('-c', '--config', default=None,
                 help='Specify alternative configuration directory')
