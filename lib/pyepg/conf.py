@@ -23,17 +23,62 @@
 # Imports
 # ###########################################################################
 
+import string
+
+# ###########################################################################
+# Data
+# ###########################################################################
+
+CONFIG = { 'channels' : set() }
+
 # ###########################################################################
 # Functions
 # ###########################################################################
 
 # Initialise
-def init ( tmp ):
-  pass
+def init ( path, override ):
+  global CONFIG
+  conf = []
+
+  # Load config file
+  print path
+  for l in open(path):
+    i = l.find('#')
+    if i != -1:
+      l = l[:i]
+    l = l.strip()
+    if not l: continue
+    p = map(string.strip, l.split('='))
+    if len(p) == 2: conf.append(p)
+
+  # Add overrides
+  for k in override:
+    conf.append((k, override[k]))
+
+  # Process
+  for i in conf:
+
+    # Channel
+    if i[0] == 'channel':
+      CONFIG['channels'].add(i[1])
+    
+    # Other
+    else:
+      v = i[1]
+      try:
+        v = eval(v)
+      except: pass
+      CONFIG[i[0]] = v
+
+  import pprint
+  pprint.pprint(CONFIG)
 
 # Get configuration value
 def get ( key, default = None ):
-  return default
+  ret = default
+  if key in CONFIG:
+    ret = CONFIG[key]
+  return ret
 
 # ###########################################################################
 # Editor

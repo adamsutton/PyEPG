@@ -6,3 +6,4 @@ from schedule import Schedule
 from brand    import Brand
 from series   import Series
 from episode  import Episode
+from person   import Person

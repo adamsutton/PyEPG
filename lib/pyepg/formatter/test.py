@@ -62,6 +62,17 @@ def format ( epg, out ):
     st = e.get_subtitle()
     if st: print >>out, '  <subtitle>%s</subtitle>' % st
     if e.number is not None: print >>out, '  <number>%d</number>' % e.number
+    for g in e.get_genres():
+      print >>out, '  <genre>%s</genre>' % g
+    credits = e.get_credits()
+    if credits:
+      print '  <credits>'
+      for r in credits:
+        for p in credits[r]:
+          n = p.name.encode('utf8')
+          print '    <%s>%s</%s>' % (r, n, r)
+      print '  </credits>'
+    if e.film: print >>out, '  <film/>'
     print '</episode>'
   sched = epg.get_schedule()
   sc    = 0

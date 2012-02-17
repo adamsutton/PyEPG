@@ -22,10 +22,18 @@
 class Schedule:
   
   def __init__ ( self ):
-    self.channel = None
-    self.episode = None
-    self.start   = None
-    self.stop    = None
+    self.channel    = None
+    self.episode    = None
+    self.start      = None
+    self.stop       = None
+    self.hd         = False
+    self.widescreen = False
+    self.premiere   = False
+    self.new        = False
+    self.repeat     = False
+    self.signed     = False
+    self.subtitled  = False
+    self.audio_desc = False
 
   def __cmp__ ( self, other ):
     ret = cmp(self.channel, other.channel)

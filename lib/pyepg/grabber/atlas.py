@@ -32,7 +32,7 @@ import pyepg.log   as log
 import pyepg.conf  as conf
 import pyepg.cache as cache
 import pyepg.util  as util
-from pyepg.model import Channel, Schedule, Brand, Series, Episode
+from pyepg.model import Channel, Schedule, Brand, Series, Episode, Person
 
 # ###########################################################################
 # Atlas API
@@ -212,6 +212,7 @@ def process_brand ( data ):
     b.uri   = data['uri']
     if 'title'       in data: b.title   = data['title']
     if 'description' in data: b.summary = data['description']
+    if 'genres'      in data: b.genres  = get_genres(data['genres'])
     ret = b
   except Exception, e:
     log.error(str(e))
@@ -226,6 +227,7 @@ def process_series ( data ):
     if 'title'         in data: s.title   = data['title']
     if 'description'   in data: s.summary = data['description']
     if 'series_number' in data: s.number  = data['series_number']
+    if 'genres'        in data: s.genres  = get_genres(data['genres'])
     if s.title:
       r = re.search('Series (.*)', s.title)
       if r:
@@ -235,6 +237,21 @@ def process_series ( data ):
     ret = s
   except Exception, e:
     log.error(str(e))
+  return ret
+
+# Process credits
+def process_people ( data ):
+  ret = {}
+  for d in data:
+    if 'role' in d and 'name' in d:
+      p = Person()
+      p.uri  = d['uri']
+      p.name = d['name']
+      p.role = d['role']
+      if p.role not in ret:
+        ret[p.role] = [ p ]
+      else:
+        ret[p.role].append(p)
   return ret
  
 # Process episode
@@ -246,6 +263,7 @@ def process_episode ( data ):
     if 'title'          in data: e.title   = data['title']
     if 'description'    in data: e.summary = data['description']
     if 'episode_number' in data: e.number  = data['episode_number']
+    if 'genres'         in data: e.genres  = get_genres(data['genres'])
 
     # Brand/Series
     c_uri = None
@@ -259,12 +277,28 @@ def process_episode ( data ):
     if s_uri:
       e.series = get_series(s_uri)
 
-    # Extra processing
+    # Film?
+    if 'specialization' in data:
+      e.film = data['specialization'] == 'film'
+      if 'year' in data:
+        e.year = int(data['year'])
+
+    # Black and White?
+    if 'black_and_white' in data:
+      e.baw = data['black_and_white']
+
+    # People
+    # TODO: caching
+    if 'people' in data:
+      e.credits = process_people(data['people'])
+
+    # Title
     if e.title:
       r = re.search('^Episode (\d+)$', e.title)
       if r:
         e.title = None
-        if e.number is None: e.number = int(r.group(1))
+        if e.number is None: 
+          e.number = util.str2num(r.group(1))
       elif re.search('^\d+/\d+/\d+$', e.title):
         e.title = None
 
@@ -296,8 +330,29 @@ def process_schedule ( epg, sched ):
       s = Schedule()
       s.channel = chn
       s.episode = e
-      s.start = atlas_p_time(i['broadcasts'][0]['transmission_time'])
-      s.stop  = atlas_p_time(i['broadcasts'][0]['transmission_end_time'])
+      bc = i['broadcasts'][0]
+
+      # Timing
+      s.start = atlas_p_time(bc['transmission_time'])
+      s.stop  = atlas_p_time(bc['transmission_end_time'])
+    
+      # Metadata
+      if 'high_definition' in bc:
+        s.hd         = bc['high_definition']
+      if 'widescreen' in bc:
+        s.widescreen = bc['widescreen']
+      if 'premiere' in bc:
+        s.premiere   = bc['premiere']
+      if 'new_series' in bc:
+        s.new        = bc['new_series']
+      if 'repeat' in bc:
+        s.repeat     = bc['repeat']
+      if 'signed' in bc:
+        s.signed     = bc['signed']
+      if 'subtitled' in bc:
+        s.subtitled  = bc['subtitled']
+      if 'audio_described' in bc:
+        s.audio_desc = bc['audio_described']
 
       # Add
       epg.add_entry(s)
@@ -317,7 +372,8 @@ def grab ( epg, channels, start, stop ):
 
   # Determine publishers
   # TODO: find this out
-  pubs = 'bbc.co.uk'#,pressassociation.com'
+  pubs = 'bbc.co.uk,pressassociation.com'
+  pubs = 'pressassociation.com'
 
   # API key
   key  = conf.get('apikey', None)
@@ -332,14 +388,13 @@ def grab ( epg, channels, start, stop ):
   # URL
   url = 'schedule.json?channel=%s&from=%d&to=%d&publisher=%s'\
       % (chns, tm_from, tm_to, pubs)
-  if key: url = '&apiKey=%s' % key
+  if key: url = url + '&apiKey=%s' % key
 
   # Fetch annotations first
-  data = atlas_fetch(url + '&annotations=brand_summary')
-  if 'schedule' in data:
-    for c in data['schedule']:
-      process_annotations(c)
-  
+  #data = atlas_fetch(url + '&annotations=brand_summary')
+  #if 'schedule' in data:
+  #  for c in data['schedule']:
+  #    process_annotations(c)
 
   # Fetch data
   data  = atlas_fetch(url)

@@ -27,10 +27,15 @@ class Episode ( Object ):
     Object.__init__(self)
     self.brand    = None
     self.series   = None
-    self.title    = ''
-    self.subtitle = ''
+    self.title    = None
+    self.subtitle = None
+    self.summary  = None
     self.number   = None
-    self.genres   = set()
+    self.genres   = None
+    self.film     = False
+    self.year     = None
+    self.baw      = False
+    self.credits  = {}
 
   def get_title ( self ):
     if self.brand and self.brand.title:
@@ -42,7 +47,9 @@ class Episode ( Object ):
   def get_subtitle ( self ):
     if self.brand and self.brand.title or self.series and self.series.title:
       return self.title
-    return self.subtitle
+    if self.subtitle != self.get_title():
+      return self.subtitle
+    return None
 
   def get_summary ( self ):
     if self.summary: return self.summary
@@ -51,14 +58,25 @@ class Episode ( Object ):
     return None
   
   def get_number ( self ):
-    ret = [ 0 ] * 3
-    if self.number: ret[2] = self.number
-    if self.series and self.series.number: ret[1] = self.series.number
-    return ret
+    s = None
+    e = self.number
+    if self.series: s = self.series.number
+    if e is not None:
+      return (s, e)
+    return None
 
   def get_genres ( self ):
     ret = set()
+    if self.brand and self.brand.genres:
+      ret.update(self.brand.genres)
+    if self.series and self.series.genres:
+      ret.update(self.series.genres)
+    if self.genres:
+      ret.update(self.genres)
     return ret
+ 
+  def get_credits ( self ):
+    return self.credits
 
   def __str__ ( self ):
     t = self.get_title()

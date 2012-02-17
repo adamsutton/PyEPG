@@ -44,8 +44,6 @@ from pyepg.model import EPG
 optp = OptionParser()
 optp.add_option('-c', '--config', default=None,
                 help='Specify alternative configuration directory')
-optp.add_option('-a', '--cache',  default=None,
-                help='Specify alternative cache directory')
 optp.add_option('-o', '--option', default=[], action='append',
                 help='Specify configuration option')
 optp.add_option('-g', '--grabber', default='atlas',
@@ -67,21 +65,28 @@ if __name__ == '__main__':
     if len(p) == 2:
       tmp[p[0]] = p[1]
 
+  # Defaults
+  conf_root  = opts.config
+  if conf_root is None:
+    conf_root = os.path.expanduser('~/.pyepg')
+  conf_path  = os.path.join(conf_root, 'config')
+  cache_path = os.path.join(conf_root, 'cache')
+
   # Load configuration
-  conf.init(tmp)
+  conf.init(conf_path, tmp)
 
   # Initialise log
   log.init()
 
   # Initialise the cache
-  cache.init() 
+  cache.init(cache_path) 
 
   # Initialise EPG
   epg = EPG()
 
   # Get config
-  channels = [ 'bbcone', 'bbchd', 'cbeebies' ]
-  days     = 7
+  channels = conf.get('channels')
+  days     = conf.get('days')
   today    = datetime.datetime.today()
 
   # Get grabber/formatter

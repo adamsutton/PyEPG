@@ -30,6 +30,7 @@ class Series ( Object ):
     self.number   = None
     self.image    = None
     self.thumb    = None
+    self.genres   = None
 
   def __str__ ( self ):
     ret = self.uri

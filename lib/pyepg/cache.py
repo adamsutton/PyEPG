@@ -133,10 +133,9 @@ def put_object ( uri, obj, type, db = True ):
 # ###########################################################################
 
 # Initialise
-def init ():
+def init ( path ):
   
   # Create path
-  path = conf.get('cache_dir', os.path.expanduser('~/.pyepg/cache'))
   if not os.path.exists(path):
     os.makedirs(path)
 

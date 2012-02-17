@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 #
-# brand.py - Brand info
+# person.py - Person info
 #
 # Copyright (C) 2012 Adam Sutton <dev@adamsutton.me.uk>
 #
@@ -21,20 +21,12 @@
 
 from _object import Object
 
-class Brand ( Object ):
+class Person ( Object ):
   
   def __init__ ( self ):
     Object.__init__(self)
-    self.title    = None
-    self.summary  = None
-    self.genres   = None
-    self.image    = None
-    self.thumb    = None
+    self.name = None
+    self.role = None
 
   def __str__ ( self ):
-    ret = self.uri
-    if self.title:
-      ret = ret + ' ' + self.title
-    if self.summary:
-      ret = ret + ' ' + self.summary
-    return ret
+    return self.name

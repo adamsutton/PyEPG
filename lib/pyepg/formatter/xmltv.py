@@ -42,27 +42,86 @@ def print_channel ( c, out ):
   print >>out, '  </channel>'
 
 def print_episode ( e, out ):
-  t1  = e.start.strftime(XMLTV_TIME_FORMAT)
-  t2  = e.stop.strftime(XMLTV_TIME_FORMAT)
+  s   = e
+  e   = s.episode
+  t1  = s.start.strftime(XMLTV_TIME_FORMAT)
+  t2  = s.stop.strftime(XMLTV_TIME_FORMAT)
   print >>out, '  <programme start="%s" stop="%s" channel="%s">'\
-               % (t1, t2, e.channel.uri)
-  e = e.episode
+               % (t1, t2, s.channel.uri)
+
+  # Title
   t = e.get_title()
   if t:
     t = t.encode(XMLTV_ENCODING)
     print >>out, '    <title>%s</title>' % t
-  s = e.get_subtitle()
-  if s:
-    s = s.encode(XMLTV_ENCODING)
-    print >>out, '    <sub-title>%s</sub-title>' % s
+  st = e.get_subtitle()
+  if st:
+    st = st.encode(XMLTV_ENCODING)
+    print >>out, '    <sub-title>%s</sub-title>' % st
+
+  # Description
   d = e.get_summary()
   if d:
     d = d.encode(XMLTV_ENCODING)
     print >>out, '    <desc>%s</desc>' % d
+  
+  # Credits
+  credits = e.get_credits()
+  if credits:
+    print >>out, '    <credits>'
+    for r in [ 'director', 'presenter', 'actor', 'commentator', 'guest' ]:
+      if r in credits:
+        for p in credits[r]:
+          n = p.name.encode(XMLTV_ENCODING)
+          print >>out, '      <%s>%s</%s>' % (r, n, r)
+    print >>out, '    </credits>'
+
+  # Date
+  if e.year is not None:
+    print >>out, '    <date>%d</date>' % e.year
+
+  # Genres
+  for g in e.get_genres():
+    print >>out, '    <category>%s</category>' % g
+
+  # Episode number
   n = e.get_number()
   if n:
-    print >>out, '    <episode-num system="xmltv_ns">%d.%d.%d</episode-num>'\
-                 % (n[0], n[1], n[2])
+    ns = n[0]
+    if ns is None: ns = 0
+    ne = n[1]
+    print >>out, '    <episode-num system="xmltv_ns">%d.%d.0</episode-num>' % (ns, ne)
+  
+  # Video metadata
+  print >>out, '    <video>'
+  if e.baw:
+    print >>out, '      <colour>no</colour>'
+  if s.widescreen or s.hd:
+    print >>out, '      <aspect>16:9</aspect>'
+  if s.hd:
+    print >>out, '      <quality>HDTV</quality>'
+  else:
+    print >>out, '      <quality>SDTV</quality>'
+  print >>out, '    </video>'
+
+  # History
+  if s.repeat:
+    print >>out, '    <previously-shown />'
+  if s.premiere:
+    print >>out, '    <premiere />'
+  if s.new:
+    print >>out, '    <new />'
+
+  # ???
+  if s.subtitled:
+    print >>out, '    <subtitles type="teletext" />'
+  if s.signed:
+    print >>out, '    <subtitles type="deaf-signed" />'
+
+  # TODO: Certification
+
+  # TODO: Ratings
+
   print >>out, '  </programme>'
 
 def print_header ( out ): 
@@ -79,7 +138,7 @@ def print_header ( out ):
         % (gen_date, gen_src_url, gen_src_name, gen_info_name, gen_info_url)
 
 def print_footer (out):
-  return >>out, '</tv>\n'
+  print >>out, '</tv>\n'
 
 # ###########################################################################
 # Formatter API
