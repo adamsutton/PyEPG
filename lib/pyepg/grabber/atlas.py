@@ -47,7 +47,7 @@ def atlas_fetch ( url ):
   data = up.read()
   log.info('decode json')
   jdata = json.loads(data)
-  pprint.pprint(jdata, sys.stderr)
+  log.debug(jdata, pprint=True)
   return jdata
   
 # Get content data

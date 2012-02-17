@@ -23,8 +23,6 @@
 # Imports
 # ###########################################################################
 
-import pyepg.log as log
-
 # ###########################################################################
 # Config
 # ###########################################################################
@@ -49,8 +47,6 @@ def format ( epg, out ):
     if s.title:   print >>out, '  <title>%s</title>' % s.title
     if s.summary: print >>out, '  <summary>%s</summary>' % s.summary.encode('utf8')
     if s.number is not None:  print >>out, '  <number>%d</number>' % s.number
-    else:
-      log.warn('no series number for %s' % s.uri)
     print >>out, '</series>'
   for e in epg.get_episodes():
     b = ''

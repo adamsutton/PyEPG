@@ -44,25 +44,30 @@ def init ():
   LOG_INIT = time.time()
 
 # Output
-def out ( pre, msg ):
+def out ( pre, msg, **dargs ):
   tm = '%0.2f' % (time.time() - LOG_INIT)
-  print >>sys.stderr, '%8s - %-5s: %s' % (tm, pre.lower(), msg)
+  print >>sys.stderr, '%8s - %-5s:' % (tm, pre.lower()),
+  if 'pprint' in dargs and dargs['pprint']:
+    import pprint
+    pprint.pprint(msg, sys.stderr)
+  else:
+    print >>sys.stderr, msg
 
 # Debug
-def debug ( lvl, msg ):
-  out('DEBUG', msg)
+def debug ( msg, lvl=0, **dargs ):
+  out('DEBUG', msg, **dargs)
 
 # Info
-def info  ( msg ):
-  out('INFO', msg)
+def info  ( msg, **dargs ):
+  out('INFO', msg, **dargs)
 
 # Warning
-def warn  ( msg ):
-  out('WARN', msg)
+def warn  ( msg, **dargs ):
+  out('WARN', msg, **dargs)
 
 # Error
-def error ( msg ):
-  out('ERROR', msg)
+def error ( msg, **dargs ):
+  out('ERROR', msg, **dargs)
 
 # ###########################################################################
 # Editor

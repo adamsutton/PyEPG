@@ -28,7 +28,8 @@ import os, sys, datetime
 from optparse import OptionParser
 
 # Local
-sys.path.append(os.path.join(os.path.dirname(sys.argv[0]), 'lib'))
+lib_path = os.path.join(os.path.dirname(sys.argv[0]), 'lib')
+sys.path.append(os.path.abspath(lib_path))
 import pyepg.log             as log
 import pyepg.conf            as conf
 import pyepg.cache           as cache
@@ -46,9 +47,9 @@ optp.add_option('-c', '--config', default=None,
                 help='Specify alternative configuration directory')
 optp.add_option('-o', '--option', default=[], action='append',
                 help='Specify configuration option')
-optp.add_option('-g', '--grabber', default='atlas',
+optp.add_option('-g', '--grabber', default=None,
                 help='Specify grabber')
-optp.add_option('-f', '--formatter', default='xmltv',
+optp.add_option('-f', '--formatter', default=None,
                 help='Specify formatter')
 
 # ###########################################################################
@@ -64,6 +65,8 @@ if __name__ == '__main__':
     p = o.split('=')
     if len(p) == 2:
       tmp[p[0]] = p[1]
+  if opts.grabber:   tmp['grabber']   = opts.grabber
+  if opts.formatter: tmp['formatter'] = opts.formatter
 
   # Defaults
   conf_root  = opts.config
@@ -92,8 +95,8 @@ if __name__ == '__main__':
   # Get grabber/formatter
   def _import ( fmt, n ):
     return __import__(fmt % n, globals(), locals(), [n])
-  grabber   = _import('pyepg.grabber.%s', opts.grabber)
-  formatter = _import('pyepg.formatter.%s', opts.formatter)
+  grabber   = _import('pyepg.grabber.%s',   conf.get('grabber', 'atlas'))
+  formatter = _import('pyepg.formatter.%s', conf.get('formatter', 'epg'))
 
   # Get EPG
   grabber.grab(epg, channels, today, today + datetime.timedelta(days=days))
