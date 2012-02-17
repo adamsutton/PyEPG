@@ -255,13 +255,37 @@ def process_series ( data ):
 
 # Process credits
 def process_people ( data ):
+  # TODO: caching
   ret = {}
   for d in data:
     if 'role' in d and 'name' in d:
       p = Person()
+
+      # Extract
       p.uri  = d['uri']
       p.name = d['name']
       p.role = d['role']
+      if 'character' in d:
+        p.character = d['character']
+
+      # Process (PA has some strange ideas)
+      if p.character in [ 'Presenter', 'Host', 'Commentator' ]:
+        p.role      = 'presenter'
+        p.character = None
+      elif p.character in [ 'Narrator', 'Reader' ]:
+        p.role      = 'narrator'
+        p.character = None
+      elif 'Guest' in p.character or p.character in [ 'Contributor', 'Performer' ]:
+        p.role      = 'guest'
+        p.character = None
+      
+      # Some atlas mappings (simplifications)
+      if p.role in [ 'commentator', 'reporter' ]:
+        p.role = 'presenter'
+      if p.role in [ 'export', 'participant' ]:
+        p.role = 'guest'
+
+      # Store
       if p.role not in ret:
         ret[p.role] = [ p ]
       else:
@@ -279,7 +303,7 @@ def process_episode ( data ):
     if 'episode_number' in data: e.number  = data['episode_number']
     if 'genres'         in data: e.genres  = get_genres(data['genres'])
 
-    # Media type
+    # Media type (ignore virtual entries)
     if 'schedule_only' not in data or not data['schedule_only']:
       if 'media_type'     in data: e.media   = data['media_type']
 
@@ -306,7 +330,6 @@ def process_episode ( data ):
       e.baw = data['black_and_white']
 
     # People
-    # TODO: caching
     if 'people' in data:
       e.credits = process_people(data['people'])
 

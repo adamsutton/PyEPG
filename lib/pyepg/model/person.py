@@ -25,8 +25,9 @@ class Person ( Object ):
   
   def __init__ ( self ):
     Object.__init__(self)
-    self.name = None
-    self.role = None
+    self.name      = None
+    self.role      = None
+    self.character = None
 
   def __str__ ( self ):
     return self.name

@@ -113,7 +113,11 @@ def out_episode ( out, eps ):
     for r in cs:
       for p in cs[r]:
         try:
-          print >>out, '      <%s>%s</%s>' % (r, str_format(p.name), r)
+          if p.role == 'actor' and p.character:
+            print >>out, '      <actor character="%s">%s</actor>'\
+                  % (str_format(p.character), str_format(p.name))
+          else:
+            print >>out, '      <%s>%s</%s>' % (r, str_format(p.name), r)
         except Exception, e:
           log.error('failed to enter cast')
           print e
