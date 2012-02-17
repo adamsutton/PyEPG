@@ -28,6 +28,7 @@ class Channel ( Object ):
     self.title    = None
     self.shortid  = None
     self.radio    = True
+    self.hd       = False
 
   def __str__ ( self ):
     return self.title

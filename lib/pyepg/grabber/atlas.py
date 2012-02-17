@@ -213,6 +213,7 @@ def process_channel ( data ):
     c.uri     = data['channel_uri']
     c.title   = data['channel_title']
     c.shortid = data['channel_key']
+    c.hd      = 'HD' in c.title
     ret = c
   except Exception, e:
     log.error(str(e))
@@ -305,7 +306,7 @@ def process_episode ( data ):
 
   # Media type (ignore virtual entries)
   if 'schedule_only' not in data or not data['schedule_only']:
-  if 'media_type'     in data: e.media   = data['media_type']
+    if 'media_type'     in data: e.media   = data['media_type']
 
   # Brand/Series
   c_uri = None
@@ -382,7 +383,7 @@ def process_schedule ( epg, sched ):
         
       # Metadata
       if 'high_definition' in bc:
-        s.hd         = bc['high_definition']
+        s.hd         = chn.hd and bc['high_definition']
       if 'widescreen' in bc:
         s.widescreen = bc['widescreen']
       if 'premiere' in bc:
