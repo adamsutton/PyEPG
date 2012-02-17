@@ -60,6 +60,9 @@ class EPG:
 
   def add_broadcast ( self, entry ):
     c = entry.channel
+    # TODO: this is a hack!
+    if entry.episode.media not in [ 'audio', None ]:
+      c.radio = False
     if c not in self.schedule:
       self.schedule[c] = []
     self.schedule[c].append(entry)

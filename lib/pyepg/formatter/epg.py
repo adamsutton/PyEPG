@@ -58,6 +58,8 @@ def out_footer ( out ):
 def out_channel ( out, chn ):
   print >>out, '  <channel id="%s">' % chn.uri
   print >>out, '    <name>%s</name>' % chn.title
+  if chn.radio:
+    print >>out, '    <radio />'
   # TODO: icon?
   print >>out, '  </channel>'
 
@@ -101,6 +103,8 @@ def out_episode ( out, eps ):
     print >>out, '    <number>%d</number>' % eps.number
   if su:
     print >>out, '    <summary>%s</summary>' % str_format(su)
+  if eps.film:
+    print >>out, '    <film />'
   for g in eps.get_genres():
     print >>out, '    <genre>%s</genre>' % g
   cs = eps.get_credits()
@@ -111,6 +115,7 @@ def out_episode ( out, eps ):
         try:
           print >>out, '      <%s>%s</%s>' % (r, str_format(p.name), r)
         except Exception, e:
+          log.error('failed to enter cast')
           print e
           try:
             log.debug(repr(p.name))

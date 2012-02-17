@@ -279,6 +279,10 @@ def process_episode ( data ):
     if 'episode_number' in data: e.number  = data['episode_number']
     if 'genres'         in data: e.genres  = get_genres(data['genres'])
 
+    # Media type
+    if 'schedule_only' not in data or not data['schedule_only']:
+      if 'media_type'     in data: e.media   = data['media_type']
+
     # Brand/Series
     c_uri = None
     s_uri = None

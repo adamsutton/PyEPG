@@ -36,6 +36,7 @@ class Episode ( Object ):
     self.year     = None
     self.baw      = False
     self.credits  = {}
+    self.media    = None
 
   def get_title ( self ):
     if self.brand and self.brand.title:
