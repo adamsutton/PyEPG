@@ -46,11 +46,11 @@ if __name__ == '__main__':
   optp = OptionParser()
   optp.add_option('-v', '--version', action='store_true',
                   help='Display version information')
-  optp.add_option('--capabilities',
+  optp.add_option('--capabilities', action='store_true',
                   help='List XMLTV capabilities')
-  optp.add_option('--description',
+  optp.add_option('--description', action='store_true',
                   help='Show XMLTV description')
-  optp.add_option('--exmltv',
+  optp.add_option('--exmltv', action='store_true',
                   help='Enable extended xmltv output')
   (opts,args) = optp.parse_args()
 
