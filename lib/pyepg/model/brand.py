@@ -25,11 +25,12 @@ class Brand ( Object ):
   
   def __init__ ( self ):
     Object.__init__(self)
-    self.title    = None
-    self.summary  = None
-    self.genres   = None
-    self.image    = None
-    self.thumb    = None
+    self.title        = None
+    self.summary      = None
+    self.genres       = None
+    self.image        = None
+    self.thumb        = None
+    self.series_count = None
 
   def __str__ ( self ):
     ret = self.uri

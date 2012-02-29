@@ -25,12 +25,13 @@ class Series ( Object ):
   
   def __init__ ( self ):
     Object.__init__(self)
-    self.title    = None
-    self.summary  = None
-    self.number   = None
-    self.image    = None
-    self.thumb    = None
-    self.genres   = None
+    self.title         = None
+    self.summary       = None
+    self.number        = None
+    self.image         = None
+    self.thumb         = None
+    self.genres        = None
+    self.episode_count = None
 
   def __str__ ( self ):
     ret = self.uri

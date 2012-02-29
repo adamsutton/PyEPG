@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 #
-# pyepg - Front end script for pyepg
+# tv_grab_uk_atlas - XMLTV compatible frontend for pyepg
 #
 # Copyright (C) 2012 Adam Sutton <dev@adamsutton.me.uk>
 #
@@ -24,27 +24,13 @@
 # ###########################################################################
 
 # System
-import os, sys, datetime
+import sys, os
 from optparse import OptionParser
 
-# Local
+# PyEPG
 lib_path = os.path.join(os.path.dirname(sys.argv[0]), 'lib')
 sys.path.append(os.path.abspath(lib_path))
 from pyepg.main import main
-
-# ###########################################################################
-# Configuration
-# ###########################################################################
-
-optp = OptionParser()
-optp.add_option('-c', '--config', default=None,
-                help='Specify alternative configuration directory')
-optp.add_option('-o', '--option', default=[], action='append',
-                help='Specify configuration option')
-optp.add_option('-g', '--grabber', default=None,
-                help='Specify grabber')
-optp.add_option('-f', '--formatter', default=None,
-                help='Specify formatter')
 
 # ###########################################################################
 # Run
@@ -52,15 +38,39 @@ optp.add_option('-f', '--formatter', default=None,
 
 if __name__ == '__main__':
 
-  # Process command line
-  (opts,args) = optp.parse_args()
-  tmp = {}
-  for o in opts.option:
-    p = o.split('=')
-    if len(p) == 2:
-      tmp[p[0]] = p[1]
-  if opts.grabber:   tmp['grabber']   = opts.grabber
-  if opts.formatter: tmp['formatter'] = opts.formatter
+  # XMLTV capabilities
+  xmltv_caps = [ 'baseline', 'manualconfig', 'exmltv' ]
+  xmltv_desc = 'United Kingdon/Republic of Ireland (Atlas - metabroadcast.com)'
 
-  # Run
-  main(opts.config, tmp)
+  # Options
+  optp = OptionParser()
+  optp.add_option('-v', '--version', action='store_true',
+                  help='Display version information')
+  optp.add_option('--capabilities',
+                  help='List XMLTV capabilities')
+  optp.add_option('--description',
+                  help='Show XMLTV description')
+  optp.add_option('--exmltv',
+                  help='Enable extended xmltv output')
+  (opts,args) = optp.parse_args()
+
+  # Capabilities
+  if opts.capabilities:
+    for c in xmltv_caps: print c
+    sys.exit(0)
+
+  # Description
+  if opts.description:
+    print xmltv_desc
+    sys.exit(0)
+
+  # Version
+  if opts.version:
+    print '%s: v0.0.1' % os.path.basename(sys.argv[0]).replace('.py', '')
+    sys.exit(0) 
+
+  # Execute
+  formatter = 'xmltv'
+  if opts.exmltv: formatter = 'exmltv'
+  conf_over = { 'grabber' : 'atlas', 'formatter' : formatter }
+  main(None, conf_over)
