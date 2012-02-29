@@ -42,10 +42,10 @@ import pyepg.model.genre as genre
 # Fetch raw data from atlas
 def atlas_fetch ( url ):
   url  = 'http://atlas.metabroadcast.com/3.0/' + url
-  log.info('fetch %s' % url)
+  log.debug('fetch %s' % url, 0)
   up   = urllib2.urlopen(url)
   data = up.read()
-  log.info('decode json')
+  log.debug('decode json', 1)
   jdata = json.loads(data)
   log.debug(jdata, pprint=True)
   return jdata
@@ -88,7 +88,7 @@ def get_content ( uri, type ):
 # Fetch brand
 #
 def get_brand ( uri, data = None ):
-  log.info('get_brand(%s)' % uri)
+  log.debug('get_brand(%s)' % uri, 2)
 
   # Check the cache
   ret = cache.get_brand(uri)
@@ -110,7 +110,7 @@ def get_brand ( uri, data = None ):
 # Fetch series
 #
 def get_series ( uri, data = None ):
-  log.info('get_series(%s)' % uri)
+  log.debug('get_series(%s)' % uri, 2)
 
   # Check cache
   ret = cache.get_series(uri)
@@ -133,7 +133,7 @@ def get_series ( uri, data = None ):
 # Get episode
 #
 def get_episode ( uri, data ):
-  log.info('get_episode(%s)' % uri)
+  log.debug('get_episode(%s)' % uri, 2)
   
   # Check cache
   ret = cache.get_episode(uri)
@@ -151,7 +151,7 @@ def get_episode ( uri, data ):
 # Get channel
 #
 def get_channel ( uri, data ):
-  log.info('get_channel(%s)' % uri)
+  log.debug('get_channel(%s)' % uri, 2)
 
   # Check cache
   ret = cache.get_channel(uri)
@@ -346,7 +346,7 @@ def process_episode ( data ):
 
   # OK
   ret = e
-  log.info('episode = %s' % e)
+  log.debug('episode = %s' % e, 3)
   return e
 
 # Process schedule
@@ -429,16 +429,19 @@ def grab ( epg, channels, start, stop ):
 
   # By time
   while tm_from < tm_to:
-    u = url + '&from=%d&to=%d' % (tm_from, min(tm_from + tsize, tm_to))
+    tt = min(tm_from + tsize, tm_to)
+    u  = url + '&from=%d&to=%d' % (tm_from, tt)
 
     # For each channel chunk
     for chns in util.chunk(channels, csize):
 
       # Fetch data
+      log.info('atlas - fetch data (%d channels for %dhrs)' % (len(chns), (tt-tm_from) / 3600))
       u     = u + '&channel=' + ','.join(chns)
       data  = atlas_fetch(u)
 
       # Processs
+      log.info('atlas - process data')
       if 'schedule' in data:
         for c in data['schedule']:
           process_schedule(epg, c)

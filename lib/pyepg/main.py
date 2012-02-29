@@ -75,6 +75,9 @@ def main ( conf_root = None , conf_over = {} ):
   formatter.format(epg, sys.stdout)
 
   # Stats
+  log.info('')
+  log.info('Statistics:')
+  log.info('--------------------------------------')
   log.info('Channel  Count: %d' % len(epg.get_channels()))
   log.info('Brand    Count: %d' % len(epg.get_brands()))
   log.info('Series   Count: %d' % len(epg.get_series()))

@@ -26,13 +26,16 @@
 # System
 import sys, time
 
+# PyEPG
+import pyepg.conf as conf
+
 # ###########################################################################
 # Data
 # ###########################################################################
 
+global LOG_INIT, LOG_DEBUG
 LOG_INIT  = 0
-LOG_DEBUG = 0
-LOG_PATH  = None
+LOG_DEBUG = None
 
 # ###########################################################################
 # Functions
@@ -40,13 +43,14 @@ LOG_PATH  = None
 
 # Initialise
 def init ():
-  global LOG_INIT
-  LOG_INIT = time.time()
+  global LOG_INIT, LOG_DEBUG
+  LOG_INIT  = time.time()
+  LOG_DEBUG = conf.get('debug_level', None)
 
 # Output
 def out ( pre, msg, **dargs ):
   tm = '%0.2f' % (time.time() - LOG_INIT)
-  print >>sys.stderr, '%8s - %-5s:' % (tm, pre.lower()),
+  print >>sys.stderr, '%8s - %-6s:' % (tm, pre.lower()),
   if 'pprint' in dargs and dargs['pprint']:
     import pprint
     pprint.pprint(msg, sys.stderr)
@@ -55,7 +59,8 @@ def out ( pre, msg, **dargs ):
 
 # Debug
 def debug ( msg, lvl=0, **dargs ):
-  out('DEBUG', msg, **dargs)
+  if LOG_DEBUG is not None and lvl <= LOG_DEBUG:
+    out('DEBUG', msg, **dargs)
 
 # Info
 def info  ( msg, **dargs ):
