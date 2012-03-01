@@ -101,6 +101,7 @@ def get ( key, default = None ):
 
 # Set configuration value
 def set ( key, value ):
+  global CONFIG
   CONFIG[key] = value
 
 # ###########################################################################

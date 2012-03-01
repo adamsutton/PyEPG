@@ -189,6 +189,12 @@ def configure ( conf_root = None, conf_over = {}, conf_path = None ):
   print 'Formatter: %s' % formatters[s][0]
   formatter = formatters[s][1]
 
+  # Grabber/Formatter config
+  if hasattr(grabber, 'configure'):
+    grabber.configure()
+  if hasattr(formatter, 'configure'):
+    formatter.configure()
+
   # Channels
   # TODO: need something better here
   print ''
@@ -197,7 +203,7 @@ def configure ( conf_root = None, conf_over = {}, conf_path = None ):
   print '  loading channel data...'
   conf_chns  = conf.get('channel[]', [])
   new_chns   = []
-  avail_chns = grabbers[s][1].channels()
+  avail_chns = grabber.channels()
   if not avail_chns:
     log.error('No channels available')
     sys.exit(1)
@@ -220,13 +226,6 @@ def configure ( conf_root = None, conf_over = {}, conf_path = None ):
     if auto: s = True
     if s: new_chns.append(c.uri)
   conf.set('channel[]', new_chns)
-
-  
-  # Grabber/Formatter config
-  if hasattr(grabber, 'configure'):
-    grabber.configure()
-  if hasattr(formatter, 'configure'):
-    formatter.configure()
 
   # Save
   conf.save(conf_path)
