@@ -25,10 +25,11 @@ class Channel ( Object ):
   
   def __init__ ( self ):
     Object.__init__(self)
-    self.title    = None
-    self.shortid  = None
-    self.radio    = True
-    self.hd       = False
+    self.title     = None
+    self.shortid   = None
+    self.radio     = True
+    self.hd        = False
+    self.publisher = []
 
   def __str__ ( self ):
     return self.title

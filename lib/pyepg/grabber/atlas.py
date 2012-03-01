@@ -210,9 +210,22 @@ def process_channel ( data ):
   ret = None
   try:
     c = Channel()
-    c.uri     = data['channel_uri']
-    c.title   = data['channel_title']
-    c.shortid = data['channel_key']
+    if 'title' in data:
+      c.title = data['title']
+    elif 'channel_title' in data:
+      c.title = data['channel_title']
+    if 'uri' in data:
+      c.uri   = data['uri']
+    elif 'channel_uri' in data:
+      c.uri   = data['channel_uri']
+    if 'channel_key' in data:
+      c.shortid = data['channel_key']
+    elif 'aliases' in data:
+      c.shortid = data['aliases'][-1]
+    if 'broadcaster' in data and 'key' in data['broadcaster']:
+      c.publisher.append(data['broadcaster']['key'])
+    if 'media_type' in data:
+      c.radio = data['media_type'] == 'audio'
     c.hd      = 'HD' in c.title
     ret = c
   except Exception, e:
@@ -406,37 +419,29 @@ def process_schedule ( epg, sched ):
 #
 # Overlay two publisher entries
 #
-PUB_PRIO = [ 'pressassociation.com', 'bbc.co.uk' ]
 def publisher_overlay ( a, b ):
-  pa = a['publisher']['key']
-  pb = b['publisher']['key']
-  #log.debug('Pub A: %s' % pa)
-  #log.debug('Pub B: %s' % pb)
-  ia = -1
-  ib = -1
+  pubs = conf.get('atlas_publishers', [ 'bbc.co.uk', 'itv.com' 'tvblob.com' ])
+  pa   = a['publisher']['key']
+  pb   = b['publisher']['key']
+  ia   = -1
+  ib   = -1
   try:
-    ia = PUB_PRIO.index(pa)
+    ia = pubs.index(pa)
   except: pass
   try:
-    ib = PUB_PRIO.index(pb)  
+    ib = pubs.index(pb)  
   except: pass
-  #log.debug('Idx A: %d' % ia)
-  #log.debug('Idx B: %d' % ib)
   def _overlay ( a, b ):
-    #log.debug('overlay: %s' % str(a))
-    #log.debug('overlay: %s' % str(b))
     if type(b) == dict:
       for k in b:
         if k not in a:
           a[k] = b[k]
         else:
-          #log.debug('overlay key %s' % k)
           a[k] = _overlay(a[k], b[k])
       return a
     elif type(b) == list:
       for i in range(len(b)):
         if i < len(a):
-          #log.debug('overlay idx %d' % i)
           a[i] = _overlay(a[i], b[i])
         else:
           a.append(b[i])
@@ -479,20 +484,48 @@ def process_publisher_overlay ( sched ):
     ret['items'].append(a)
   return ret
 
+# Fetch channel metadata
+def load_channels ():
+  ret = []
+  
+  # URL setup
+  limit    = 50
+  offset   = 0
+  url_root = ('channels.json?limit=%d' % limit) + '&offset=%d'
+
+  # Query
+  while True:
+    data   = atlas_fetch(url_root % offset)
+    offset = offset + limit
+    chns   = []
+    if 'channels' in data:
+      chns = data['channels']
+    if not chns: break
+    for c in chns:
+      c = process_channel(c)
+      if c.publisher: ret.append(c)
+
+  return ret
+
 # ###########################################################################
 # Grabber API
 # ###########################################################################
 
 # Grab specified data
 def grab ( epg, channels, start, stop ):
+  # TODO: need to split by publishers I think
 
   # Config
   key     = conf.get('atlas_apikey', None)
-  pubs    = conf.get('atlas_publishers', [ 'bbc.co.uk' ])
+  pubs    = conf.get('atlas_publishers', [ 'bbc.co.uk', 'itv.com' 'tvblob.com' ])
   anno    = [ 'broadcasts', 'extended_description', 'series_summary',\
               'brand_summary', 'people' ]
   csize   = conf.get('atlas_channel_chunk', len(channels))
   tsize   = conf.get('atlas_time_chunk',    stop-start)
+  
+  # Load all channel data
+  all_chns = load_channels()
+  pprint.pprint(all_chns)
 
   # Time
   tm_from = time.mktime(start.timetuple())
@@ -526,6 +559,34 @@ def grab ( epg, channels, start, stop ):
 
     # Update
     tm_from = tm_from + tsize
+
+# Configure
+def configure ():
+  print ''
+  print 'Atlas Configuration'
+  print '-' * 60
+
+  # API key
+  apikey = conf.get('atlas_apikey', '')
+  print ''
+  print 'API Key [%s]: ' % apikey,
+  apikey = sys.stdin.readline().strip()
+  if apikey: conf.set('atlas_apikey', apikey)
+
+  # Publishers to be used
+  # TODO: this needs thought and wants to be configurable?
+  # TODO: would be good if this could be auto determined from the API key
+  #conf.set('atlas_broadcasters',  conf.get('atlas_broadcasters', bcast))
+  bcast = [ 'bbc.co.uk', 'five.tv', 'itv.com', 'tvblob.com' ]
+  conf.set('atlas_publishers',    conf.get('atlas_publishers', bcast))
+  
+  # Hidden settings
+  conf.set('atlas_channel_chunk', conf.get('atlas_channel_chunk', 32))
+  conf.set('atlas_time_chunk',    conf.get('atlas_time_chunk', 86400))
+
+# Get a list of available channels
+def channels ():
+  return load_channels()
 
 # ###########################################################################
 # Editor

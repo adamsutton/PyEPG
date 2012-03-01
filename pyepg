@@ -30,7 +30,7 @@ from optparse import OptionParser
 # Local
 lib_path = os.path.join(os.path.dirname(sys.argv[0]), 'lib')
 sys.path.append(os.path.abspath(lib_path))
-from pyepg.main import main
+from pyepg.main import main, configure
 
 # ###########################################################################
 # Configuration
@@ -61,6 +61,11 @@ if __name__ == '__main__':
       tmp[p[0]] = p[1]
   if opts.grabber:   tmp['grabber']   = opts.grabber
   if opts.formatter: tmp['formatter'] = opts.formatter
+
+  # Configure
+  if 'configure' in args:
+    configure(opts.config, tmp)
+    sys.exit(0)
 
   # Run
   main(opts.config, tmp)

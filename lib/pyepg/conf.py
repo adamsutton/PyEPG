@@ -29,7 +29,7 @@ import string
 # Data
 # ###########################################################################
 
-CONFIG = { 'channels' : set() }
+CONFIG = {}
 
 # ###########################################################################
 # Functions
@@ -56,18 +56,41 @@ def init ( path, override ):
 
   # Process
   for i in conf:
+    k = i[0]
+    v = i[1]
 
-    # Channel
-    if i[0] == 'channel':
-      CONFIG['channels'].add(i[1])
-    
-    # Other
+    # Try eval value
+    try:
+      v = eval(v)
+    except: pass
+
+    # Special array
+    if k.endswith('[]'):
+      if k not in CONFIG: CONFIG[k] = [ v ]
+      else: CONFIG[k].append(v)
+
+    # Normal
     else:
-      v = i[1]
-      try:
-        v = eval(v)
-      except: pass
-      CONFIG[i[0]] = v
+      CONFIG[k] = v
+
+# Save configuration
+def save ( path ):
+  from datetime import datetime
+
+  fp = open(path, 'w')
+  fp.write('# PyEPG configuration\n')
+  fp.write('#   generated %s' % datetime.now())
+  fp.write('')
+  for k in CONFIG:
+
+    # Special array
+    if k.endswith('[]'):
+      for v in CONFIG[k]:
+        fp.write('%s: %s\n' % (k, repr(v)))
+    
+    # Normal
+    else:
+      fp.write('%s: %s\n' % (k, repr(CONFIG[k])))
 
 # Get configuration value
 def get ( key, default = None ):
@@ -75,6 +98,10 @@ def get ( key, default = None ):
   if key in CONFIG:
     ret = CONFIG[key]
   return ret
+
+# Set configuration value
+def set ( key, value ):
+  CONFIG[key] = value
 
 # ###########################################################################
 # Editor
