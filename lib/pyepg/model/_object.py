@@ -21,8 +21,8 @@
 
 class Object:
   
-  def __init__ ( self ):
-    self.uri      = None
+  def __init__ ( self, uri = None ):
+    self.uri      = uri
 
   def __str__ ( self ): 
     return self.uri

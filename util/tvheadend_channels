@@ -1,0 +1,205 @@
+#!/usr/bin/env python
+#
+# tvheadend_channels - Configure TV headend channels
+#
+# Copyright (C) 2012 Adam Sutton <dev@adamsutton.me.uk>
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, version 3 of the License.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+"""
+This script will configure all the channel setup for TV headend
+"""
+
+# ###########################################################################
+# Imports
+# ###########################################################################
+
+# System
+import sys, os, shutil, pprint
+import simplejson as json
+from optparse import OptionParser
+
+# PyEPG
+lib_path = os.path.join(os.path.dirname(sys.argv[0]), '../lib')
+sys.path.append(os.path.abspath(lib_path))
+import pyepg.log  as log
+import pyepg.main as pyepg
+
+# ###########################################################################
+# Functions
+# ###########################################################################
+
+#
+# Check if TVheadend is running
+#
+def is_running ():
+  ret = False
+  for f in os.listdir('/proc'):
+    p = os.path.join('/proc', f, 'cmdline')
+    if os.path.exists(p):
+      try:
+        p = open(p).read().split('\0')[0]
+        if 'tvheadend' in p:
+          ret = True
+          break
+      except: pass
+  return ret
+
+#
+# Find channel by stream info
+#
+def find_channel ( chns, streamid, streamname = None ):
+  for c in chns:
+    if 'stream_id' in c.extra and streamid:
+      if c.extra['stream_id'] == streamid:
+        return c
+    elif 'stream_name' in c.extra and streamname:
+      if c.extra['stream_name'] == streamname:
+        return c
+  return None
+
+# ###########################################################################
+# Run
+# ###########################################################################
+
+if __name__ == '__main__':
+
+  # Process
+  optp = OptionParser()
+  pyepg.options(optp)
+  optp.add_option('--htsdir', default=os.path.expanduser('~/.hts/tvheadend'),
+                  help='TV headend configuration directory')
+  optp.add_option('--clean', default=False, action='store_true',
+                  help='Flush all existing channel config from TVheadend')
+  (opts,args) = optp.parse_args()
+
+  # Paths
+  tp_path = os.path.join(opts.htsdir, 'dvbtransports')
+  ch_path = os.path.join(opts.htsdir, 'channels')
+  xc_path = os.path.join(opts.htsdir, 'xmltv')
+  tg_path = os.path.join(opts.htsdir, 'channeltags')
+
+  # Not currently supported
+  #if not opts.clean:
+  #  print 'ERROR: currently --clean MUST be specified'
+  #  sys.exit(1)
+
+  # Check TVheadend is not running
+  if is_running():
+    print 'ERROR: tvheadend is running, please stop and re-execute this script.'
+    sys.exit(1)
+
+  # Check we have transports
+  if not os.path.isdir(tp_path):
+    print 'ERROR: dbtransports folder does not exist, please use tvheadend to scan first'
+    sys.exit(1)
+
+  # Setup
+  pyepg.setup(opts, args)
+
+  # Channels
+  channels = pyepg.get_channels()
+
+  # Remove all channel config
+  if os.path.isdir(ch_path):
+    shutil.rmtree(ch_path)
+  if os.path.isdir(xc_path):
+    shutil.rmtree(xc_path)
+
+  # Create directories
+  os.makedirs(ch_path)
+  os.makedirs(xc_path)
+
+  # Load tags
+  tags = {
+    'tv'    : (0, 'TV channels'),
+    'radio' : (0, 'Radio channels'),
+    'sdtv'  : (0, 'SDTV'),
+    'hdtv'  : (0, 'HDTV'),
+  }
+  next_tag  = 1
+  for f in os.listdir(tg_path):
+    next_tag = int(f) + 1
+    p        = os.path.join(tg_path, f)
+    try:
+      tag = json.load(open(p))
+      for t in tags:
+        if tags[t][1] == tag['name']:
+          tags[t] = (tag['id'], tag['name'])
+    except Exception, e:
+      log.warn('failed to load channel tag %s [e=%s]' % (f, e))
+
+  # Create missing tags
+  tag = { 'enabled' : 1, 'internal' : 0, 'titledIcon' : 0, 'comment' : '', 'icon' : '' }
+  for t in tags:
+    if not tags[t][0]:
+      tag['name'] = tags[t][1]
+      tag['id']   = next_tag
+      pprint.pprint(tag)
+      tags[t]     = (tag['id'], tag['name'])
+      open(os.path.join(tg_path, str(tag['id'])), 'w').write(json.dumps(tag))
+      next_tag = next_tag + 1
+  for t in tags: tags[t] = tags[t][0]
+
+  # Process all transport streams
+  mapped = 0
+  for m in os.listdir(tp_path):
+    mp = os.path.join(tp_path, m)
+    for s in os.listdir(mp):
+      sp   = os.path.join(mp, s)
+      log.debug('stream path %s' % sp, 2)
+      try:
+        stream = json.load(open(sp))
+        sid    = 0
+        sname  = ''
+        if 'service_id'  in stream: sid   = stream['service_id']
+        if 'servicename' in stream: sname = stream['servicename']
+        log.info('process stream %d [%s]' % (sid, sname))
+        chn    = find_channel(channels, sid, sname)
+        if chn:
+          log.info('  map to %s' % str(chn))
+          mapped = mapped + 1
+
+          # Build channel entry
+          data = { 'name' : chn.title, 'channel_number' : chn.number, 'tags': [] }
+          # TODO: DVR pre/post period
+
+          # Icon
+          if chn.image:
+            data['icon'] = chn.image
+
+          # Radio
+          if chn.radio == True:
+            data['tags'].append(tags['radio'])
+
+          # TV
+          elif chn.radio == False:
+            data['tags'].append(tags['tv'])
+            if chn.hd: data['tags'].append(tags['hdtv'])
+            else:      data['tags'].append(tags['sdtv'])
+
+          # Output
+          path = os.path.join(ch_path, str(mapped))
+          fp = open(path, 'w').write(json.dumps(data))
+
+          # Update stream
+          stream['channelname'] = chn.title
+          open(sp, 'w').write(json.dumps(stream))
+
+        # Remove any channel link
+        elif 'channelname' in stream and stream['channelname']:
+          stream['channelname'] = ''
+          open(sp, 'w').write(json.dumps(stream))
+
+      except Exception, e:
+        print 'ERROR: failed to load transport stream %s (e=%s)' % (s, e)

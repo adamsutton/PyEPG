@@ -23,13 +23,16 @@ from _object import Object
 
 class Channel ( Object ):
   
-  def __init__ ( self ):
-    Object.__init__(self)
+  def __init__ ( self, uri = None ):
+    Object.__init__(self, uri)
     self.title     = None
     self.shortid   = None
     self.radio     = True
     self.hd        = False
+    self.number    = None
+    self.image     = None
     self.publisher = []
+    self.extra     = {}
 
   def __str__ ( self ):
     return self.title

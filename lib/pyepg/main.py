@@ -31,21 +31,54 @@ import pyepg.log             as log
 import pyepg.conf            as conf
 import pyepg.cache           as cache
 import pyepg.grabber.atlas   as grabber
-from pyepg.model import EPG
+from pyepg.model import EPG, Channel
 
 # ###########################################################################
 # Helpers
 # ###########################################################################
 
+#
 # Import module
+#
 def _import ( fmt, n ):
   return __import__(fmt % n, globals(), locals(), [n])
 
-# ###########################################################################
-# Run
-# ###########################################################################
+#
+# Default Configuration options
+#
+def options ( optp ):
+  optp.add_option('-c', '--config', default=None,
+                  help='Specify alternative configuration directory')
+  optp.add_option('-o', '--option', default=[], action='append',
+                  help='Specify configuration option')
+  optp.add_option('-f', '--formatter', default=None,
+                  help='Specify formatter')
+  optp.add_option('-d', '--debug', default=None, type='int',
+                  help='Enable debug')
+  optp.add_option('--days', default=None, type='int',
+                  help='Specify number of days to grab')
 
-def main ( conf_root = None , conf_over = {}, conf_path = None ):
+#
+# Setup
+#
+def setup ( opts = {}, args = [], conf_path = None ):
+  conf_root = None
+  conf_over = {}
+
+  # Process command line
+  if hasattr(opts, 'options'):
+    for o in opts.option:
+      p = o.split('=')
+      if len(p) == 2:
+        conf_over[p[0]] = p[1]
+  if hasattr(opts, 'days') and opts.days is not None:
+    conf_over['days'] = opts.days
+  if hasattr(opts, 'debug') and opts.debug is not None:
+    conf_over['debug_level'] = opts.debug
+  if hasattr(opts, 'formatter') and opts.formatter is not None:
+    conf_over['formatter'] = opts.formatter
+  if hasattr(opts, 'config') and opts.config is not None:
+    conf_root = opts.config
 
   # Defaults
   if conf_root is None:
@@ -63,17 +96,98 @@ def main ( conf_root = None , conf_over = {}, conf_path = None ):
   # Initialise the cache
   cache.init(cache_path) 
 
+#
+# Get current grabber
+#
+def get_grabber():
+  return _import('pyepg.grabber.%s', conf.get('grabber', 'atlas'))
+
+#
+# Get grabbers
+#
+def get_grabbers ():
+  import pyepg.grabber
+  ret = []
+  for f in os.listdir(pyepg.grabber.__path__[0]):
+    if '__init__' in f: continue
+    if not f.endswith('.py'): continue 
+    f = f.replace('.py', '')
+    mod = _import('pyepg.grabber.%s', f)
+    ret.append((f, mod))
+  return ret
+
+#
+# Get current formatter
+# 
+def get_formatter():
+  return _import('pyepg.formatter.%s', conf.get('formatter', 'epg'))
+
+#
+# Get available formatters
+#
+def get_formatters ():
+  import pyepg.formatter
+  ret = []
+  for f in os.listdir(pyepg.formatter.__path__[0]):
+    if '__init__' in f: continue
+    if not f.endswith('.py'): continue 
+    f = f.replace('.py', '')
+    mod = _import('pyepg.formatter.%s', f)
+    ret.append((f, mod))
+  return ret
+
+#
+# Get current package
+#
+def get_package ():
+  ret     = None
+  package = conf.get('package', None)
+  if package:
+    ret = _import('pyepg.package.%s', package)
+  return ret
+
+#
+# Get current channel set
+#
+def get_channels ( package = None ):
+
+  # Get defaults
+  if package is None: package = get_package()
+
+  # Map channels
+  channels = map(lambda x: Channel(x), conf.get('channel[]', []))
+  if package:
+    channels = package.channels(channels)
+
+  return channels
+
+# ###########################################################################
+# Run
+# ###########################################################################
+
+def main ( opts, args, conf_path = None ):
+
+  # Setup
+  setup(opts, args, conf_path)
+
   # Initialise EPG
   epg = EPG()
 
   # Get config
-  channels = conf.get('channel[]', [])
   days     = conf.get('days', 7)
   today    = datetime.datetime.today()
 
   # Get grabber/formatter
-  grabber   = _import('pyepg.grabber.%s',   conf.get('grabber', 'atlas'))
-  formatter = _import('pyepg.formatter.%s', conf.get('formatter', 'epg'))
+  grabber   = get_grabber()
+  formatter = get_formatter()
+
+  # Channels
+  channels  = get_channels()
+
+  # DEBUG
+  #chns = sorted(channels, cmp=lambda a,b: cmp(a.number, b.number))
+  #for c in chns:
+  #  print '%4d - %5d - %-40s - %s' % (c.number, c.extra['stream_id'], c.title, c.uri)
 
   # Get EPG
   grabber.grab(epg, channels, today, today + datetime.timedelta(days=days))
@@ -95,41 +209,36 @@ def main ( conf_root = None , conf_over = {}, conf_path = None ):
 # Configure the system
 # ###########################################################################
 
-# Get available formatters
-def get_formatters ():
-  import pyepg.formatter
-  ret = []
-  for f in os.listdir(pyepg.formatter.__path__[0]):
-    if '__init__' in f: continue
-    if not f.endswith('.py'): continue 
-    f = f.replace('.py', '')
-    mod = _import('pyepg.formatter.%s', f)
-    ret.append((f, mod))
-  return ret
-
-# Get grabbers
-def get_grabbers ():
-  import pyepg.grabber
-  ret = []
-  for f in os.listdir(pyepg.grabber.__path__[0]):
-    if '__init__' in f: continue
-    if not f.endswith('.py'): continue 
-    f = f.replace('.py', '')
-    mod = _import('pyepg.grabber.%s', f)
-    ret.append((f, mod))
-  return ret
+# Get select
+def get_select ( msg, options ):
+  idx = -1
+  if len(options) == 1: return 0
+  print msg
+  for i in range(len(options)):
+    print '  %2d. %s' % (i+1, options[i])
+  while True:
+    print '  select (1-%d): ' % len(options),
+    try:
+      t = int(sys.stdin.readline().strip())
+      if t > 0 and t <= len(options):
+        idx = t - 1
+        break
+    except ValueError: pass
+  return idx
     
 # Configure system
-def configure ( conf_root = None, conf_over = {}, conf_path = None ):
+def configure ( opts, args, conf_path = None ):
 
-  # Defaults
-  if conf_root is None:
-    conf_root = os.path.expanduser('~/.pyepg')
-  if conf_path is None:
-    conf_path = os.path.join(conf_root, 'config')
+  #
+  # Setup
+  #
 
-  # Load configuration
-  conf.init(conf_path, conf_over)
+  setup(opts, args, conf_path)
+
+  #
+  # Global
+  #
+
   print 'System Configuration'
   print '-' * 60
 
@@ -145,90 +254,98 @@ def configure ( conf_root = None, conf_over = {}, conf_path = None ):
     except: pass
   conf.set('days', days)
 
+  # Postcode
+  print '\nPostcode (for regional TV) [%s]: ' % conf.get('postcode', ''),
+  pc = sys.stdin.readline().strip()
+  if pc:
+    conf.set('postcode', pc)
+
+  #
   # Grabber
+  #
+
   grabbers = get_grabbers()
   if not grabbers:
     log.error('no grabbers available')
     sys.exit(1)
-  s = 0
-  if len(grabbers) > 1:
-    print ''
-    print 'Select grabber:'
-    for i in range(len(grabbers)):
-      print '  %2d - %s' % (i+1, grabbers[i][0])
-    while s < 1 or s > len(grabbers):
-      print 'select [1-%d]: ' % len(grabbers),
-      try:
-        s = int(sys.stdin.readline())
-      except KeyboardInterrupt: sys.exit(1)
-      except: pass
-    s = s - 1
+  options = map(lambda x: x[0], grabbers)
+  idx     = get_select('\nSelect grabber:', options)
+  grabber = grabbers[idx][1]
+  conf.set('grabber', grabbers[idx][0])
   print ''
-  print 'Grabber: %s' % grabbers[s][0]
-  grabber = grabbers[s][1]
+  print 'Grabber: %s' % grabbers[idx][0]
 
+  #
   # Formatter
+  #
+
   formatters = get_formatters()
   if not formatters:
     log.error('no formatters available')
     sys.exit(1)
-  s = 0
-  if len(formatters) > 1:
-    print ''
-    print 'Select formatter:'
-    for i in range(len(formatters)):
-      print '  %2d - %s' % (i+1, formatters[i][0])
-    while s < 1 or s > len(formatters):
-      print 'select [1-%d]: ' % len(formatters),
-      try:
-        s = int(sys.stdin.readline())
-      except KeyboardInterrupt: sys.exit(1)
-      except: pass
-    s = s - 1
+  options   = map(lambda x: x[0], formatters)
+  idx       = get_select('\nSelect formatter:', options)
+  formatter = formatters[idx][1]
+  conf.set('formatter', formatters[idx][0])
   print ''
-  print 'Formatter: %s' % formatters[s][0]
-  formatter = formatters[s][1]
+  print 'Formatter: %s' % formatters[idx][0]
 
+  #
   # Grabber/Formatter config
+  #
+
   if hasattr(grabber, 'configure'):
     grabber.configure()
   if hasattr(formatter, 'configure'):
     formatter.configure()
 
+  #
   # Channels
-  # TODO: need something better here
+  #
+  channels = []
+
   print ''
   print 'Channel Configuration'
   print '-' * 60
-  print '  loading channel data...'
-  conf_chns  = conf.get('channel[]', [])
-  new_chns   = []
-  avail_chns = grabber.channels()
-  if not avail_chns:
-    log.error('No channels available')
-    sys.exit(1)
-  print ''
-  auto = None
-  for c in avail_chns:
-    d = 'no'
-    if c.uri in conf_chns: d = 'yes'
-    if auto is None:
-      s = None
-      while s is None:
-        print '  %s [%s] (yes/no/all/skip)? ' % (c.title, d),
-        t = sys.stdin.readline().strip().lower()
-        if not t: t = d
-        if t in [ 'y', 'yes' ]: s = True
-        if t in [ 'n', 'no'  ]: s = False
-        if t in [ 'all', 'skip' ]:
-          auto = (t == 'all')
-          break
-    if auto: s = True
-    if s: new_chns.append(c.uri)
-  conf.set('channel[]', new_chns)
 
+  # Get packages
+  packages  = grabber.packages()
+  options   = []
+  options.extend(['Skip'])
+  options.extend(map(lambda x: x.title(), packages))
+  idx       = get_select('Select Platform:', options)
+
+  # Platform
+  if idx:
+    idx      = idx - 1
+    package = packages[idx]
+    conf.set('package', package.id())
+
+    # Exclusions
+    a = None
+    while a not in [ 'y', 'n', 'yes', 'no' ]:
+      print '\nWould you like to add exclusions (y/n)? ',
+      a = sys.stdin.readline().strip().lower()
+    
+    # Get
+    if a in [ 'y', 'yes' ]:
+      for c in package.channels():
+        a = None
+        while a not in [ 'y', 'n', 'yes', 'no' ]:
+          print '\n  %s (y/n)? ' % c.title,
+          a = sys.stdin.readline().strip().lower()
+        if a in [ 'y', 'yes' ]: channels.append(c.title)
+
+    # Store
+    channels = []
+    for c in package.channels():
+      channels.append(c.uri)
+    conf.set('channel[]', channels)
+        
+  #
   # Save
-  conf.save(conf_path)
+  #
+  conf.save()
 
 # ###########################################################################
 # Editor

@@ -47,7 +47,7 @@ def atlas_fetch ( url ):
   data = up.read()
   log.debug('decode json', 1)
   jdata = json.loads(data)
-  log.debug(jdata, pprint=True)
+  log.debug(jdata, 1, pprint=True)
   return jdata
   
 # Get content data
@@ -211,17 +211,17 @@ def process_channel ( data ):
   try:
     c = Channel()
     if 'title' in data:
-      c.title = data['title']
+      c.title = data['title'].encode('utf8')
     elif 'channel_title' in data:
-      c.title = data['channel_title']
+      c.title = data['channel_title'].encode('utf8')
     if 'uri' in data:
       c.uri   = data['uri']
     elif 'channel_uri' in data:
       c.uri   = data['channel_uri']
     if 'channel_key' in data:
       c.shortid = data['channel_key']
-    elif 'aliases' in data:
-      c.shortid = data['aliases'][-1]
+    elif 'id' in data:
+      c.shortid = data['id']
     if 'broadcaster' in data and 'key' in data['broadcaster']:
       c.publisher.append(data['broadcaster']['key'])
     if 'media_type' in data:
@@ -419,8 +419,7 @@ def process_schedule ( epg, sched ):
 #
 # Overlay two publisher entries
 #
-def publisher_overlay ( a, b ):
-  pubs = conf.get('atlas_publishers', [ 'bbc.co.uk', 'itv.com' 'tvblob.com' ])
+def publisher_overlay ( a, b, pubs ):
   pa   = a['publisher']['key']
   pb   = b['publisher']['key']
   ia   = -1
@@ -457,7 +456,7 @@ def publisher_overlay ( a, b ):
  
 # Process publisher overlap
 #
-def process_publisher_overlay ( sched ):
+def process_publisher_overlay ( sched, pubs ):
   ret = { 'items' : [] }
 
   # Non schedule info
@@ -480,31 +479,104 @@ def process_publisher_overlay ( sched ):
         t.append(b)
         g.append(j)
     for k in t:
-      a = publisher_overlay(a, k)
+      a = publisher_overlay(a, k, pubs)
     ret['items'].append(a)
+  return ret
+
+# Get title mappings
+def get_title_map ():
+  ret  = {}
+  data = cache.get_file('atlas/title_map.csv')
+  if data:
+    for l in data.splitlines():
+      p = map(lambda x: x.strip(), l.split(','))
+      if len(p) == 2 and p[1]:
+        ret[p[0]] = p[1]
   return ret
 
 # Fetch channel metadata
 def load_channels ():
   ret = []
+  log.info('get atlas channel list')
+
+  # Check cache (only update monthly)
+  data = cache.get_file('atlas/channels.json', 31*86400)
   
-  # URL setup
-  limit    = 50
-  offset   = 0
-  url_root = ('channels.json?limit=%d' % limit) + '&offset=%d'
+  # Fetch
+  if not data:
+    log.info('fetcing remote data')
+    data = []
+    
+    # URL setup
+    limit    = 50
+    offset   = 0
+    url_root = ('channels.json?limit=%d' % limit) + '&offset=%d'
 
-  # Query
-  while True:
-    data   = atlas_fetch(url_root % offset)
-    offset = offset + limit
-    chns   = []
-    if 'channels' in data:
-      chns = data['channels']
-    if not chns: break
-    for c in chns:
-      c = process_channel(c)
-      if c.publisher: ret.append(c)
+    # Query
+    while True:
+      temp   = atlas_fetch(url_root % offset)
+      offset = offset + limit
+      if 'channels' not in temp: break
+      if not temp['channels']: break
+      data.append(temp)
 
+    # Store
+    if data:
+      cache.put_file('atlas/channels.json', json.dumps(data))
+
+  # Unpack
+  else:
+    data = json.loads(data)
+
+  # Channel title mappings
+  title_map = get_title_map()
+
+  # Process
+  for i in data:
+    if 'channels' in i:
+      for c in i['channels']:
+        c = get_channel(c['uri'], c)
+        if c:
+          if c.title in title_map:
+            log.debug('atlas: title %s -> %s' % (c.title, title_map[c.title]), 2)
+            c.title = title_map[c.title]
+          ret.append(c)
+  
+  log.info('  channel list grabbed')
+  return ret
+
+# Filter the channels
+def filter_channels ( channels ):
+  chns       = []
+  atlas_chns = load_channels()
+  for t in channels:
+    ok = False
+    for c in atlas_chns:
+      if c.title == t.uri or c.title == t.title:
+        c.title     = t.title
+        c.extra     = t.extra
+        c.number    = t.number
+        chns.append(c)
+        ok = True
+        break
+
+  # DEBUG
+  chns = sorted(chns, cmp=lambda a,b: cmp(a.number,b.number))
+  log.info('atlas: grabbing %d channels' % len(chns))
+  for c in chns:
+    log.debug('%4d : %s' % (c.number, c.title), 0)
+  
+  return chns
+
+# Group channels by primary publisher
+def group_channels_by_pub ( chns ):
+  ret = {}
+  for c in chns:
+    p = None
+    if c.publisher: p = c.publisher[0]
+    if p not in ret:
+      ret[p] = []
+    ret[p].append(c)
   return ret
 
 # ###########################################################################
@@ -517,48 +589,66 @@ def grab ( epg, channels, start, stop ):
 
   # Config
   key     = conf.get('atlas_apikey', None)
-  pubs    = conf.get('atlas_publishers', [ 'bbc.co.uk', 'itv.com' 'tvblob.com' ])
+  pubs    = conf.get('atlas_publishers', [ 'bbc.co.uk', 'itv.com' 'tvblob.com', 'channel4.com', 'pressassociation.com' ])
   anno    = [ 'broadcasts', 'extended_description', 'series_summary',\
               'brand_summary', 'people' ]
   csize   = conf.get('atlas_channel_chunk', len(channels))
   tsize   = conf.get('atlas_time_chunk',    stop-start)
-  
-  # Load all channel data
-  all_chns = load_channels()
-  pprint.pprint(all_chns)
 
+  # Filter the channel list (only include those we have listing for)
+  channels = filter_channels(channels)
+
+  # Group by publisher
+  channels = group_channels_by_pub(channels)
+  
   # Time
   tm_from = time.mktime(start.timetuple())
   tm_to   = time.mktime(stop.timetuple())
 
   # URL base
-  url = 'schedule.json?publisher=%s' % (','.join(pubs))
+  url = 'schedule.json?'
+  url = url + 'annotations=' + ','.join(anno)
   if key:  url = url + '&apiKey=' + key
-  if anno: url = url + '&annotations=' + ','.join(anno)
 
   # By time
   while tm_from < tm_to:
     tt = min(tm_from + tsize, tm_to)
-    u  = url + '&from=%d&to=%d' % (tm_from, tt)
 
-    # For each channel chunk
-    for chns in util.chunk(channels, csize):
+    # By publisher
+    for p in channels:
+      pubs = [ 'pressassociation.com' ] # configure this?
+      if p: pubs.insert(0, p)
 
-      # Fetch data
-      log.info('atlas - fetch data (%d channels for %dhrs)' % (len(chns), (tt-tm_from) / 3600))
-      u     = u + '&channel=' + ','.join(chns)
-      data  = atlas_fetch(u)
+      # For each channel chunk
+      for chns in util.chunk(channels[p], csize):
+        u = url + '&from=%d&to=%d' % (tm_from, tt)
+        u = u + '&publisher=' + ','.join(pubs)
+        u = u + '&channel_id=' + ','.join(map(lambda x: x.shortid,chns))
 
-      # Processs
-      log.info('atlas - process data')
-      if 'schedule' in data:
-        for c in data['schedule']:
-          s = process_publisher_overlay(c)
-          log.debug(s, pprint=True)
-          process_schedule(epg, s)
+        # Fetch data
+        log.info('atlas - fetch data (%d channels for %dhrs)' % (len(chns), (tt-tm_from) / 3600))
+        data  = atlas_fetch(u)
+
+        # Processs
+        log.info('atlas - process data')
+        if 'schedule' in data:
+          for c in data['schedule']:
+            s = process_publisher_overlay(c, pubs)
+            log.debug(s, 4, pprint=True)
+            process_schedule(epg, s)
 
     # Update
     tm_from = tm_from + tsize
+
+# Get a list of the support packages
+def packages ():
+  from pyepg.package\
+  import uk_freetoairsathd, uk_freetoairsat, uk_freesathd, uk_freesat
+  return [ uk_freesathd, uk_freesat, uk_freetoairsathd, uk_freetoairsat ]
+
+# Get a list of available channels
+def channels ():
+  return load_channels()
 
 # Configure
 def configure ():
@@ -577,16 +667,12 @@ def configure ():
   # TODO: this needs thought and wants to be configurable?
   # TODO: would be good if this could be auto determined from the API key
   #conf.set('atlas_broadcasters',  conf.get('atlas_broadcasters', bcast))
-  bcast = [ 'bbc.co.uk', 'five.tv', 'itv.com', 'tvblob.com' ]
+  bcast = [ 'bbc.co.uk', 'five.tv', 'channel4.com', 'itv.com', 'tvblob.com', 'pressassociation.com' ]
   conf.set('atlas_publishers',    conf.get('atlas_publishers', bcast))
   
   # Hidden settings
   conf.set('atlas_channel_chunk', conf.get('atlas_channel_chunk', 32))
   conf.set('atlas_time_chunk',    conf.get('atlas_time_chunk', 86400))
-
-# Get a list of available channels
-def channels ():
-  return load_channels()
 
 # ###########################################################################
 # Editor

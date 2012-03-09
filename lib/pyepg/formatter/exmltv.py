@@ -45,7 +45,13 @@ def xmltv_fmt ( s ):
 # Output channel
 def print_channel ( c, out, extended ):
   print >>out, '  <channel id="%s">' % c.uri
-  print >>out, '    <display-name>%s</display-name>' % c.title
+  print >>out, '    <display-name>%s</display-name>' % xmltv_fmt(c.title)
+  if 'stream_id' in c.extra:
+    print >>out, '    <stream-id>%s</stream-id>' % c.extra['stream_id']
+  if 'stream_name' in c.extra:
+    print >>out, '    <stream-name>%s</stream-name>' % xmltv_fmt(c.extra['stream_name'])
+  if c.number:
+    print >>out, '    <number>%d</number>' % c.number
   # TODO: icon
   print >>out, '  </channel>'
 
@@ -55,13 +61,12 @@ def print_episode ( e, out, extended ):
   e   = s.episode
   t1  = s.start.strftime(XMLTV_TIME_FORMAT)
   t2  = s.stop.strftime(XMLTV_TIME_FORMAT)
-  uri = ''
-  if extended: uri = 'uri="%s" ' % e.uri
-  print >>out, '  <programme %sstart="%s" stop="%s" channel="%s">'\
-               % (uri, t1, t2, s.channel.uri)
+  print >>out, '  <programme start="%s" stop="%s" channel="%s">'\
+               % (t1, t2, s.channel.uri)
 
   # Brand
   if extended:
+    print >>out, '    <uri>%s</uri>' % e.uri
     if e.brand is not None:
       print >>out, '    <brand-uri>%s</brand-uri>' % e.brand.uri
     if e.series is not None:

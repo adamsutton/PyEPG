@@ -29,11 +29,13 @@ import sqlite3 as sqlite
 
 # PyEPG
 import pyepg.conf as conf
+import pyepg.log  as log
 
 # ###########################################################################
 # Config/State
 # ###########################################################################
 
+CACHE_PATH       = None
 CACHE_DB_VERSION = 1
 CACHE_DB_CONN    = None
 CACHE_DB_DATA    = {
@@ -134,6 +136,8 @@ def put_object ( uri, obj, type, db = True ):
 
 # Initialise
 def init ( path ):
+  global CACHE_PATH
+  CACHE_PATH = path
   
   # Create path
   if not os.path.exists(path):
@@ -173,6 +177,38 @@ def put_series ( uri, series ):
 # Put episode
 def put_episode ( uri, episode ):
   put_object(uri, episode, 'episode', False)
+
+# Fetch a URL
+# TODO: include actual caching!
+def get_url ( url, cache = True ):
+  log.debug('cache: get url %s' % url, 1)
+  import urllib2
+  req  = urllib2.Request(url)
+  req.add_header('User-Agent', 'PyEPG URL Fetcher/Cacher')
+  up   = urllib2.urlopen(req)
+  data = up.read()
+  return data
+
+# Fetch file from cache
+def get_file ( path, maxage = None ):
+  import time
+  log.debug('cache: get file %s' % path, 1)
+  ret = None
+  p   = os.path.join(CACHE_PATH, 'files', path)
+  if os.path.isfile(p):
+    s = os.stat(p)
+    if (maxage is None) or ((time.time() - s.st_mtime) < maxage):
+      ret = open(p).read()
+  if not ret: log.debug('cache: not available', 1)
+  return ret
+
+# Store file
+def put_file ( path, data ):
+  log.debug('cache: put file %s' % path, 1)
+  p = os.path.join(CACHE_PATH, 'files', path)
+  d = os.path.dirname(p)
+  if not os.path.isdir(d): os.makedirs(d)
+  open(p, 'w').write(data)
 
 # ###########################################################################
 # Editor

@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 #
-# pyepg/log.py - Logging routines
+# platform/uk_freesat.py - Freesat
 #
 # Copyright (C) 2012 Adam Sutton <dev@adamsutton.me.uk>
 #
@@ -17,6 +17,8 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 """
+This will basically provide a fairly comprehensive list of all the channels
+available free to air in the UK on Astra/Eurobird satellite
 """
 
 # ###########################################################################
@@ -24,58 +26,50 @@
 # ###########################################################################
 
 # System
-import sys, time
+import os, sys, re
 
 # PyEPG
-import pyepg.conf as conf
+import uk_freesathd
 
 # ###########################################################################
-# Data
+# Global data
 # ###########################################################################
 
-global LOG_INIT, LOG_DEBUG
-LOG_INIT  = 0
-LOG_DEBUG = None
+# Channel data
+CHANNELS = None
 
 # ###########################################################################
-# Functions
+# API
 # ###########################################################################
 
-# Initialise
-def init ():
-  global LOG_INIT, LOG_DEBUG
-  LOG_INIT  = time.time()
-  LOG_DEBUG = conf.get('debug_level', None)
+# Get channel list
+# Note: the access is a bit of a hack
+def channels ( filt = None ):
+  global CHANNELS
 
-# Output
-def out ( pre, msg, **dargs ):
-  tm = '%0.2f' % (time.time() - LOG_INIT)
-  print >>sys.stderr, '%8s - %-6s:' % (tm, pre.lower()),
-  try:
-    if 'pprint' in dargs and dargs['pprint']:
-      import pprint
-      pprint.pprint(msg, sys.stderr)
-    else:
-      print >>sys.stderr, msg
-  except:
-    print >>sys.stderr, ''
 
-# Debug
-def debug ( msg, lvl=0, **dargs ):
-  if LOG_DEBUG is not None and lvl <= LOG_DEBUG:
-    out('DEBUG', msg, **dargs)
+  # Get ALL channels
+  if CHANNELS is None:
+    chns = []
+    for c in uk_freesathd.channels():
+      if not c.hd: chns.append(c)
+    CHANNELS = chns
+  ret = CHANNELS
 
-# Info
-def info  ( msg, **dargs ):
-  out('INFO', msg, **dargs)
+  # Filter
+  if filt is not None:
+    ret = []
+    for c in CHANNELS:
+      if c in filt: ret.append(c)
 
-# Warning
-def warn  ( msg, **dargs ):
-  out('WARN', msg, **dargs)
+  # Done
+  return ret
 
-# Error
-def error ( msg, **dargs ):
-  out('ERROR', msg, **dargs)
+def title ():
+  return 'Freesat'
+
+def id ():
+  return 'uk_freesat'
 
 # ###########################################################################
 # Editor

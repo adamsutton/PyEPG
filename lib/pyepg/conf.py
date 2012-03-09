@@ -29,7 +29,8 @@ import string
 # Data
 # ###########################################################################
 
-CONFIG = {}
+CONF_PATH = None
+CONFIG    = {}
 
 # ###########################################################################
 # Functions
@@ -37,7 +38,8 @@ CONFIG = {}
 
 # Initialise
 def init ( path, override ):
-  global CONFIG
+  global CONFIG, CONF_PATH
+  CONF_PATH = path
   conf = []
 
   # Load config file
@@ -47,7 +49,7 @@ def init ( path, override ):
       l = l[:i]
     l = l.strip()
     if not l: continue
-    p = map(string.strip, l.split('='))
+    p = map(string.strip, l.split(':'))
     if len(p) == 2: conf.append(p)
 
   # Add overrides
@@ -74,12 +76,16 @@ def init ( path, override ):
       CONFIG[k] = v
 
 # Save configuration
-def save ( path ):
+def save ( path = None ):
   from datetime import datetime
+  
+  # Default
+  if not path: path = CONF_PATH
 
+  # Save
   fp = open(path, 'w')
   fp.write('# PyEPG configuration\n')
-  fp.write('#   generated %s' % datetime.now())
+  fp.write('#   generated %s\n' % datetime.now())
   fp.write('')
   for k in CONFIG:
 

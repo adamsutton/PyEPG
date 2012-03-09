@@ -28,9 +28,9 @@ import sys, os
 from optparse import OptionParser
 
 # PyEPG
-lib_path = os.path.join(os.path.dirname(sys.argv[0]), 'lib')
+lib_path = os.path.join(os.path.dirname(sys.argv[0]), '../lib')
 sys.path.append(os.path.abspath(lib_path))
-from pyepg.main import main
+import pyepg.main as pyepg
 
 # ###########################################################################
 # Run
@@ -39,8 +39,8 @@ from pyepg.main import main
 if __name__ == '__main__':
 
   # XMLTV capabilities
-  xmltv_caps = [ 'baseline', 'manualconfig', 'exmltv' ]
-  xmltv_desc = 'United Kingdon/Republic of Ireland (Atlas - metabroadcast.com)'
+  xmltv_caps = [ 'baseline', 'config', 'exmltv' ]
+  xmltv_desc = 'XMLTV compatible wrapper for PyEPG'
 
   # Options
   optp = OptionParser()
@@ -52,6 +52,8 @@ if __name__ == '__main__':
                   help='Show XMLTV description')
   optp.add_option('--exmltv', action='store_true',
                   help='Enable extended xmltv output')
+  optp.add_option('--configure', action='store_true',
+                  help='Configure PyEPG')
   (opts,args) = optp.parse_args()
 
   # Capabilities
@@ -69,8 +71,14 @@ if __name__ == '__main__':
     print '%s: v0.0.1' % os.path.basename(sys.argv[0]).replace('.py', '')
     sys.exit(0) 
 
+  # Setup
+  opts.formatter = 'xmltv'
+  if opts.exmltv: opts.formatter = 'exmltv'
+
+  # Configure
+  if opts.configure:
+    pyepg.configure(opts, args)
+
   # Execute
-  formatter = 'xmltv'
-  if opts.exmltv: formatter = 'exmltv'
-  conf_over = { 'grabber' : 'atlas', 'formatter' : formatter }
-  main(None, conf_over)
+  else:
+    pyepg.main(opts, args)
