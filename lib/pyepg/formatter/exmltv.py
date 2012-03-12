@@ -46,12 +46,13 @@ def xmltv_fmt ( s ):
 def print_channel ( c, out, extended ):
   print >>out, '  <channel id="%s">' % c.uri
   print >>out, '    <display-name>%s</display-name>' % xmltv_fmt(c.title)
-  if 'stream_id' in c.extra:
-    print >>out, '    <stream-id>%s</stream-id>' % c.extra['stream_id']
-  if 'stream_name' in c.extra:
-    print >>out, '    <stream-name>%s</stream-name>' % xmltv_fmt(c.extra['stream_name'])
-  if c.number:
-    print >>out, '    <number>%d</number>' % c.number
+  if extended:
+    if 'stream_id' in c.extra:
+      print >>out, '    <stream-id>%s</stream-id>' % c.extra['stream_id']
+    if 'stream_name' in c.extra:
+      print >>out, '    <stream-name>%s</stream-name>' % xmltv_fmt(c.extra['stream_name'])
+    if c.number:
+      print >>out, '    <number>%d</number>' % c.number
   # TODO: icon
   print >>out, '  </channel>'
 
@@ -105,14 +106,17 @@ def print_episode ( e, out, extended ):
 
   # Episode number
   if extended:
-    if e.brand and e.brand.series_count is not None:
-      print >>out, '    <season-count>%d</season-count>' % e.brand.series_count
+    en = ec = sn = sc = pn = pc = 0
+    if e.brand  and e.brand.series_count is not None:
+      sc = e.brand.series_count
     if e.series and e.series.number is not None:
-      print >>out, '    <season-number>%d</season-number>' % e.series.number
+      sn = e.series.number
     if e.series and e.series.episode_count is not None:
-      print >>out, '    <episode-count>%d</episode-count>' % e.series.episode_count
+      ec = e.series.episode_count
     if e.number is not None:
-      print >>out, '    <episode-number>%d</episode-number>' % e.number
+      en = e.number
+    if en or sn or pn:
+      print >>out, '    <episode-num system="pyepg">%d/%d.%d/%d.%d/%d</episode-num>' % (sn, sc, en, ec, 0, 0)
   else:
     n = e.get_number()
     if n:

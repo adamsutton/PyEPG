@@ -190,6 +190,7 @@ def main ( opts, args, conf_path = None ):
   #  print '%4d - %5d - %-40s - %s' % (c.number, c.extra['stream_id'], c.title, c.uri)
 
   # Get EPG
+  log.info('grabbing EPG for %d days' % days)
   grabber.grab(epg, channels, today, today + datetime.timedelta(days=days))
 
   # Output
