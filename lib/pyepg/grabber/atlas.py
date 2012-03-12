@@ -41,13 +41,17 @@ import pyepg.model.genre as genre
 
 # Fetch raw data from atlas
 def atlas_fetch ( url ):
-  url  = 'http://atlas.metabroadcast.com/3.0/' + url
+  url   = 'http://atlas.metabroadcast.com/3.0/' + url
   log.debug('fetch %s' % url, 0)
-  up   = urllib2.urlopen(url)
-  data = up.read()
-  log.debug('decode json', 1)
-  jdata = json.loads(data)
-  log.debug(jdata, 1, pprint=True)
+  jdata = {}
+  try:
+    up   = urllib2.urlopen(url)
+    data = up.read()
+    log.debug('decode json', 1)
+    jdata = json.loads(data)
+    log.debug(jdata, 1, pprint=True)
+  except urllib2.HTTPError:
+    pass
   return jdata
   
 # Get content data
@@ -422,6 +426,7 @@ def process_schedule ( epg, sched ):
 def publisher_overlay ( a, b, pubs ):
   pa   = a['publisher']['key']
   pb   = b['publisher']['key']
+  log.debug('publishers a=%s, b=%s' % (pa, pb), 5)
   ia   = -1
   ib   = -1
   try:
@@ -448,9 +453,11 @@ def publisher_overlay ( a, b, pubs ):
     else:
       return b
   ret = None
-  if ia > ib:
+  if ib > ia:
+    log.debug('prefer publisher a', 5)
     ret = _overlay(b, a)
   else:
+    log.debug('prefer publisher b', 5)
     ret = _overlay(a, b)
   return ret
  
@@ -615,27 +622,44 @@ def grab ( epg, channels, start, stop ):
     tt = min(tm_from + tsize, tm_to)
 
     # By publisher
-    for p in channels:
-      pubs = [ 'pressassociation.com' ] # configure this?
-      if p: pubs.insert(0, p)
+    # TODO: this will all need to change when proper overlaying is provided by atlas
+    for cp in channels:
+      sched = {}
+      pubs  = [ 'pressassociation.com' ] # configure this?
+      if cp: pubs.insert(0, cp)
+      for p in pubs:
 
-      # For each channel chunk
-      for chns in util.chunk(channels[p], csize):
-        u = url + '&from=%d&to=%d' % (tm_from, tt)
-        u = u + '&publisher=' + ','.join(pubs)
-        u = u + '&channel_id=' + ','.join(map(lambda x: x.shortid,chns))
+        # For each channel chunk
+        for chns in util.chunk(channels[cp], csize):
+          u = url + '&from=%d&to=%d' % (tm_from, tt)
+          u = u + '&publisher=' + p
+          u = u + '&channel_id=' + ','.join(map(lambda x: x.shortid,chns))
 
-        # Fetch data
-        log.info('atlas - fetch data (%d channels for %dhrs)' % (len(chns), (tt-tm_from) / 3600))
-        data  = atlas_fetch(u)
+          # Fetch data
+          log.info('atlas - fetch data (%d channels for %dhrs)' % (len(chns), (tt-tm_from) / 3600))
+          data  = atlas_fetch(u)
 
-        # Processs
-        log.info('atlas - process data')
-        if 'schedule' in data:
-          for c in data['schedule']:
-            s = process_publisher_overlay(c, pubs)
-            log.debug(s, 4, pprint=True)
-            process_schedule(epg, s)
+          # Processs
+          log.info('atlas - process data')
+          if 'schedule' in data:
+            for c in data['schedule']:
+              if 'channel_uri' in c:
+                curi = c['channel_uri']
+                if curi not in sched:
+                  log.info('new entry for %s' % curi)
+                  sched[curi] = c
+                elif 'items' in sched[curi] and 'items' in c:
+                  log.info('appending items for %s' % curi)
+                  sched[curi]['items'].extend(c['items'])
+
+      # Process overlays
+      for c in sched:
+        log.info('processing pubs overlay for %s (using pubs %s)' % (c, str(pubs)))
+        c = sched[c]
+        s = process_publisher_overlay(c, pubs)
+        log.debug('overlayed result:')
+        log.debug(s, 4, pprint=True)
+        process_schedule(epg, s)
 
     # Update
     tm_from = tm_from + tsize
