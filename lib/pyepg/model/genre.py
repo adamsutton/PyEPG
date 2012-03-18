@@ -33,16 +33,26 @@ class Genre ( Object ):
     return self.title
 
 # Static list
-ANIMALS       = Genre('animals')
-ANIMATION     = Genre('animation')
-COMEDY        = Genre('comedy')
-CHILDRENS     = Genre('childrens')
-DRAMA         = Genre('drama')
-ENTERTAINMENT = Genre('entertainment')
-FACTUAL       = Genre('factual')
-FILM          = Genre('film')
-LEARNING      = Genre('learning')
-LIFESTYLE     = Genre('lifestyle')
-MUSIC         = Genre('music')
-NEWS          = Genre('news')
-SPORTS        = Genre('sports')
+MOVIEDRAMA               = Genre('Movie / Drama')
+NEWSCURRENTAFFAIRS       = Genre('News / Current affairs')
+SHOWGAMES                = Genre('Show / Games')
+SPORTS                   = Genre('Sports')
+CHILDRENSYOUTH           = Genre('Children\'s / Youth')
+MUSIC                    = Genre('Music')
+ARTCULTURE               = Genre('Art / Culture')
+SOCIALPOLITICALECONOMICS = Genre('Social / Political issues / Economics')
+EDUCATIONSCIENCEFACTUAL  = Genre('Education / Science / Factual')
+LEISUREHOBBIES           = Genre('Leisure hobbies')
+SPECIAL                  = Genre('Special characteristics')
+
+ANIMALS                  = SPECIAL
+ANIMATION                = MOVIEDRAMA
+COMEDY                   = MOVIEDRAMA
+CHILDRENS                = CHILDRENSYOUTH
+DRAMA                    = MOVIEDRAMA
+ENTERTAINMENT            = MOVIEDRAMA
+FACTUAL                  = EDUCATIONSCIENCEFACTUAL
+FILM                     = MOVIEDRAMA
+LEARNING                 = EDUCATIONSCIENCEFACTUAL
+LIFESTYLE                = LEISUREHOBBIES
+NEWS                     = NEWSCURRENTAFFAIRS
