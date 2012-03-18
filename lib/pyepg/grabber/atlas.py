@@ -567,12 +567,6 @@ def filter_channels ( channels ):
         ok = True
         break
 
-  # DEBUG
-  chns = sorted(chns, cmp=lambda a,b: cmp(a.number,b.number))
-  log.info('atlas: grabbing %d channels' % len(chns))
-  for c in chns:
-    log.debug('%4d : %s' % (c.number, c.title), 0)
-  
   return chns
 
 # Group channels by primary publisher
@@ -604,6 +598,9 @@ def grab ( epg, channels, start, stop ):
 
   # Filter the channel list (only include those we have listing for)
   channels = filter_channels(channels)
+  days     = (stop - start).total_seconds() / 86400
+  chns     = sorted(channels, cmp=lambda a,b: cmp(a.number,b.number))
+  log.info('atlas - epg grab %d channels for %d days' % (len(chns), days))
 
   # Group by publisher
   channels = group_channels_by_pub(channels)
@@ -620,10 +617,14 @@ def grab ( epg, channels, start, stop ):
   # By time
   while tm_from < tm_to:
     tt = min(tm_from + tsize, tm_to)
+    a  = (time.strftime('%Y-%m-%d %H:%M', time.localtime(tm_from)),\
+          time.strftime('%Y-%m-%d %H:%M', time.localtime(tt)))
+    log.info('atlas - period %s to %s' % a)
 
     # By publisher
     # TODO: this will all need to change when proper overlaying is provided by atlas
     for cp in channels:
+      log.info('atlas - publisher %s' % cp)
       sched = {}
       pubs  = [ 'pressassociation.com' ] # configure this?
       if cp: pubs.insert(0, cp)
@@ -634,9 +635,9 @@ def grab ( epg, channels, start, stop ):
           u = url + '&from=%d&to=%d' % (tm_from, tt)
           u = u + '&publisher=' + p
           u = u + '&channel_id=' + ','.join(map(lambda x: x.shortid,chns))
+          for c in chns: log.info('atlas - channel %s' % c)
 
           # Fetch data
-          log.info('atlas - fetch data (%d channels for %dhrs)' % (len(chns), (tt-tm_from) / 3600))
           data  = atlas_fetch(u)
 
           # Processs
@@ -646,19 +647,14 @@ def grab ( epg, channels, start, stop ):
               if 'channel_uri' in c:
                 curi = c['channel_uri']
                 if curi not in sched:
-                  log.info('new entry for %s' % curi)
                   sched[curi] = c
                 elif 'items' in sched[curi] and 'items' in c:
-                  log.info('appending items for %s' % curi)
                   sched[curi]['items'].extend(c['items'])
 
       # Process overlays
       for c in sched:
-        log.info('processing pubs overlay for %s (using pubs %s)' % (c, str(pubs)))
         c = sched[c]
         s = process_publisher_overlay(c, pubs)
-        log.debug('overlayed result:')
-        log.debug(s, 4, pprint=True)
         process_schedule(epg, s)
 
     # Update
