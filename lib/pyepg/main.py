@@ -48,6 +48,8 @@ def _import ( fmt, n ):
 #
 def options ( optp ):
   optp.add_option('-c', '--config', default=None,
+                  help='Specify alternative configuration file')
+  optp.add_option('--confdir', default=None,
                   help='Specify alternative configuration directory')
   optp.add_option('-o', '--option', default=[], action='append',
                   help='Specify configuration option')
@@ -78,7 +80,9 @@ def setup ( opts = {}, args = [], conf_path = None ):
   if hasattr(opts, 'formatter') and opts.formatter is not None:
     conf_over['formatter'] = opts.formatter
   if hasattr(opts, 'config') and opts.config is not None:
-    conf_root = opts.config
+    conf_path = opts.config
+  if hasattr(opts, 'confdir') and opts.confdir is not None:
+    conf_root = opts.confdir
 
   # Defaults
   if conf_root is None:
