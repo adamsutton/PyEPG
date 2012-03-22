@@ -27,7 +27,9 @@ class Broadcast:
     self.start      = None
     self.stop       = None
     self.hd         = False
+    self.lines      = None
     self.widescreen = False
+    self.aspect     = None
     self.premiere   = False
     self.new        = False
     self.repeat     = False

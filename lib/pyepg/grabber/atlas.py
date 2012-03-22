@@ -416,6 +416,11 @@ def process_schedule ( epg, sched ):
       if 'audio_described' in bc:
         s.audio_desc = bc['audio_described']
 
+      # Special fields (Note: not valid outside of UK?)
+      if s.widescreen or s.hd: s.aspect = '16:9'
+      if s.hd: s.lines = 1080
+      else:    s.lines = 576
+
       # Add
       epg.add_broadcast(s)
       p = s

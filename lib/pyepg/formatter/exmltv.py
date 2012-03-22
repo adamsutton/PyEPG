@@ -130,12 +130,16 @@ def print_episode ( e, out, extended ):
   print >>out, '    <video>'
   if e.baw:
     print >>out, '      <colour>no</colour>'
-  if s.widescreen or s.hd:
+  if s.aspect is not None:
+    print >>out, '      <aspect>%s</aspect>' % s.aspect
+  elif s.widescreen or s.hd:
     print >>out, '      <aspect>16:9</aspect>'
   if s.hd:
     print >>out, '      <quality>HDTV</quality>'
   else:
     print >>out, '      <quality>SDTV</quality>'
+  if s.lines:
+    print >>out, '      <lines>%d</lines>' % s.lines
   print >>out, '    </video>'
 
   # History
@@ -146,11 +150,13 @@ def print_episode ( e, out, extended ):
   if s.new:
     print >>out, '    <new />'
 
-  # ???
+  # Hearing / Visually impaired
   if s.subtitled:
     print >>out, '    <subtitles type="teletext" />'
   if s.signed:
     print >>out, '    <subtitles type="deaf-signed" />'
+  if s.audio_desc and extended:
+    print >>out, '    <audio-described />'
 
   # TODO: Certification
 
