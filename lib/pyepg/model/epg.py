@@ -19,6 +19,9 @@
 """
 """
 
+# PyEPG libs
+import pyepg.log as log
+
 # Note: there is some redundancy in the data storage, this makes
 # access for the formatters quicker at a slight cost to entry during
 # grabbing
@@ -79,3 +82,23 @@ class EPG:
     if b: self.brands.add(b)
     if s: self.series.add(s)
     self.episodes.add(e)
+
+  # This sorts the broadcasts and fixes any overlaps (where possible)
+  def finish ( self ):
+    def tsort ( x, y ):
+      r = cmp(x.start, y.start)
+      if not r:
+        r = cmp(x.stop, y.stop)
+      return r
+    for c in self.schedule:
+      self.schedule[c].sort(cmp=tsort)
+      p = None
+      for i in self.schedule[c]:
+        if p and p.stop > i.start:
+          log.debug('epg - schedule overlap detected')
+          if (p.stop - i.start).total_seconds() < 600:
+            log.debug('epg - assume multi-provider discrepancy, will correct')
+            p.stop = i.start
+          else:
+            log.warn('epg - uncorrectable schedule overlap detected %s' % p.stop)
+        p = i

@@ -196,6 +196,7 @@ def main ( opts, args, conf_path = None ):
   # Get EPG
   log.info('grabbing EPG for %d days' % days)
   grabber.grab(epg, channels, today, today + datetime.timedelta(days=days))
+  epg.finish()
 
   # Output
   formatter.format(epg, sys.stdout)
