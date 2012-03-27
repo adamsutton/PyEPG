@@ -46,14 +46,8 @@ def xmltv_fmt ( s ):
 def print_channel ( c, out, extended ):
   print >>out, '  <channel id="%s">' % c.uri
   print >>out, '    <display-name>%s</display-name>' % xmltv_fmt(c.title)
-  if extended:
-    if 'stream_id' in c.extra:
-      print >>out, '    <stream-id>%s</stream-id>' % c.extra['stream_id']
-    if 'stream_name' in c.extra:
-      print >>out, '    <stream-name>%s</stream-name>' % xmltv_fmt(c.extra['stream_name'])
-    if c.number:
-      print >>out, '    <number>%d</number>' % c.number
-  # TODO: icon
+  if c.image:
+    print >>out, '    <icon src="%s"/>' % c.image
   print >>out, '  </channel>'
 
 # Output episode

@@ -131,22 +131,32 @@ def _channels ():
     if len(p) < 9: continue
     try:
       c = Channel()
-      c.extra['stream_id']             = int(p[0])
-      c.extra['stream_name']           = p[1]
-      t = p[2]
-      c.uri = c.title                  = p[2]
-      c.extra['freesat_number']        = int(p[3])
-      c.number = c.extra['sky_number'] = int(p[4])
-      c.hd                             = p[5] == '1'
-      c.radio                          = p[7] == '1'
-      c.image                          = p[8]
+      c.extra['stream']                = [ (int(p[0]), p[1]) ] 
+      c.uri                            = p[2]
+      c.title                          = p[3]
+      c.extra['freesat_number']        = int(p[4])
+      c.number = c.extra['sky_number'] = int(p[5])
+      c.hd                             = p[6] == '1'
+      c.radio                          = p[8] == '1'
+      c.image                          = p[9]
+
+      # Skip
+      if not c.uri: continue
+
+      # Already included
+      if c in chns:
+        for t in chns:
+          if t == c:
+            t.extra['stream'].extend(c.extra['stream'])
+            break
+        continue
 
       # Regional channel
-      if p[6] == '1': 
+      if p[7] == '1': 
         regional.append(c)
 
       # Store
-      elif c.extra['stream_id']:
+      elif c.extra['stream'][0][0]:
         chns.append(c)
 
     except Exception, e:
@@ -158,12 +168,17 @@ def _channels ():
   for c in regional:
     t = find_regional(c, pc, chns, regions)
     if t: 
-      c.uri                  = t.uri
-      c.extra['stream_id']   = t.extra['stream_id']
-      c.extra['stream_name'] = t.extra['stream_name']
+      c.uri             = t.uri
+      c.extra['stream'] = t.extra['stream']
       chns.insert(0, c)
 
-  return chns
+  # Filter duplicates
+  ret = []
+  for c in chns:
+    if c not in ret:
+      ret.append(c)
+
+  return ret
 
 # ###########################################################################
 # API
@@ -187,7 +202,7 @@ def channels ( filt = None ):
     ret = set()
     for c in CHANNELS:
       if c in filt: ret.add(c)
-      
+
   # Done
   return ret
 

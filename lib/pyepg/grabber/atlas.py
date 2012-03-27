@@ -367,63 +367,59 @@ def process_episode ( data ):
   return e
 
 # Process schedule
-def process_schedule ( epg, sched ):
-  chn = None
-
-  # Get channel
-  if 'channel_uri' in sched:
-    chn = get_channel(sched['channel_uri'], sched)
+def process_schedule ( epg, chn, sched ):
 
   # Process items
-  p = None
-  if chn and 'items' in sched:
-    for i in sched['items']:
+  for i in sched:
       
-      # Get episode
-      e = get_episode(i['uri'], i)
-      if not e: continue
+    # Get episode
+    e = get_episode(i['uri'], i)
+    if not e: continue
 
-      # Create schedule
-      s = Broadcast()
-      s.channel = chn
-      s.episode = e
-      bc = i['broadcasts'][0]
+    # Create schedule
+    s = Broadcast()
+    s.channel = chn
+    s.episode = e
+    bc = i['broadcasts'][0]
 
-      # Timing
-      s.start = atlas_p_time(bc['transmission_time'])
-      s.stop  = atlas_p_time(bc['transmission_end_time'])
+    # Timing
+    offset = datetime.timedelta()
+    if 'offset' in chn.extra:
+      offset = datetime.timedelta(minutes=int(chn.extra['offset']))
+    s.start = offset + atlas_p_time(bc['transmission_time'])
+    s.stop  = offset + atlas_p_time(bc['transmission_end_time'])
 
-      # Zero-length (followed by entry)
-      if s.start == s.stop:
-        if p: p.followedby = e
-        continue
+    # Zero-length (followed by entry)
+    if s.start == s.stop:
+      if p: p.followedby = e
+      continue
         
-      # Metadata
-      if 'high_definition' in bc:
-        s.hd         = chn.hd and bc['high_definition']
-      if 'widescreen' in bc:
-        s.widescreen = bc['widescreen']
-      if 'premiere' in bc:
-        s.premiere   = bc['premiere']
-      if 'new_series' in bc:
-        s.new        = bc['new_series']
-      if 'repeat' in bc:
-        s.repeat     = bc['repeat']
-      if 'signed' in bc:
-        s.signed     = bc['signed']
-      if 'subtitled' in bc:
-        s.subtitled  = bc['subtitled']
-      if 'audio_described' in bc:
-        s.audio_desc = bc['audio_described']
+    # Metadata
+    if 'high_definition' in bc:
+      s.hd         = chn.hd and bc['high_definition']
+    if 'widescreen' in bc:
+      s.widescreen = bc['widescreen']
+    if 'premiere' in bc:
+      s.premiere   = bc['premiere']
+    if 'new_series' in bc:
+      s.new        = bc['new_series']
+    if 'repeat' in bc:
+      s.repeat     = bc['repeat']
+    if 'signed' in bc:
+      s.signed     = bc['signed']
+    if 'subtitled' in bc:
+      s.subtitled  = bc['subtitled']
+    if 'audio_described' in bc:
+      s.audio_desc = bc['audio_described']
 
-      # Special fields (Note: not valid outside of UK?)
-      if s.widescreen or s.hd: s.aspect = '16:9'
-      if s.hd: s.lines = 1080
-      else:    s.lines = 576
+    # Special fields (Note: not valid outside of UK?)
+    if s.widescreen or s.hd: s.aspect = '16:9'
+    if s.hd: s.lines = 1080
+    else:    s.lines = 576
 
-      # Add
-      epg.add_broadcast(s)
-      p = s
+    # Add
+    epg.add_broadcast(s)
+    p = s
 
 #
 # Overlay two publisher entries
@@ -469,16 +465,9 @@ def publisher_overlay ( a, b, pubs ):
 # Process publisher overlap
 #
 def process_publisher_overlay ( sched, pubs ):
-  ret = { 'items' : [] }
-
-  # Non schedule info
-  for k in sched:
-    if k != 'items':
-      ret[k] = sched[k]
-
-  # Items
-  s = sched['items']
-  g = []
+  ret = []
+  s   = sched
+  g   = []
   for i in range(len(s)):
     if i in g: continue
     g.append(i)
@@ -492,7 +481,7 @@ def process_publisher_overlay ( sched, pubs ):
         g.append(j)
     for k in t:
       a = publisher_overlay(a, k, pubs)
-    ret['items'].append(a)
+    ret.append(a)
   return ret
 
 # Get title mappings
@@ -507,7 +496,7 @@ def get_title_map ():
   return ret
 
 # Fetch channel metadata
-def load_channels ():
+def _load_channels ():
   ret = []
   log.info('get atlas channel list')
 
@@ -557,6 +546,25 @@ def load_channels ():
   log.info('  channel list grabbed')
   return ret
 
+# Load channels
+def load_channels ():
+  ret = set()
+  log.info('get atlas channel list')
+
+  # Process
+  data = cache.get_file('atlas/channels.csv')
+  if data:
+    for l in data.splitlines():
+      p = map(lambda x: x.strip(), l.split(','))
+      if len(p) < 3: continue
+      c = Channel()
+      c.uri       = p[0]
+      c.shortid   = p[1]
+      c.publisher = [ p[3] ]
+      ret.add(c)
+  return ret
+
+
 # Filter the channels
 def filter_channels ( channels ):
   chns       = []
@@ -564,14 +572,32 @@ def filter_channels ( channels ):
   for t in channels:
     ok = False
     for c in atlas_chns:
-      if c.title == t.uri or c.title == t.title:
-        c.title     = t.title
-        c.extra     = t.extra
-        c.number    = t.number
-        chns.append(c)
+      if c.uri == t.uri:
+        t.shortid   = c.shortid
+        t.publisher = c.publisher
+        chns.append(t)
         ok = True
         break
 
+    # Catch missing +1 as best we can
+    if not ok:
+      e = '(\+\d+)$'
+      r = re.search(e, t.uri)
+      if r:
+        ts  = int(r.group(1))
+        uri = t.uri.replace(r.group(1), '')
+        for c in atlas_chns:
+          if c.uri == uri:
+            t.shortid         = c.shortid
+            t.publisher       = c.publisher
+            t.extra['offset'] = ts * 60
+            t.extra['parent'] = uri
+            chns.append(t)
+            ok = True
+            break
+
+    if not ok:
+      log.warn('unable to find EPG info for %s' % t.uri)
   return chns
 
 # Group channels by primary publisher
@@ -591,11 +617,11 @@ def group_channels_by_pub ( chns ):
 
 # Grab specified data
 def grab ( epg, channels, start, stop ):
-  # TODO: need to split by publishers I think
 
   # Config
   key     = conf.get('atlas_apikey', None)
-  pubs    = conf.get('atlas_publishers', [ 'bbc.co.uk', 'itv.com' 'tvblob.com', 'channel4.com', 'pressassociation.com' ])
+  p_pubs  = conf.get('atlas_primary_publishers', [ 'bbc.co.uk', 'itv.com' 'tvblob.com', 'channel4.com' ])
+  s_pubs  = conf.get('atlas_secondary_publishers', [ 'pressassociation.com' ])
   anno    = [ 'broadcasts', 'extended_description', 'series_summary',\
               'brand_summary', 'people' ]
   csize   = conf.get('atlas_channel_chunk', len(channels))
@@ -607,9 +633,6 @@ def grab ( epg, channels, start, stop ):
   chns     = sorted(channels, cmp=lambda a,b: cmp(a.number,b.number))
   log.info('atlas - epg grab %d channels for %d days' % (len(chns), days))
 
-  # Group by publisher
-  channels = group_channels_by_pub(channels)
-  
   # Time
   tm_from = time.mktime(start.timetuple())
   tm_to   = time.mktime(stop.timetuple())
@@ -626,41 +649,34 @@ def grab ( epg, channels, start, stop ):
           time.strftime('%Y-%m-%d %H:%M', time.localtime(tt)))
     log.info('atlas - period %s to %s' % a)
 
-    # By publisher
-    # TODO: this will all need to change when proper overlaying is provided by atlas
-    for cp in channels:
-      log.info('atlas - publisher %s' % cp)
-      sched = {}
-      pubs  = [ 'pressassociation.com' ] # configure this?
-      if cp: pubs.insert(0, cp)
+    # Each channel
+    for c in chns:
+      log.info('atlas -  channel %s' % c.title)
+      sched = []
+
+      # For each publisher
+      pubs = set(c.publisher)
+      pubs.intersection_update(p_pubs)
+      pubs.update(s_pubs)
       for p in pubs:
+        log.info('atlas -    publisher %s' % p)
+        u = url + '&from=%d&to=%d' % (tm_from, tt)
+        u = u + '&publisher=' + p
+        u = u + '&channel_id=' + c.shortid
 
-        # For each channel chunk
-        for chns in util.chunk(channels[cp], csize):
-          u = url + '&from=%d&to=%d' % (tm_from, tt)
-          u = u + '&publisher=' + p
-          u = u + '&channel_id=' + ','.join(map(lambda x: x.shortid,chns))
-          for c in chns: log.info('atlas - channel %s' % c)
+        # Fetch data
+        data  = atlas_fetch(u)
 
-          # Fetch data
-          data  = atlas_fetch(u)
-
-          # Processs
-          log.info('atlas - process data')
-          if 'schedule' in data:
-            for c in data['schedule']:
-              if 'channel_uri' in c:
-                curi = c['channel_uri']
-                if curi not in sched:
-                  sched[curi] = c
-                elif 'items' in sched[curi] and 'items' in c:
-                  sched[curi]['items'].extend(c['items'])
+        # Processs
+        log.info('atlas - process data')
+        if 'schedule' in data:
+          for s in data['schedule']:
+            if 'items' in s:
+              sched.extend(s['items'])
 
       # Process overlays
-      for c in sched:
-        c = sched[c]
-        s = process_publisher_overlay(c, pubs)
-        process_schedule(epg, s)
+      sched = process_publisher_overlay(sched, pubs)
+      process_schedule(epg, c, sched)
 
     # Update
     tm_from = tm_from + tsize
@@ -689,11 +705,10 @@ def configure ():
   if apikey: conf.set('atlas_apikey', apikey)
 
   # Publishers to be used
-  # TODO: this needs thought and wants to be configurable?
-  # TODO: would be good if this could be auto determined from the API key
-  #conf.set('atlas_broadcasters',  conf.get('atlas_broadcasters', bcast))
-  bcast = [ 'bbc.co.uk', 'five.tv', 'channel4.com', 'itv.com', 'tvblob.com', 'pressassociation.com' ]
-  conf.set('atlas_publishers',    conf.get('atlas_publishers', bcast))
+  p_pubs = [ 'bbc.co.uk', 'five.tv', 'channel4.com', 'itv.com', 'tvblob.com' ]
+  s_pubs = [ 'pressassociation.com' ]
+  conf.set('atlas_primary_publishers',   conf.get('atlas_primary_publishers', p_pubs))
+  conf.set('atlas_secondary_publishers', conf.get('atlas_secondary_publishers', s_pubs))
   
   # Hidden settings
   conf.set('atlas_channel_chunk', conf.get('atlas_channel_chunk', 32))
