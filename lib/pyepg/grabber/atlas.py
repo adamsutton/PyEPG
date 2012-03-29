@@ -26,6 +26,7 @@
 # System
 import os, sys, urllib2, json, re
 import pprint, datetime, time
+from threading import Thread
 
 # PyEPG
 import pyepg.log   as log
@@ -53,7 +54,7 @@ def atlas_fetch ( url ):
   except urllib2.HTTPError:
     pass
   return jdata
-  
+
 # Get content data
 def atlas_fetch_content ( uri, key = None ):
   url = 'content.json?uri=%s' % uri
@@ -82,7 +83,7 @@ def get_content ( uri, type ):
     if 'contents' in data:
       for c in data['contents']:
         if 'type' in c and c['type'] == type:
-          ret = c 
+          ret = c
           break
   except Exception, e:
     log.error(str(e))
@@ -118,7 +119,7 @@ def get_series ( uri, data = None ):
 
   # Check cache
   ret = cache.get_series(uri)
-  
+
   # Get remote
   if ret is None:
     try:
@@ -133,19 +134,19 @@ def get_series ( uri, data = None ):
 
   return ret
 
-# 
+#
 # Get episode
 #
 def get_episode ( uri, data ):
   log.debug('get_episode(%s)' % uri, 2)
-  
+
   # Check cache
   ret = cache.get_episode(uri)
 
   # Process
   if ret is None:
     ret = process_episode(data)
-  
+
     # Cache
     if ret: cache.put_episode(uri, ret)
 
@@ -161,9 +162,9 @@ def get_channel ( uri, data ):
   ret = cache.get_channel(uri)
 
   # Process
-  if ret is None: 
+  if ret is None:
     ret = process_channel(data)
-    
+
     # Cache
     if ret: cache.put_channel(uri, ret)
 
@@ -298,7 +299,7 @@ def process_people ( data ):
              p.character in [ 'Contributor', 'Performer' ]:
           p.role      = 'guest'
           p.character = None
-      
+
       # Some atlas mappings (simplifications)
       if p.role in [ 'commentator', 'reporter' ]:
         p.role = 'presenter'
@@ -311,7 +312,7 @@ def process_people ( data ):
       else:
         ret[p.role].append(p)
   return ret
- 
+
 # Process episode
 def process_episode ( data ):
   e = Episode()
@@ -356,7 +357,7 @@ def process_episode ( data ):
     r = re.search('^Episode (\d+)$', e.title)
     if r:
       e.title = None
-      if e.number is None: 
+      if e.number is None:
         e.number = util.str2num(r.group(1))
     elif re.search('^\d+/\d+/\d+$', e.title):
       e.title = None
@@ -368,10 +369,11 @@ def process_episode ( data ):
 
 # Process schedule
 def process_schedule ( epg, chn, sched ):
+  p = None
 
   # Process items
   for i in sched:
-      
+
     # Get episode
     e = get_episode(i['uri'], i)
     if not e: continue
@@ -393,7 +395,7 @@ def process_schedule ( epg, chn, sched ):
     if s.start == s.stop:
       if p: p.followedby = e
       continue
-        
+
     # Metadata
     if 'high_definition' in bc:
       s.hd         = chn.hd and bc['high_definition']
@@ -434,7 +436,7 @@ def publisher_overlay ( a, b, pubs ):
     ia = pubs.index(pa)
   except: pass
   try:
-    ib = pubs.index(pb)  
+    ib = pubs.index(pb)
   except: pass
   def _overlay ( a, b ):
     if type(b) == dict:
@@ -461,7 +463,7 @@ def publisher_overlay ( a, b, pubs ):
     log.debug('prefer publisher b', 5)
     ret = _overlay(a, b)
   return ret
- 
+
 # Process publisher overlap
 #
 def process_publisher_overlay ( sched, pubs ):
@@ -502,12 +504,12 @@ def _load_channels ():
 
   # Check cache (only update monthly)
   data = cache.get_file('atlas/channels.json', 31*86400)
-  
+
   # Fetch
   if not data:
     log.info('fetcing remote data')
     data = []
-    
+
     # URL setup
     limit    = 50
     offset   = 0
@@ -542,7 +544,7 @@ def _load_channels ():
             log.debug('atlas: title %s -> %s' % (c.title, title_map[c.title]), 2)
             c.title = title_map[c.title]
           ret.append(c)
-  
+
   log.info('  channel list grabbed')
   return ret
 
@@ -579,23 +581,6 @@ def filter_channels ( channels ):
         ok = True
         break
 
-    # Catch missing +1 as best we can
-    if not ok:
-      e = '(\+\d+)$'
-      r = re.search(e, t.uri)
-      if r:
-        ts  = int(r.group(1))
-        uri = t.uri.replace(r.group(1), '')
-        for c in atlas_chns:
-          if c.uri == uri:
-            t.shortid         = c.shortid
-            t.publisher       = c.publisher
-            t.extra['offset'] = ts * 60
-            t.extra['parent'] = uri
-            chns.append(t)
-            ok = True
-            break
-
     if not ok:
       log.warn('unable to find EPG info for %s' % t.uri)
   return chns
@@ -612,74 +597,130 @@ def group_channels_by_pub ( chns ):
   return ret
 
 # ###########################################################################
+# Grab thread
+# ###########################################################################
+
+class GrabThread ( Thread ):
+
+  def __init__ ( self, idx, epg, channels, start, stop ):
+    Thread.__init__(self)
+    self._idx   = idx
+    self._epg   = epg
+    self._chns  = channels
+    self._start = start
+    self._stop  = stop
+
+  def run ( self ):
+
+    # Config
+    key    = conf.get('atlas_apikey', None)
+    p_pubs = conf.get('atlas_primary_publishers',\
+                      [ 'bbc.co.uk', 'itv.com' 'tvblob.com',\
+                        'channel4.com' ])
+    s_pubs = conf.get('atlas_secondary_publishers',\
+                      [ 'pressassociation.com' ])
+    anno   = [ 'broadcasts', 'extended_description', 'series_summary',\
+               'brand_summary', 'people' ]
+    csize  = conf.get('atlas_channel_chunk', len(self._chns))
+    tsize  = conf.get('atlas_time_chunk',    self._stop - self._start)
+
+    # Time
+    tm_from = time.mktime(self._start.timetuple())
+    tm_to   = time.mktime(self._stop.timetuple())
+
+    # URL base
+    url = 'schedule.json?'
+    url = url + 'annotations=' + ','.join(anno)
+    if key:  url = url + '&apiKey=' + key
+
+    # Channel at a time
+    for c in self._chns:
+      log.info('atlas - thread %3d fetch   %s' % (self._idx, c.title))
+      sched = []
+
+      # By time
+      tf = tm_from
+      while tf < tm_to:
+        tt = min(tf + tsize, tm_to)
+        a  = (time.strftime('%Y-%m-%d %H:%M', time.localtime(tf)),\
+              time.strftime('%Y-%m-%d %H:%M', time.localtime(tt)))
+        #log.info('atlas -     period %s to %s' % a)
+
+        # For each publisher
+        pubs = set(c.publisher)
+        pubs.intersection_update(p_pubs)
+        pubs.update(s_pubs)
+        for p in pubs:
+          #log.info('atlas -       publisher %s' % p)
+          u = url + '&from=%d&to=%d' % (tf, tt)
+          u = u + '&publisher=' + p
+          u = u + '&channel_id=' + c.shortid
+
+          # Fetch data
+          data  = atlas_fetch(u)
+
+          # Processs
+          if 'schedule' in data:
+            for s in data['schedule']:
+              if 'items' in s:
+                sched.extend(s['items'])
+
+        # Update
+        tf = tf + tsize
+
+      # Process overlays
+      log.info('atlas - thread %3d process %s' % (self._idx, c.title))
+      sched = process_publisher_overlay(sched, pubs)
+
+      # Process into EPG
+      process_schedule(self._epg, c, sched)
+
+# ###########################################################################
 # Grabber API
 # ###########################################################################
 
 # Grab specified data
 def grab ( epg, channels, start, stop ):
 
-  # Config
-  key     = conf.get('atlas_apikey', None)
-  p_pubs  = conf.get('atlas_primary_publishers', [ 'bbc.co.uk', 'itv.com' 'tvblob.com', 'channel4.com' ])
-  s_pubs  = conf.get('atlas_secondary_publishers', [ 'pressassociation.com' ])
-  anno    = [ 'broadcasts', 'extended_description', 'series_summary',\
-              'brand_summary', 'people' ]
-  csize   = conf.get('atlas_channel_chunk', len(channels))
-  tsize   = conf.get('atlas_time_chunk',    stop-start)
-
   # Filter the channel list (only include those we have listing for)
   channels = filter_channels(channels)
   days     = (stop - start).total_seconds() / 86400
-  chns     = sorted(channels, cmp=lambda a,b: cmp(a.number,b.number))
-  log.info('atlas - epg grab %d channels for %d days' % (len(chns), days))
+  channels = sorted(channels, cmp=lambda a,b: cmp(a.number,b.number))
+  log.info('atlas - epg grab %d channels for %d days' % (len(channels), days))
 
-  # Time
-  tm_from = time.mktime(start.timetuple())
-  tm_to   = time.mktime(stop.timetuple())
+  # Config
+  thread_count = conf.get('atlas_thread_limit',  32)
+  if thread_count <= 0:
+    thread_count = len(channels)
+  else:
+    thread_count = min(thread_count, len(channels))
 
-  # URL base
-  url = 'schedule.json?'
-  url = url + 'annotations=' + ','.join(anno)
-  if key:  url = url + '&apiKey=' + key
+  # Split channels (for thread)
+  threads = []
+  for chns in util.chunk2(channels, thread_count):
 
-  # By time
-  while tm_from < tm_to:
-    tt = min(tm_from + tsize, tm_to)
-    a  = (time.strftime('%Y-%m-%d %H:%M', time.localtime(tm_from)),\
-          time.strftime('%Y-%m-%d %H:%M', time.localtime(tt)))
-    log.info('atlas - period %s to %s' % a)
+    # Create thread
+    t = GrabThread(len(threads), epg, chns, start, stop)
+    t.setDaemon(True)
+    threads.append(t)
 
-    # Each channel
-    for c in chns:
-      log.info('atlas -  channel %s' % c.title)
-      sched = []
+    log.info('atlas - thread %3d' % len(threads))
+    for c in chns: log.info('atlas -   %s' % c.title)
 
-      # For each publisher
-      pubs = set(c.publisher)
-      pubs.intersection_update(p_pubs)
-      pubs.update(s_pubs)
-      for p in pubs:
-        log.info('atlas -    publisher %s' % p)
-        u = url + '&from=%d&to=%d' % (tm_from, tt)
-        u = u + '&publisher=' + p
-        u = u + '&channel_id=' + c.shortid
+  # Start threads
+  for t in threads: t.start()
 
-        # Fetch data
-        data  = atlas_fetch(u)
-
-        # Processs
-        log.info('atlas - process data')
-        if 'schedule' in data:
-          for s in data['schedule']:
-            if 'items' in s:
-              sched.extend(s['items'])
-
-      # Process overlays
-      sched = process_publisher_overlay(sched, pubs)
-      process_schedule(epg, c, sched)
-
-    # Update
-    tm_from = tm_from + tsize
+  # Wait for all threads to complete
+  while threads:
+    wait = True
+    for i in range(len(threads)):
+      if not threads[i].isAlive():
+        log.info('atlas - thread %3d complete (%3d/%3d remain)'\
+                 % (threads[i]._idx, len(threads)-1, thread_count))
+        threads.pop(i)
+        wait = False
+        break
+    if wait: time.sleep(1.0)
 
 # Get a list of the support packages
 def packages ():
@@ -709,7 +750,7 @@ def configure ():
   s_pubs = [ 'pressassociation.com' ]
   conf.set('atlas_primary_publishers',   conf.get('atlas_primary_publishers', p_pubs))
   conf.set('atlas_secondary_publishers', conf.get('atlas_secondary_publishers', s_pubs))
-  
+
   # Hidden settings
   conf.set('atlas_channel_chunk', conf.get('atlas_channel_chunk', 32))
   conf.set('atlas_time_chunk',    conf.get('atlas_time_chunk', 86400))
