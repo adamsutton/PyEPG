@@ -1,0 +1,84 @@
+#!/usr/bin/env python
+#
+# tv_grab_uk_atlas - XMLTV compatible frontend for pyepg
+#
+# Copyright (C) 2012 Adam Sutton <dev@adamsutton.me.uk>
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, version 3 of the License.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+"""
+"""
+
+# ###########################################################################
+# Imports
+# ###########################################################################
+
+# System
+import sys, os
+from optparse import OptionParser
+
+# PyEPG
+lib_path = os.path.join(os.path.dirname(sys.argv[0]), '../lib')
+sys.path.append(os.path.abspath(lib_path))
+import pyepg.main as pyepg
+
+# ###########################################################################
+# Run
+# ###########################################################################
+
+if __name__ == '__main__':
+
+  # XMLTV capabilities
+  xmltv_caps = [ 'baseline', 'config', 'exmltv', 'prebuilt' ]
+  xmltv_desc = 'XMLTV compatible wrapper for PyEPG (static)'
+
+  # Options
+  optp = OptionParser()
+  optp.add_option('-v', '--version', action='store_true',
+                  help='Display version information')
+  optp.add_option('--capabilities', action='store_true',
+                  help='List XMLTV capabilities')
+  optp.add_option('--description', action='store_true',
+                  help='Show XMLTV description')
+  optp.add_option('--exmltv', action='store_true',
+                  help='Enable extended xmltv output')
+  optp.add_option('--configure', action='store_true',
+                  help='Configure PyEPG')
+  (opts,args) = optp.parse_args()
+
+  # Capabilities
+  if opts.capabilities:
+    for c in xmltv_caps: print c
+    sys.exit(0)
+
+  # Description
+  if opts.description:
+    print xmltv_desc
+    sys.exit(0)
+
+  # Version
+  if opts.version:
+    print '%s: v0.0.1' % os.path.basename(sys.argv[0]).replace('.py', '')
+    sys.exit(0) 
+
+  # Setup
+  opts.formatter = 'exmltv'
+  if opts.exmltv: opts.formatter = 'exmltv'
+
+  # Configure
+  if opts.configure:
+    pyepg.configure(opts, args)
+
+  # Execute
+  else:
+    for l in open('epg.xml'): print l,
