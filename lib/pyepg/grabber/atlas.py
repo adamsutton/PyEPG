@@ -42,17 +42,23 @@ import pyepg.model.genre as genre
 
 # Fetch raw data from atlas
 def atlas_fetch ( url ):
+  jdata = {}
   url   = 'http://atlas.metabroadcast.com/3.0/' + url
   log.debug('fetch %s' % url, 0)
-  jdata = {}
-  try:
-    up   = urllib2.urlopen(url)
-    data = up.read()
-    log.debug('decode json', 1)
-    jdata = json.loads(data)
-    log.debug(jdata, 1, pprint=True)
-  except urllib2.HTTPError:
-    pass
+  
+  # Can fail occasionally - give more than 1 attempt
+  for i in range(5):
+    try:
+      up    = urllib2.urlopen(url)
+      data  = up.read()
+      log.debug('decode json', 1)
+      jdata = json.loads(data)
+      log.debug(jdata, 1, pprint=True)
+      break
+    except Exception, e:
+      log.warn('failed to fetch %s [e=%s]' % (url, e))
+      pass
+    time.sleep(i+1.0) # increase delay each time
   return jdata
 
 # Get content data
@@ -385,11 +391,8 @@ def process_schedule ( epg, chn, sched ):
     bc = i['broadcasts'][0]
 
     # Timing
-    offset = datetime.timedelta()
-    if 'offset' in chn.extra:
-      offset = datetime.timedelta(minutes=int(chn.extra['offset']))
-    s.start = offset + atlas_p_time(bc['transmission_time'])
-    s.stop  = offset + atlas_p_time(bc['transmission_end_time'])
+    s.start = atlas_p_time(bc['transmission_time'])
+    s.stop  = atlas_p_time(bc['transmission_end_time'])
 
     # Zero-length (followed by entry)
     if s.start == s.stop:
