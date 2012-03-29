@@ -165,6 +165,42 @@ def get_channels ( package = None ):
 
   return channels
 
+#
+# Fix missing plusN channels
+#
+def fix_plus_n ( epg, channels ):
+  import re
+  from copy     import copy
+  from datetime import timedelta
+
+  epg_chns = epg.get_channels()
+  exp      = re.compile('(\+\d+)$')
+  fix      = []
+
+  # Find potential candidates for a fix
+  for c in channels:
+    if c not in epg_chns:
+      r = exp.search(c.uri)
+      if r:
+        os  = int(r.group(1))
+        uri = c.uri.replace(r.group(1), '')
+        for c1 in channels:
+          if uri == c1.uri:
+            fix.append((c, os, c1))
+            break
+
+  # Fix the channels
+  for (plus, offset, base) in fix:
+    sched = epg.get_schedule(base)
+    if not sched: continue
+    log.info('pyepg - fix missing plusN channel %s' % plus.title)
+    for e in sched:
+      n         = copy(e)
+      n.channel = plus
+      n.start   = n.start + timedelta(minutes=offset)
+      n.stop    = n.stop  + timedelta(minutes=offset)
+      epg.add_broadcast(n)
+
 # ###########################################################################
 # Run
 # ###########################################################################
@@ -191,6 +227,11 @@ def main ( opts, args, conf_path = None ):
   # Get EPG
   log.info('grabbing EPG for %d days' % days)
   grabber.grab(epg, channels, today, today + datetime.timedelta(days=days))
+
+  # Attempt to deal with missing +N channels
+  fix_plus_n(epg, channels)
+
+  # Finish the EPG (will tidy it up)
   epg.finish()
 
   # Output
