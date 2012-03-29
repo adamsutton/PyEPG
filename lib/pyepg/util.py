@@ -136,6 +136,21 @@ def chunk ( items, num ):
   if t: ret.append(t)
   return ret
 
+#
+# Chunk into an equal number of sub arrays
+#
+def chunk2 ( items, num ):
+  from math import ceil
+  num = min(len(items), num)
+  ret = []
+  per = int(ceil(len(items) / float(num)))
+  for i in range(num):
+    t = []
+    for j in range(per):
+      if items: t.append(items.pop())
+    ret.append(t)
+  return ret
+
 # ###########################################################################
 # Testing
 # ###########################################################################
