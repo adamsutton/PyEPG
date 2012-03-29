@@ -60,12 +60,10 @@ def is_running ():
 #
 def find_channel ( chns, streamid, streamname = None ):
   for c in chns:
-    if 'stream_id' in c.extra and streamid:
-      if c.extra['stream_id'] == streamid:
-        return c
-    elif 'stream_name' in c.extra and streamname:
-      if c.extra['stream_name'] == streamname:
-        return c
+    if not 'stream' in c.extra: continue
+    for s in c.extra['stream']:
+      if s[0] == streamid  : return c
+      if s[1] == streamname: return c
   return None
 
 # ###########################################################################
@@ -152,7 +150,7 @@ if __name__ == '__main__':
   for t in tags: tags[t] = tags[t][0]
 
   # Process all transport streams
-  mapped = 0
+  mapped = []
   for m in os.listdir(tp_path):
     mp = os.path.join(tp_path, m)
     for s in os.listdir(mp):
@@ -166,34 +164,39 @@ if __name__ == '__main__':
         if 'servicename' in stream: sname = stream['servicename']
         log.info('process stream %d [%s]' % (sid, sname))
         chn    = find_channel(channels, sid, sname)
+
+        # Found a channel
         if chn:
-          log.info('  map to %s' % str(chn))
-          mapped = mapped + 1
 
-          # Build channel entry
-          data = { 'name' : chn.title, 'channel_number' : chn.number, 'tags': [] }
-          # TODO: DVR pre/post period
+          # Create new mapping
+          if chn.uri not in mapped:
+            mapped.append(chn.uri)
 
-          # Icon
-          if chn.image:
-            data['icon'] = chn.image
+            # Build channel entry
+            data = { 'name' : chn.title, 'channel_number' : chn.number, 'tags': [] }
+            # TODO: DVR pre/post period
 
-          # Radio
-          if chn.radio == True:
-            data['tags'].append(tags['radio'])
+            # Icon
+            if chn.image:
+              data['icon'] = chn.image
 
-          # TV
-          elif chn.radio == False:
-            data['tags'].append(tags['tv'])
-            if chn.hd: data['tags'].append(tags['hdtv'])
-            else:      data['tags'].append(tags['sdtv'])
+            # Radio
+            if chn.radio == True:
+              data['tags'].append(tags['radio'])
 
-          # Output
-          path = os.path.join(ch_path, str(mapped))
-          fp = open(path, 'w').write(json.dumps(data))
+            # TV
+            elif chn.radio == False:
+              data['tags'].append(tags['tv'])
+              if chn.hd: data['tags'].append(tags['hdtv'])
+              else:      data['tags'].append(tags['sdtv'])
+
+            # Output
+            path = os.path.join(ch_path, str(len(mapped)))
+            fp = open(path, 'w').write(json.dumps(data))
 
           # Update stream
           stream['channelname'] = chn.title
+          stream['dvb_eit_enable'] = 0
           open(sp, 'w').write(json.dumps(stream))
 
         # Remove any channel link
