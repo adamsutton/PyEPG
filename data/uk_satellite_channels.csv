@@ -53,7 +53,7 @@ SID,IDENT,PYEPG,NAME,FSAT NUM,SKY NUM,HD,REGIONAL,RADIO,ICON
 6751,BBC R1,radio_bbc_radio_1,BBC Radio 1,700,1101,0,0,1,http://www.lyngsat-logo.com/logo/radio/bb/bbc_radio1.jpg
 6752,BBC R2,radio_bbc_radio_2,BBC Radio 2,702,1102,0,0,1,http://www.lyngsat-logo.com/logo/radio/bb/bbc_radio2.jpg
 6753,BBC R3,radio_bbc_radio_3,BBC Radio 3,703,1103,0,0,1,http://www.lyngsat-logo.com/logo/radio/bb/bbc_radio3.jpg
-6754,BBC R4 FM,radio_bbc_radio_4_fm,BBC Radio 4 FM,704,1104,0,0,1,http://www.lyngsat-logo.com/logo/radio/bb/bbc_radio4.jpg
+6754,BBC R4 FM,radio_bbc_radio_4,BBC Radio 4,704,1104,0,0,1,http://www.lyngsat-logo.com/logo/radio/bb/bbc_radio4.jpg
 6755,BBC R4 LW,radio_bbc_radio_4_lw,BBC Radio 4 LW,710,1143,0,0,1,http://www.lyngsat-logo.com/logo/radio/bb/bbc_radio4.jpg
 6757,BBC R Scot.,radio_bbc_radio_scotland,BBC Radio Scotland,712,1116,0,0,1,http://www.lyngsat-logo.com/logo/radio/bb/bbc_radio_scotland.jpg
 6758,BBC R Wales,radio_bbc_radio_wales,BBC Radio Wales,714,1117,0,0,1,http://www.lyngsat-logo.com/logo/radio/bb/bbc_radio_wales.jpg
@@ -204,7 +204,7 @@ SID,IDENT,PYEPG,NAME,FSAT NUM,SKY NUM,HD,REGIONAL,RADIO,ICON
 50610,Sikh Channel,tv_sikh_channel,Sikh Channel,0,840,0,0,0,http://www.lyngsat-logo.com/logo/tv/ss/sikh_channel.jpg
 50615,Elite TV 4,tv_elite_tv_4,Elite TV 4,0,932,0,0,0,http://www.lyngsat-logo.com/icon/tv/ee/elite_tv_932.gif
 50630,Channel AKA,tv_channel_aka,Channel AKA,0,370,0,0,0,http://www.lyngsat-logo.com/logo/tv/cc/channel_aka.jpg
-50847,Russia Today,tv_rt,RT,206,512,0,0,0,http://www.lyngsat-logo.com/logo/tv/rr/radio_tv_crne_gore.jpg
+50847,Russia Today,tv_rt,Russia Today,206,512,0,0,0,http://www.lyngsat-logo.com/logo/tv/rr/radio_tv_crne_gore.jpg
 50856,Kiss,radio_kiss,Kiss,0,1178,0,0,1,http://www.lyngsat-logo.com/logo/radio/kk/kiss100_fm_uk.jpg
 50860,Magic,radio_magic_fm,Magic 105.4 FM,0,1180,0,0,1,http://www.lyngsat-logo.com/logo/radio/mm/magic_fm.jpg
 50866,Abu Dhabi TV,tv_abu_dhabi_tv,Abu Dhabi TV,0,796,0,0,0,
@@ -271,14 +271,14 @@ SID,IDENT,PYEPG,NAME,FSAT NUM,SKY NUM,HD,REGIONAL,RADIO,ICON
 52510,price drop,tv_price_drop,Price Drop,801,645,0,0,0,http://www.lyngsat-logo.com/logo/tv/pp/price_drop_tv.jpg
 52535,ARY QTV,tv_ary_qtv,ARY Qtv,0,804,0,0,0,http://www.lyngsat-logo.com/logo/tv/aa/ary_qtv.jpg
 52545,Screenshop2,tv_screenshop_2,Screenshop 2,0,680,0,0,0,
-52546,speed auction,tv_speed_auction,Speed Auction,0,665,0,0,0,http://www.lyngsat-logo.com/logo/tv/ss/speed_auction_tv.jpg
+52546,speed auction,tv_speed_auction,Speed Auction,814,665,0,0,0,http://www.lyngsat-logo.com/logo/tv/ss/speed_auction_tv.jpg
 52550,Bloomberg,tv_bloomberg_tv,Bloomberg TV,208,502,0,0,0,http://www.lyngsat-logo.com/logo/tv/bb/bloomberg.jpg
 52570,FRANCE 24,tv_france_24,France 24,205,513,0,0,0,http://www.lyngsat-logo.com/logo/tv/ff/france24.jpg
 53109,movies4men,tv_movies4men,Movies4Men,304,323,0,0,0,http://www.lyngsat-logo.com/logo/tv/mm/movies_4_men.jpg
 53110,movies4men 2,tv_movies4men_2,Movies4Men 2,306,325,0,0,0,http://www.lyngsat-logo.com/logo/tv/mm/movies_4_men2.jpg
 53116,PTV Global,tv_ptv_global,PTV Global,0,810,0,0,0,http://www.lyngsat-logo.com/logo/tv/pp/ptv_global.jpg
 53118,jazeerachildren,tv_al_jazeera_childrens_channel,Al Jazeera Children's Channel,0,823,0,0,0,
-53120,Absolute CR,radio_absolute_classic_rock,Absolute Classic Rock,0,1201,0,0,1,http://www.lyngsat-logo.com/logo/radio/aa/absolute_radio_classic_rock.jpg
+53120,Absolute CR,radio_absolute_classic_rock,Absolute Classic Rock,725,1201,0,0,1,http://www.lyngsat-logo.com/logo/radio/aa/absolute_radio_classic_rock.jpg
 53121,Absolute,radio_absolute_radio,Absolute Radio,724,1107,0,0,1,http://www.lyngsat-logo.com/logo/radio/aa/absolute_radio_00s.jpg
 53122,Absolute80s,radio_absolute_80s,Absolute 80s,726,1200,0,0,1,http://www.lyngsat-logo.com/logo/radio/aa/absolute_radio_80s.jpg
 53123,Amrit Bani,radio_amrit_bani,Amrit Bani,0,1176,0,0,1,http://www.lyngsat-logo.com/logo/radio/aa/amrit_bani.jpg
@@ -397,7 +397,7 @@ SID,IDENT,PYEPG,NAME,FSAT NUM,SKY NUM,HD,REGIONAL,RADIO,ICON
 55226,Psychic Today,tv_psychic_today,Psychic Today,652,886,0,0,0,http://www.lyngsat-logo.com/logo/tv/pp/psychic_today.jpg
 55228,Ahlulbayt TV,tv_ahlulbayt_tv,Ahlulbayt TV,0,842,0,0,0,http://www.lyngsat-logo.com/logo/tv/aa/ahlulbayt.jpg
 55236,holiday+cruise,tv_holiday_and_cruise,Holiday+Cruise,0,284,0,0,0,http://www.lyngsat-logo.com/logo/tv/hh/holiday_cruise.jpg
-55242,Filth,tv_filth,Filth,0,0,0,0,0,
+55242,Filth,tv_filth,Filth,874,0,0,0,0,http://www.lyngsat-logo.com/logo/tv/rr/red_hot_tv_uk.jpg
 55246,Dirty Talk,tv_dirty_talk,Dirty Talk,0,921,0,0,0,
 55250,The Dept Store,tv_the_dept_store,The Dept Store,0,681,0,0,0,
 55270,propeller,tv_propeller_tv,Propeller TV,0,195,0,0,0,http://www.lyngsat-logo.com/logo/tv/pp/propeller.jpg
