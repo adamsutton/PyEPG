@@ -25,6 +25,7 @@
 
 # System
 import sys, time
+from threading import Lock
 
 # PyEPG
 import pyepg.conf as conf
@@ -36,6 +37,7 @@ import pyepg.conf as conf
 global LOG_INIT, LOG_DEBUG
 LOG_INIT  = 0
 LOG_DEBUG = None
+LOG_LOCK  = Lock()
 
 # ###########################################################################
 # Functions
@@ -49,16 +51,18 @@ def init ():
 
 # Output
 def out ( pre, msg, **dargs ):
+  global LOG_LOCK
   tm = '%0.2f' % (time.time() - LOG_INIT)
-  print >>sys.stderr, '%8s - %-6s:' % (tm, pre.lower()),
-  try:
-    if 'pprint' in dargs and dargs['pprint']:
-      import pprint
-      pprint.pprint(msg, sys.stderr)
-    else:
-      print >>sys.stderr, msg
-  except:
-    print >>sys.stderr, ''
+  with LOG_LOCK:
+    print >>sys.stderr, '%8s - %-6s:' % (tm, pre.lower()),
+    try:
+      if 'pprint' in dargs and dargs['pprint']:
+        import pprint
+        pprint.pprint(msg, sys.stderr)
+      else:
+        print >>sys.stderr, msg
+    except:
+      print >>sys.stderr, ''
 
 # Debug
 def debug ( msg, lvl=0, **dargs ):
