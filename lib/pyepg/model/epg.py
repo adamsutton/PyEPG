@@ -19,6 +19,9 @@
 """
 """
 
+# SYS libs
+from threading import Lock
+
 # PyEPG libs
 import pyepg.log as log
 
@@ -33,6 +36,7 @@ class EPG:
     self.series   = set()
     self.episodes = set()
     self.schedule = {}
+    self._lock    = Lock()
 
   def get_channels ( self ):
     return self.schedule.keys()
@@ -62,26 +66,27 @@ class EPG:
     return sc
 
   def add_broadcast ( self, entry ):
-    c = entry.channel
+    with self._lock:
+      c = entry.channel
 
-    # TODO: Hacks
-    if entry.episode.media not in [ 'audio', None ]:
-      c.radio = False
+      # TODO: Hacks
+      if entry.episode.media not in [ 'audio', None ]:
+        c.radio = False
 
-    # Setup schedule
-    if c not in self.schedule:
-      self.schedule[c] = []
+      # Setup schedule
+      if c not in self.schedule:
+        self.schedule[c] = []
 
-    # Add entry
-    self.schedule[c].append(entry)
+      # Add entry
+      self.schedule[c].append(entry)
 
-    # Extra internal lists
-    e = entry.episode
-    b = e.brand
-    s = e.series
-    if b: self.brands.add(b)
-    if s: self.series.add(s)
-    self.episodes.add(e)
+      # Extra internal lists
+      e = entry.episode
+      b = e.brand
+      s = e.series
+      if b: self.brands.add(b)
+      if s: self.series.add(s)
+      self.episodes.add(e)
 
   # This sorts the broadcasts and fixes any overlaps (where possible)
   def finish ( self ):
