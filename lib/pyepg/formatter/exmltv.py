@@ -35,11 +35,14 @@ XMLTV_ENCODING    = 'utf8'
 # ###########################################################################
 # Output routines
 # ###########################################################################
+import sys
 
 # Format string
 def xmltv_fmt ( s ):
   ret = s.replace('&', '&amp;')
-  ret = ret.encode(XMLTV_ENCODING)
+  try:
+    ret = ret.encode(XMLTV_ENCODING)
+  except Exception, e: pass
   return ret
 
 # Output channel
