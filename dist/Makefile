@@ -34,7 +34,7 @@ PKGNAME       := $(PROJECT)-$(VERSION)
 # Rules
 #
 
-default: al
+default: all
 
 # Build from scratch
 all: clean deb
