@@ -29,8 +29,9 @@ import string
 # Data
 # ###########################################################################
 
-CONF_PATH = None
-CONFIG    = {}
+CONF_READY = False
+CONF_PATH  = None
+CONFIG     = {}
 
 # ###########################################################################
 # Functions
@@ -38,42 +39,47 @@ CONFIG    = {}
 
 # Initialise
 def init ( path, override ):
-  global CONFIG, CONF_PATH
-  CONF_PATH = path
-  conf = []
+  global CONFIG, CONF_PATH, CONF_READY
+  try:
+    CONF_PATH = path
+    conf = []
 
-  # Load config file
-  for l in open(path):
-    i = l.find('#')
-    if i != -1:
-      l = l[:i]
-    l = l.strip()
-    if not l: continue
-    p = map(string.strip, l.split(':'))
-    if len(p) == 2: conf.append(p)
+    # Load config file
+    for l in open(path):
+      i = l.find('#')
+      if i != -1:
+        l = l[:i]
+      l = l.strip()
+      if not l: continue
+      p = map(string.strip, l.split(':'))
+      if len(p) == 2: conf.append(p)
 
-  # Add overrides
-  for k in override:
-    conf.append((k, override[k]))
+    # Add overrides
+    for k in override:
+      conf.append((k, override[k]))
 
-  # Process
-  for i in conf:
-    k = i[0]
-    v = i[1]
+    # Process
+    for i in conf:
+      k = i[0]
+      v = i[1]
 
-    # Try eval value
-    try:
-      v = eval(v)
-    except: pass
+      # Try eval value
+      try:
+        v = eval(v)
+      except: pass
 
-    # Special array
-    if k.endswith('[]'):
-      if k not in CONFIG: CONFIG[k] = [ v ]
-      else: CONFIG[k].append(v)
+      # Special array
+      if k.endswith('[]'):
+        if k not in CONFIG: CONFIG[k] = [ v ]
+        else: CONFIG[k].append(v)
 
-    # Normal
-    else:
-      CONFIG[k] = v
+      # Normal
+      else:
+        CONFIG[k] = v
+
+    # Done
+    CONF_READY = True
+  except: pass
 
 # Save configuration
 def save ( path = None ):
@@ -109,6 +115,11 @@ def get ( key, default = None ):
 def set ( key, value ):
   global CONFIG
   CONFIG[key] = value
+
+# Check configuration is ready
+def ready ():
+  global CONF_READY
+  return CONF_READY
 
 # ###########################################################################
 # Editor

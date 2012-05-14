@@ -116,11 +116,12 @@ def find_regional ( chn, pc, chns, regions, default = None ):
 
 # Get the raw channel list
 def _channels ():
+  url = 'https://raw.github.com/adamsutton/PyEPG/master/data/'
 
   # Fetch remote data
   log.info('fetch free to air channel info')
-  chn_data = cache.get_file('uk_satellite/channels.csv')
-  reg_data = cache.get_file('uk_satellite/regions.csv')
+  chn_data = cache.get_url(url + 'uk_satellite_channels.csv')
+  reg_data = cache.get_url(url + 'uk_satellite_regions.csv')
 
   # Channels list
   log.info('processing channel list')

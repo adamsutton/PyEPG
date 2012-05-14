@@ -201,14 +201,33 @@ def fix_plus_n ( epg, channels ):
       n.stop    = n.stop  + timedelta(minutes=offset)
       epg.add_broadcast(n)
 
+# Get select
+def get_select ( msg, options ):
+  idx = -1
+  if len(options) == 1: return 0
+  print msg
+  for i in range(len(options)):
+    print '  %2d. %s' % (i+1, options[i])
+  while True:
+    print '  select (1-%d): ' % len(options),
+    try:
+      t = int(sys.stdin.readline().strip())
+      if t > 0 and t <= len(options):
+        idx = t - 1
+        break
+    except ValueError: pass
+  return idx
+
 # ###########################################################################
-# Run
+# Commands
 # ###########################################################################
 
-def main ( opts, args, conf_path = None ):
+#
+# Grab data
+#
+def grab ( opts, args, conf_path = None ):
 
-  # Setup
-  setup(opts, args, conf_path)
+  #setup(opts, args, conf_path)
 
   # Initialise EPG
   epg = EPG()
@@ -247,35 +266,10 @@ def main ( opts, args, conf_path = None ):
   log.info('Episode  Count: %d' % len(epg.get_episodes()))
   log.info('Schedule Count: %d' % epg.get_sched_count())
 
-# ###########################################################################
+#
 # Configure the system
-# ###########################################################################
-
-# Get select
-def get_select ( msg, options ):
-  idx = -1
-  if len(options) == 1: return 0
-  print msg
-  for i in range(len(options)):
-    print '  %2d. %s' % (i+1, options[i])
-  while True:
-    print '  select (1-%d): ' % len(options),
-    try:
-      t = int(sys.stdin.readline().strip())
-      if t > 0 and t <= len(options):
-        idx = t - 1
-        break
-    except ValueError: pass
-  return idx
-    
-# Configure system
+#
 def configure ( opts, args, conf_path = None ):
-
-  #
-  # Setup
-  #
-
-  setup(opts, args, conf_path)
 
   #
   # Global
@@ -383,6 +377,12 @@ def configure ( opts, args, conf_path = None ):
     for c in package.channels():
       channels.append(c.uri)
     conf.set('channel[]', channels)
+
+  #
+  # Output summary and get confirmation
+  #
+
+  # TODO
         
   #
   # Save
@@ -390,5 +390,51 @@ def configure ( opts, args, conf_path = None ):
   conf.save()
 
 # ###########################################################################
+# Main
+# ###########################################################################
+
+def main ():
+  from optparse import OptionParser
+
+  # Get command from script name
+  name = os.path.basename(sys.argv[0])
+
+  # Parse command line
+  optp = OptionParser()
+  options(optp)
+  (opts, args) = optp.parse_args()
+
+  # Setup
+  setup(opts, args)
+
+  # Get cmd
+  cmd = 'grab'
+  if len(args) > 0:
+    cmd  = args[0]
+    args = args[1:]
+
+  # Configure
+  if cmd == 'configure':
+    configure(opts, args)
+
+  # Error
+  elif not conf.ready():
+    print 'ERROR: no configuraton is available, run %s configure' % name
+
+  # Run
+  elif cmd == 'grab':
+    grab(opts, args)
+
+  # XMLTV wrapper
+  elif cmd == 'xmltv':
+    pass
+
+  # TV headend setup
+  elif cmd == '':
+    pass
+
+# ###########################################################################
 # Editor
+#
+# vim:sts=2:ts=2:sw=2:et
 # ###########################################################################

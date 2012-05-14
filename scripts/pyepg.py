@@ -20,34 +20,20 @@
 """
 
 # ###########################################################################
-# Imports
+# Pass to module
 # ###########################################################################
 
 # System
-import os, sys, datetime
-from optparse import OptionParser
+import os, sys
 
 # Local
-lib_path = os.path.join(os.path.dirname(sys.argv[0]), 'lib')
-sys.path.append(os.path.abspath(lib_path))
+lib_path = os.path.join(os.path.dirname(sys.argv[0]), '..', 'lib')
+sys.path.insert(0, os.path.abspath(lib_path))
 import pyepg.main as pyepg
+pyepg.main()
 
-
-# ###########################################################################
-# Run
-# ###########################################################################
-
-if __name__ == '__main__':
-
-  # Comand line
-  optp = OptionParser()
-  pyepg.options(optp)
-  (opts,args) = optp.parse_args()
-  
-  # Configure
-  if 'configure' in args:
-    pyepg.configure(opts, args)
-
-  # Run
-  else:
-    pyepg.main(opts, args)
+# ############################################################################
+# Editor Configuration
+#
+# vim:sts=2:ts=2:sw=2:et
+# ############################################################################
