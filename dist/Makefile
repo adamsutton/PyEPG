@@ -17,6 +17,7 @@ BUILD_DIR     := $(ROOT_DIR)/build
 #
 
 ECHO          := @echo
+RM            := @rm -f
 PYTHON        := python
 PY_SETUP      := $(PYTHON) $(DIST_DIR)/setup.py
 DEB_MAKE      := $(MAKE) -f $(DEB_DIR)/rules
@@ -33,15 +34,16 @@ PKGNAME       := $(PROJECT)-$(VERSION)
 # Rules
 #
 
-default: all
+default: al
 
 # Build from scratch
 all: clean deb
 
 # Cleanup
+cleanall: clean
+	$(RM) $(ROOT_DIR)/*.deb $(ROOT_DIR)/*.changes
 clean:
-	$(PY_SETUP) $@
-	fakeroot $(DEB_DIR)/rules $@
+	$(RM) -r $(BUILD_DIR)
 
 # Build
 build:	
@@ -49,7 +51,12 @@ build:
 
 # Build deb
 deb:
-	cd $(DIST_DIR); dpkg-buildpackage -rfakeroot -us -uc
+	mkdir -p $(BUILD_DIR)
+	ln -s $(ROOT_DIR)/data		$(BUILD_DIR)
+	ln -s $(ROOT_DIR)/lib     $(BUILD_DIR)
+	ln -s $(ROOT_DIR)/scripts $(BUILD_DIR)
+	cp -a $(ROOT_DIR)/dist/*  $(BUILD_DIR)
+	cd $(BUILD_DIR); dpkg-buildpackage -rfakeroot -us -uc -b
 
 # Check setup
 check:
