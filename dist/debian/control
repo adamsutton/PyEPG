@@ -1,0 +1,16 @@
+Source: pyepg
+Section: video
+Priority: extra
+Maintainer: Adam Sutton <dev@adamsutton.me.uk>
+Standards-Version: 3.7.3
+
+Package: pyepg
+Architecture: any
+Depends: python python-sqlite
+Recommends: tvheadend
+Homepage: https://github.com/adamsutton/PyEPG
+Description: PyEPG
+  Provides an Electronic Program TV Guide grabber.
+  Currently only supports grabbing from the Atlas UK feed and can
+  output in xmltv, exmltv (xmltv like with extra fields) and its own
+  epg format.

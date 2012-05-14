@@ -121,7 +121,7 @@ if __name__ == '__main__':
   # Load tags
   tags = {
     'tv'    : (0, 'TV channels'),
-    'radio' : (0, 'Radio channels'),
+    'radio' : (0, 'Radio'),
     'sdtv'  : (0, 'SDTV'),
     'hdtv'  : (0, 'HDTV'),
   }

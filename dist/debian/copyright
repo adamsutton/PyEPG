@@ -1,0 +1,8 @@
+Format-Specification: http://svn.debian.org/wsvn/dep/web/deps/dep5.mdwn?op=file&rev=135
+Name: PyEPG
+Maintainer: Adam Sutton <dev@adamsutton.me.uk>
+Source: https://github.com/adamsutton/PyEPG
+
+Files: *
+Copyright: 2012 Adam Sutton
+License: GPL-2+
