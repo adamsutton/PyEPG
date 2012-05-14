@@ -41,7 +41,7 @@ all: clean deb
 # Cleanup
 clean:
 	$(PY_SETUP) $@
-	$(DEB_MAKE) $@
+	fakeroot $(DEB_DIR)/rules $@
 
 # Build
 build:	
@@ -49,20 +49,7 @@ build:
 
 # Build deb
 deb:
-	$(PY_SETUP) sdist --dist-dir=$(BUILD_DIR) --prune
-	mv $(BUILD_DIR)/$(PKGNAME).tar.gz $(BUILD_DIR)/$(PKGNAME).orig.tar.gz
-	test -e $(BUILD_DIR)/debian || ln -s $(DEB_DIR) $(BUILD_DIR)/debian
-	cd $(BUILD_DIR); dpkg-buildpackage -rfakeroot
-# -R$(DEB_DIR)/rules
-#--admindir=$(DEB_DIR)
-
-#builddeb:
-# build the source package in the parent directory
-# then rename it to project_version.orig.tar.gz
-#$(PYTHON) setup.py sdist $(COMPILE) --dist-dir=../ --prune
-#rename -f 's/$(PROJECT)-(.*)\.tar\.gz/$(PROJECT)_$$1\.orig\.tar\.gz/' ../*
-# build the package
-#dpkg-buildpackage -i -I -rfakeroot
+	cd $(DIST_DIR); dpkg-buildpackage -rfakeroot -us -uc
 
 # Check setup
 check:
