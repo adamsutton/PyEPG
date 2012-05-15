@@ -47,6 +47,29 @@ CACHE_DB_DATA    = {
 }
 
 # ###########################################################################
+# Cache API
+# ###########################################################################
+
+# Initialise
+def init ( path ):
+  global CACHE_PATH
+  CACHE_PATH = path
+  
+  # Create path
+  if not os.path.exists(path):
+    os.makedirs(path)
+
+  # Initialise database
+  db_init(path)
+
+# Create MD5 of an object
+def md5 ( obj ):
+  import md5
+  tmp = md5.new()
+  tmp.update(str(obj))
+  return tmp.hexdigest()
+
+# ###########################################################################
 # DB
 # ###########################################################################
 
@@ -111,6 +134,95 @@ def db_init ( path ):
   global CACHE_DB_CONN
   CACHE_DB_CONN = db_conn
 
+# ###########################################################################
+# URL fetching
+# ###########################################################################
+
+#
+# Fetch a URL
+#
+# @param cache If True attempt to retrieve/store the data in the local cache
+# @param ttl   If local cache file is newer than ttl, don't bother to check
+#              remote object at all
+def get_url ( url, cache = True, ttl = 0 ):
+  global CACHE_PATH
+  import urllib2, urlparse, time
+  log.debug('cache: get url %s' % url, 1)
+  ret = None
+
+  # Create directories
+  urlp = urlparse.urlparse(url)
+  path = os.path.join(CACHE_PATH, 'url', urlp.netloc, urlp.path[1:])
+  head = path + '.head'
+
+  # Don't cache dynamic requests
+  if urlp.params or urlp.query: cache = False
+
+  # Create request
+  req  = urllib2.Request(url)
+  req.add_header('User-Agent', 'PyEPG URL Fetcher/Cacher')
+
+  # File exists (check header)
+  if os.path.exists(path) and cache:
+    try:
+      ok   = False
+      st   = os.stat(path)
+      meta = eval(open(head).read())
+
+      # TTL?
+      if (st.st_mtime + ttl) > time.time():
+        log.debug('cache: ttl still valid', 2)
+        ok = True
+
+      # Check modification time
+      else:
+      
+        # Fetch remote headers
+        req.get_method = lambda: 'HEAD'
+        up   = urllib2.urlopen(req)
+
+        # Static page unmodded
+        if 'last-modified' in up.headers and 'last-modified' in meta and\
+          up.headers['last-modified'] == meta['last-modified']:
+          log.debug('cache: last-modified matches', 2)
+          ok = True
+
+        # Update timestamp
+        os.utime(path, None)
+
+      # Use local
+      if ok:
+        tmp = open(path).read()
+      
+        # Validate object
+        if 'md5' in meta and meta['md5'] == md5(tmp):
+          log.debug('cache: local data ok', 1)
+          ret = tmp
+        else:
+          log.debug('cache: local md5 mismatch', 2)
+
+    except Exception, e:
+      log.error('cache: local failure [e=%s]' % e)
+
+  # Fetch
+  if not ret:
+    log.debug('cache: fetch remote', 1)
+    req.get_method = lambda: 'GET'
+    up   = urllib2.urlopen(req)
+    ret  = up.read()
+
+    if cache:
+      meta = {}
+      for k in up.headers:
+        meta[k.lower()] = up.headers[k]
+      meta['md5'] = md5(ret)
+      if not os.path.exists(os.path.dirname(path)):
+        os.makedirs(os.path.dirname(path))
+      open(path, 'w').write(ret)
+      open(head, 'w').write(repr(meta))
+  
+  return ret
+
 # Get object
 def get_object ( uri, type, db = True ):
   ret = None
@@ -130,21 +242,6 @@ def put_object ( uri, obj, type, db = True ):
   if type in CACHE_DB_DATA:
     CACHE_DB_DATA[type][obj.uri] = obj
 
-# ###########################################################################
-# Cache API
-# ###########################################################################
-
-# Initialise
-def init ( path ):
-  global CACHE_PATH
-  CACHE_PATH = path
-  
-  # Create path
-  if not os.path.exists(path):
-    os.makedirs(path)
-
-  # Initialise database
-  db_init(path)
 
 # Get channel
 def get_channel ( uri ):
@@ -177,17 +274,6 @@ def put_series ( uri, series ):
 # Put episode
 def put_episode ( uri, episode ):
   put_object(uri, episode, 'episode', False)
-
-# Fetch a URL
-# TODO: include actual caching!
-def get_url ( url, cache = True ):
-  log.debug('cache: get url %s' % url, 1)
-  import urllib2
-  req  = urllib2.Request(url)
-  req.add_header('User-Agent', 'PyEPG URL Fetcher/Cacher')
-  up   = urllib2.urlopen(req)
-  data = up.read()
-  return data
 
 # Fetch file from cache
 def get_file ( path, maxage = None ):
