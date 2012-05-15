@@ -24,7 +24,7 @@
 # ###########################################################################
 
 # System
-import sys, time
+import os, sys, time, pprint, syslog
 from threading import Lock
 
 # PyEPG
@@ -34,35 +34,63 @@ import pyepg.conf as conf
 # Data
 # ###########################################################################
 
-global LOG_INIT, LOG_DEBUG
-LOG_INIT  = 0
-LOG_DEBUG = None
-LOG_LOCK  = Lock()
+global LOG_INIT, LOG_PATH, LOG_SYSLOG, LOG_DEBUG, LOG_LOCK, LOG_PRIO
+LOG_INIT   = 0
+LOG_PATH   = None
+LOG_SYSLOG = None
+LOG_DEBUG  = None
+LOG_LOCK   = Lock()
+
+# Priority mappings
+LOG_PRIO   = {
+  'DEBUG' : syslog.LOG_DEBUG,
+  'WARN'  : syslog.LOG_WARNING,
+  'ERROR' : syslog.LOG_ERR,
+}
 
 # ###########################################################################
 # Functions
 # ###########################################################################
 
 # Initialise
-def init ():
-  global LOG_INIT, LOG_DEBUG
-  LOG_INIT  = time.time()
-  LOG_DEBUG = conf.get('debug_level', None)
+def init ( path = None, syslog = False, level = -1 ):
+  global LOG_INIT, LOG_PATH, LOG_SYSLOG, LOG_DEBUG
+  LOG_INIT   = time.time()
+  LOG_SYSLOG = syslog
+  LOG_DEBUG  = level
+
+  # Check we can write to file
+  if path:
+    try:
+      dirp = os.path.dirname(path)
+      if dirp and not os.path.isdir(dirp):
+        os.makedirs(dirp)
+      open(path, 'a')
+      LOG_PATH = path
+    except Exception, e:
+      error('failed to create log file [path=%s, e=%s]' % (path, e))
 
 # Output
 def out ( pre, msg, **dargs ):
   global LOG_LOCK
   tm = '%0.2f' % (time.time() - LOG_INIT)
   with LOG_LOCK:
-    print >>sys.stderr, '%8s - %-6s:' % (tm, pre.lower()),
     try:
       if 'pprint' in dargs and dargs['pprint']:
-        import pprint
-        pprint.pprint(msg, sys.stderr)
-      else:
-        print >>sys.stderr, msg
-    except:
-      print >>sys.stderr, ''
+        msg = pprint.pformat(msg)
+    except: pass
+
+    # Output to stderr, file
+    out = '%8s - %-6s: %s' % (tm, pre.lower(), msg)
+    print >>sys.stderr, out
+    if LOG_PATH:
+      open(LOG_PATH, 'a').write(out + '\n')
+
+    # Output to syslog
+    if LOG_SYSLOG:
+      pri = syslog.LOG_INFO
+      if pre in LOG_PRIO: pri = LOG_PRIO[pre]
+      syslog.syslog(pri, msg)
 
 # Debug
 def debug ( msg, lvl=0, **dargs ):

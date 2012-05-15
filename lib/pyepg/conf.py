@@ -31,7 +31,8 @@ import string
 
 CONF_READY = False
 CONF_PATH  = None
-CONFIG     = {}
+CONF_OVER  = {}
+CONF_DATA     = {}
 
 # ###########################################################################
 # Functions
@@ -39,7 +40,7 @@ CONFIG     = {}
 
 # Initialise
 def init ( path, override ):
-  global CONFIG, CONF_PATH, CONF_READY
+  global CONF_DATA, CONF_OVER, CONF_PATH, CONF_READY
   try:
     CONF_PATH = path
     conf = []
@@ -52,16 +53,15 @@ def init ( path, override ):
       l = l.strip()
       if not l: continue
       p = map(string.strip, l.split(':'))
-      if len(p) == 2: conf.append(p)
+      if len(p) == 2: conf.append((p[0], p[1], False))
 
     # Add overrides
     for k in override:
-      conf.append((k, override[k]))
+      conf.append((k, override[k], True))
 
     # Process
     for i in conf:
-      k = i[0]
-      v = i[1]
+      (k, v, o) = i
 
       # Try eval value
       try:
@@ -70,12 +70,18 @@ def init ( path, override ):
 
       # Special array
       if k.endswith('[]'):
-        if k not in CONFIG: CONFIG[k] = [ v ]
-        else: CONFIG[k].append(v)
+        if o:
+          if k in CONF_OVER: CONF_OVER[k] = [ v ]
+          else:              CONF_OVER[k].append(v)
+        else:
+          if k not in CONF_DATA: CONF_DATA[k] = [ v ]
+          else:                  CONF_DATA[k].append(v)
 
       # Normal
       else:
-        CONFIG[k] = v
+        if o: CONF_OVER[k] = v
+        else: CONF_DATA[k] = v
+        CONF_DATA[k] = v
 
     # Done
     CONF_READY = True
@@ -93,28 +99,34 @@ def save ( path = None ):
   fp.write('# PyEPG configuration\n')
   fp.write('#   generated %s\n' % datetime.now())
   fp.write('')
-  for k in CONFIG:
+  for k in CONF_DATA:
 
     # Special array
     if k.endswith('[]'):
-      for v in CONFIG[k]:
+      for v in CONF_DATA[k]:
         fp.write('%s: %s\n' % (k, repr(v)))
     
     # Normal
     else:
-      fp.write('%s: %s\n' % (k, repr(CONFIG[k])))
+      fp.write('%s: %s\n' % (k, repr(CONF_DATA[k])))
 
 # Get configuration value
 def get ( key, default = None ):
   ret = default
-  if key in CONFIG:
-    ret = CONFIG[key]
+  if key in CONF_OVER:
+    ret = CONF_OVER[key]
+    if key.endswith('[]') and key in data:
+      ret = CONF_DATA[key].extend(ret)
+  elif key in CONF_DATA:
+    ret = CONF_DATA[key]
   return ret
 
 # Set configuration value
 def set ( key, value ):
-  global CONFIG
-  CONFIG[key] = value
+  global CONF_DATA
+  CONF_DATA[key] = value
+  if key in CONF_OVER:
+    del CONF_OVER[key]
 
 # Check configuration is ready
 def ready ():

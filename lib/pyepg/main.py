@@ -27,10 +27,10 @@
 import os, sys, datetime
 
 # PyEPG
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'lib'))
 import pyepg.log             as log
 import pyepg.conf            as conf
 import pyepg.cache           as cache
-import pyepg.grabber.atlas   as grabber
 from pyepg.model import EPG, Channel
 
 # ###########################################################################
@@ -46,19 +46,68 @@ def _import ( fmt, n ):
 #
 # Default Configuration options
 #
-def options ( optp ):
-  optp.add_option('-c', '--config', default=None,
-                  help='Specify alternative configuration file')
-  optp.add_option('--confdir', default=None,
-                  help='Specify alternative configuration directory')
-  optp.add_option('-o', '--option', default=[], action='append',
-                  help='Specify configuration option')
-  optp.add_option('-f', '--formatter', default=None,
-                  help='Specify formatter')
-  optp.add_option('-d', '--debug', default=None, type='int',
-                  help='Enable debug')
-  optp.add_option('--days', default=None, type='int',
-                  help='Specify number of days to grab')
+def options ( name = None ):
+  from optparse import OptionGroup, OptionParser
+
+  # Setup Parser
+  usage = None
+  if name in [ None, 'pyepg' ]:
+    usage = 'usage: %prog [options] [grab|xmltv|tvheadend]'
+  optp = OptionParser(usage=usage, version='%prog v0.0.0')
+  # TODO: get the version from somewhere?
+
+  # Configuration
+  optg = OptionGroup(optp, 'Configuration Options', '')
+  optg.add_option('-c', '--config', default=None,
+                  help='specify alternative configuration file')
+  optg.add_option('--confdir', default=None,
+                  help='specify alternative configuration/cache directory')
+  optg.add_option('-o', '--option', default=[], action='append',
+                  help='specify arbitary configuration value')
+  optp.add_option_group(optg)
+
+  # Generic Grab options
+  optg = OptionGroup(optp, 'Generic Grab Options', '')
+  optg.add_option('-d', '--days', default=None, type='int',
+                  help='specify the number of days to grab')
+  if name not in [ 'tv_grab_pyepg' ]:
+    optg.add_option('-f', '--formatter', default=None,
+                    help='specify the output format')
+    optg.add_option('-g', '--grabber', default=None,
+                    help='specify the grabber to use')
+  optp.add_option_group(optg)
+
+  # XMLTV compatible
+  if name in [ None, 'pyepg', 'tv_grab_pyepg' ]:
+    optg = OptionGroup(optp, 'XMLTV Wrapper Options', '')
+    optg.add_option('--capabilities', action='store_true',
+                    help='show XMLTV capabilities')
+    optg.add_option('--description', action='store_true',
+                    help='show XMLTV description')
+    optg.add_option('--exmltv', action='store_const', dest='formatter',
+                    const='exmltv',
+                    help='specify the extended XMLTV output')
+    optg.add_option('--configure', action='store_true',
+                    help='run the configuration tool')
+    optp.add_option_group(optg)
+
+  # TVheadend setup
+  if name not in [ 'tv_grab_pyepg' ]:
+    optg = OptionGroup(optp, 'TVheadend Setup Options', '')
+    optp.add_option_group(optg)
+
+  # Debugging
+  optg = OptionGroup(optp, 'Debug/Logging Options', '')
+  optg.add_option('--debug', default=None, type='int',
+                  help='specify debugging level')
+  optg.add_option('--logpath', default=None, type='string',
+                  help='specify log path to write to')
+  optg.add_option('--syslog', default=False, action='store_true',
+                  help='specify logging should go to syslog')
+  optp.add_option_group(optg)
+
+  # Return parser
+  return optp
 
 #
 # Setup
@@ -75,10 +124,16 @@ def setup ( opts = {}, args = [], conf_path = None ):
         conf_over[p[0]] = p[1]
   if hasattr(opts, 'days') and opts.days is not None:
     conf_over['days'] = opts.days
-  if hasattr(opts, 'debug') and opts.debug is not None:
-    conf_over['debug_level'] = opts.debug
   if hasattr(opts, 'formatter') and opts.formatter is not None:
     conf_over['formatter'] = opts.formatter
+  if hasattr(opts, 'grabber') and opts.grabber is not None:
+    conf_over['grabber'] = opts.grabber
+  if hasattr(opts, 'debug') and opts.debug is not None:
+    conf_over['debug_level'] = opts.debug
+  if hasattr(opts, 'logpath') and opts.logpath is not None:
+    conf_over['log_path'] = opts.logpath
+  if hasattr(opts, 'syslog') and opts.syslog is not None:
+    conf_over['syslog'] = opts.syslog
   if hasattr(opts, 'config') and opts.config is not None:
     conf_path = opts.config
   if hasattr(opts, 'confdir') and opts.confdir is not None:
@@ -95,7 +150,8 @@ def setup ( opts = {}, args = [], conf_path = None ):
   conf.init(conf_path, conf_over)
 
   # Initialise log
-  log.init()
+  log.init(conf.get('log_path', None), conf.get('syslog', False),
+           conf.get('debug_level', -1))
 
   # Initialise the cache
   cache.init(cache_path) 
@@ -223,11 +279,31 @@ def get_select ( msg, options ):
 # ###########################################################################
 
 #
+# XMLTV compatible call
+#
+def xmltv ( opts, args ):
+
+  # XMLTV capabilities
+  xmltv_caps = [ 'baseline', 'config', 'exmltv' ]
+  xmltv_desc = 'XMLTV compatible wrapper for PyEPG'
+
+  # Capabilities
+  if opts.capabilities:
+    for c in xmltv_caps: print c
+    sys.exit(0)
+
+  # Description
+  if opts.description:
+    print xmltv_desc
+    sys.exit(0)
+
+  # Run
+  grab(opts, args)
+
+#
 # Grab data
 #
-def grab ( opts, args, conf_path = None ):
-
-  #setup(opts, args, conf_path)
+def grab ( opts, args ):
 
   # Initialise EPG
   epg = EPG()
@@ -394,14 +470,12 @@ def configure ( opts, args, conf_path = None ):
 # ###########################################################################
 
 def main ():
-  from optparse import OptionParser
 
   # Get command from script name
   name = os.path.basename(sys.argv[0])
 
   # Parse command line
-  optp = OptionParser()
-  options(optp)
+  optp = options( name)
   (opts, args) = optp.parse_args()
 
   # Setup
@@ -412,6 +486,11 @@ def main ():
   if len(args) > 0:
     cmd  = args[0]
     args = args[1:]
+
+  # Overrides
+  if name == 'tv_grab_pyepg':
+    cmd = 'xmltv'
+    if opts.configure: cmd = 'configure'
 
   # Configure
   if cmd == 'configure':
@@ -427,11 +506,15 @@ def main ():
 
   # XMLTV wrapper
   elif cmd == 'xmltv':
-    pass
+    xmltv(opts, args)
 
   # TV headend setup
   elif cmd == '':
     pass
+
+# Script main
+if __name__ == '__main__':
+  main()
 
 # ###########################################################################
 # Editor

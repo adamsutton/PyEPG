@@ -52,9 +52,9 @@ build:
 # Build deb
 deb:
 	mkdir -p $(BUILD_DIR)
-	ln -s $(ROOT_DIR)/data		$(BUILD_DIR)
-	ln -s $(ROOT_DIR)/lib     $(BUILD_DIR)
-	ln -s $(ROOT_DIR)/scripts $(BUILD_DIR)
+	for d in data lib scripts; do \
+	test -L $(BUILD_DIR)/$$d || ln -s $(ROOT_DIR)/$$d $(BUILD_DIR)/$$d; \
+	done
 	cp -a $(ROOT_DIR)/dist/*  $(BUILD_DIR)
 	cd $(BUILD_DIR); dpkg-buildpackage -rfakeroot -us -uc -b
 

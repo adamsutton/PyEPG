@@ -292,7 +292,7 @@ def get_url ( url, cache = True, ttl = 0 ):
 #
 def get_data ( name, ttl = None ):
   url = conf.get('data_url', 'http://cloud.github.com/downloads/adamsutton/PyEPG')
-  return get_url(url + '/' + name, ttl)
+  return get_url(url + '/' + name, True, ttl)
 
 # ###########################################################################
 # EPG data
