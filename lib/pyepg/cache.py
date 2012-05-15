@@ -135,6 +135,93 @@ def db_init ( path ):
   CACHE_DB_CONN = db_conn
 
 # ###########################################################################
+# File fetching
+# ###########################################################################
+
+#
+# Fetch a file from the cache
+#
+def _get_file ( name, ttl = None ):
+  import time
+  log.debug('cache: get file %s' % name, 1)
+  ok    = False
+  data  = None
+  meta  = None
+  valid = False
+  path  = CACHE_PATH + os.path.sep + name
+
+  # Default TTL
+  if ttl is None: ttl = conf.get('default_cache_ttl', 7*86400)
+
+  # Check age
+  if os.path.exists(path) and os.path.exists(path + '.meta'):
+    log.debug('cache: %s in cache' % name, 2)
+    st   = os.stat(path)
+    meta = eval(open(path + '.meta').read())
+    data = open(path).read()
+
+    # OK
+    if (st.st_mtime + ttl) > time.time():
+      log.debug('cache: %s ttl ok' % name, 2)
+      ok = True
+    
+    # TTL passed
+    else:
+      log.debug('cache: %s ttl expired' % name, 2)
+
+    # Validate
+    if 'md5' in meta and meta['md5'] == md5(data):
+      log.debug('cache: %s md5 ok' % name, 2)
+      valid = True
+    else:
+      log.debug('cache: %s md5 mismatch' % name)
+
+  # Return data
+  return (data, meta, ttl, valid)
+
+#
+# Fetch a file from the cache (only return data)
+#
+def get_file ( name, ttl = None ):
+  ret = None
+  (data, meta, ttl, valid) = _get_file(name, ttl)
+  if data and meta and ttle and valid:
+    ret = data
+  return ret
+
+#
+# Put file in the cache
+#
+def put_file ( name, data, imeta = {} ):
+  log.debug('cache: put file %s' % name, 1)
+  ret = None
+
+  # Fix meta (use lower case keys)
+  meta = {}
+  for k in imeta: meta[k.lower()] = imeta[k]
+
+  # Add MD5
+  if 'md5' not in meta:
+    meta['md5'] = md5(data)
+
+  # Store
+  path = CACHE_PATH + os.path.sep + name
+  if not os.path.exists(os.path.dirname(path)):
+    os.makedirs(os.path.dirname(path))
+  open(path, 'w').write(data)
+  open(path + '.meta', 'w').write(repr(meta))
+  log.debug('cache: file %s stored' % name)
+
+#
+# Touch a file in the cache (update TTL)
+#
+def touch_file ( name ):
+  log.debug('cache: touch %s' % name)
+  path = CACHE_PATH + os.path.sep + name
+  if os.path.exists(path):
+    os.utime(path, None)
+
+# ###########################################################################
 # URL fetching
 # ###########################################################################
 
@@ -145,15 +232,13 @@ def db_init ( path ):
 # @param ttl   If local cache file is newer than ttl, don't bother to check
 #              remote object at all
 def get_url ( url, cache = True, ttl = 0 ):
-  global CACHE_PATH
-  import urllib2, urlparse, time
+  import urllib2, urlparse
   log.debug('cache: get url %s' % url, 1)
   ret = None
 
   # Create directories
   urlp = urlparse.urlparse(url)
-  path = os.path.join(CACHE_PATH, 'url', urlp.netloc, urlp.path[1:])
-  head = path + '.head'
+  path = urlp.netloc + os.path.sep + urlp.path[1:]
 
   # Don't cache dynamic requests
   if urlp.params or urlp.query: cache = False
@@ -162,21 +247,16 @@ def get_url ( url, cache = True, ttl = 0 ):
   req  = urllib2.Request(url)
   req.add_header('User-Agent', 'PyEPG URL Fetcher/Cacher')
 
-  # File exists (check header)
-  if os.path.exists(path) and cache:
-    try:
-      ok   = False
-      st   = os.stat(path)
-      meta = eval(open(head).read())
+  # Check cache
+  if cache:
+    (data, meta, ttl, md5) = _get_file(path, ttl=ttl)
 
-      # TTL?
-      if (st.st_mtime + ttl) > time.time():
-        log.debug('cache: ttl still valid', 2)
-        ok = True
+    # OK
+    if data and meta and md5:
 
-      # Check modification time
-      else:
-      
+      # Check remote headers
+      if not ttl:
+
         # Fetch remote headers
         req.get_method = lambda: 'HEAD'
         up   = urllib2.urlopen(req)
@@ -185,24 +265,14 @@ def get_url ( url, cache = True, ttl = 0 ):
         if 'last-modified' in up.headers and 'last-modified' in meta and\
           up.headers['last-modified'] == meta['last-modified']:
           log.debug('cache: last-modified matches', 2)
-          ok = True
+          ret = data
 
-        # Update timestamp
-        os.utime(path, None)
+          # Update timestamp
+          touch_file(path)
 
-      # Use local
-      if ok:
-        tmp = open(path).read()
-      
-        # Validate object
-        if 'md5' in meta and meta['md5'] == md5(tmp):
-          log.debug('cache: local data ok', 1)
-          ret = tmp
-        else:
-          log.debug('cache: local md5 mismatch', 2)
-
-    except Exception, e:
-      log.error('cache: local failure [e=%s]' % e)
+      # OK
+      else:
+        ret = data
 
   # Fetch
   if not ret:
@@ -211,17 +281,22 @@ def get_url ( url, cache = True, ttl = 0 ):
     up   = urllib2.urlopen(req)
     ret  = up.read()
 
+    # Store
     if cache:
-      meta = {}
-      for k in up.headers:
-        meta[k.lower()] = up.headers[k]
-      meta['md5'] = md5(ret)
-      if not os.path.exists(os.path.dirname(path)):
-        os.makedirs(os.path.dirname(path))
-      open(path, 'w').write(ret)
-      open(head, 'w').write(repr(meta))
+      put_file(path, ret, up.headers)
   
   return ret
+
+#
+# Get PyEPG hosted data
+#
+def get_data ( name, ttl = None ):
+  url = conf.get('data_url', 'http://cloud.github.com/downloads/adamsutton/PyEPG')
+  return get_url(url + '/' + name, ttl)
+
+# ###########################################################################
+# EPG data
+# ###########################################################################
 
 # Get object
 def get_object ( uri, type, db = True ):
@@ -275,26 +350,6 @@ def put_series ( uri, series ):
 def put_episode ( uri, episode ):
   put_object(uri, episode, 'episode', False)
 
-# Fetch file from cache
-def get_file ( path, maxage = None ):
-  import time
-  log.debug('cache: get file %s' % path, 1)
-  ret = None
-  p   = os.path.join(CACHE_PATH, 'files', path)
-  if os.path.isfile(p):
-    s = os.stat(p)
-    if (maxage is None) or ((time.time() - s.st_mtime) < maxage):
-      ret = open(p).read()
-  if not ret: log.debug('cache: not available', 1)
-  return ret
-
-# Store file
-def put_file ( path, data ):
-  log.debug('cache: put file %s' % path, 1)
-  p = os.path.join(CACHE_PATH, 'files', path)
-  d = os.path.dirname(p)
-  if not os.path.isdir(d): os.makedirs(d)
-  open(p, 'w').write(data)
 
 # ###########################################################################
 # Editor

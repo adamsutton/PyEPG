@@ -140,6 +140,7 @@ def chunk ( items, num ):
 # Chunk into an equal number of sub arrays
 #
 def chunk2 ( items, num ):
+  print num
   from math import ceil
   num = min(len(items), num)
   ret = []

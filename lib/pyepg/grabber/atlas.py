@@ -49,8 +49,7 @@ def atlas_fetch ( url ):
   # Can fail occasionally - give more than 1 attempt
   for i in range(5):
     try:
-      up    = urllib2.urlopen(url)
-      data  = up.read()
+      data = cache.get_url(url, cache=False)
       log.debug('decode json', 1)
       jdata = json.loads(data)
       log.debug(jdata, 1, pprint=True)
@@ -507,6 +506,7 @@ def _load_channels ():
 
   # Check cache (only update monthly)
   data = cache.get_file('atlas/channels.json', 31*86400)
+  print data
 
   # Fetch
   if not data:
@@ -557,7 +557,7 @@ def load_channels ():
   log.info('get atlas channel list')
 
   # Process
-  data = cache.get_file('atlas/channels.csv')
+  data = cache.get_data('atlas_channels.csv')
   if data:
     for l in data.splitlines():
       p = map(lambda x: x.strip(), l.split(','))
