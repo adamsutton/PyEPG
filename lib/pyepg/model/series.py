@@ -25,6 +25,7 @@ class Series ( Object ):
   
   def __init__ ( self ):
     Object.__init__(self)
+    self.brand         = None
     self.title         = None
     self.summary       = None
     self.number        = None

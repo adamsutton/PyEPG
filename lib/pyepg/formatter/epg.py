@@ -76,7 +76,9 @@ def out_brand ( out, brand ):
 
 # Series
 def out_series ( out, series ):
-  print >>out, '  <series id="%s">' % series.uri
+  b = ''
+  if series.brand: b = ' brand="%s"' % series.brand.uri
+  print >>out, '  <series id="%s"%s>' % (series.uri, b)
   if series.title:
     print >>out, '    <title>%s</title>' % str_format(series.title)
   if series.summary:

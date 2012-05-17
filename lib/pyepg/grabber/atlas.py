@@ -342,6 +342,9 @@ def process_episode ( data ):
     e.brand  = get_brand(c_uri, data['container'])
   if s_uri:
     e.series = get_series(s_uri, data['series_summary'])
+    # complete the link
+    if e.series and e.brand:
+      e.series.brand = e.brand
 
   # Film?
   if 'specialization' in data:
