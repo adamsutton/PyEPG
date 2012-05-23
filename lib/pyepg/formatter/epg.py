@@ -57,7 +57,7 @@ def out_footer ( out ):
 # Channel
 def out_channel ( out, chn ):
   print >>out, '  <channel id="%s">' % chn.uri
-  print >>out, '    <name>%s</name>' % chn.title
+  print >>out, '    <name>%s</name>' % str_format(chn.title)
   if chn.radio:
     print >>out, '    <radio />'
   # TODO: icon?

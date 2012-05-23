@@ -746,15 +746,16 @@ def grab ( epg, channels, start, stop ):
   while threads:
     wait = True
     r    = 0
-    for i in range(len(threads)):
+    i    = 0
+    while i < len(threads):
       if not threads[i].isAlive():
         log.info('atlas - threads  remaining (%4d/%4d)'\
                  % (len(threads)-1, thread_count))
         threads.pop(i)
         wait = False
-        break
       else:
         r = r + threads[i].remain()
+        i = i + 1
     if r != remain:
       remain = r
       log.info('atlas - channels remaining (%4d/%4d)'\
