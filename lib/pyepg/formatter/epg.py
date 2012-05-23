@@ -41,7 +41,9 @@ PYEPG_TIME_FORMAT = '%Y-%m-%d %H:%M:%S %z'
 # Format string
 def str_format ( s ):
   s = s.replace('&', '&amp;')
-  s = s.encode('utf8')
+  try:
+    s = s.encode('utf8')
+  except: pass
   return s
 
 # Header
