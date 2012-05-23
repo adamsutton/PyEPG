@@ -138,7 +138,7 @@ SID,IDENT,PYEPG,NAME,FSAT NUM,SKY NUM,HD,REGIONAL,RADIO,ICON
 10055,ITV1+1,tv_utv+1,UTV +1,0,0,0,0,0,
 10060,ITV1 London,tv_itv1_london,ITV1 London,977,993,0,0,0,http://www.lyngsat-logo.com/logo/tv/ii/itv1_london.jpg
 10070,ITV2,tv_itv2,ITV2,113,118,0,0,0,http://www.lyngsat-logo.com/logo/tv/ii/itv2.jpg
-10071,CITV,tv_citv,CITV,602,621,0,0,0,http://www.lyngsat-logo.com/logo/tv/cc/citv_edmonton.jpg
+10071,CITV,tv_citv,CITV,602,621,0,0,0,http://www.lyngsat-logo.com/logo/tv/cc/citv_uk.jpg
 10072,ITV4,tv_itv4,ITV4,117,120,0,0,0,http://www.lyngsat-logo.com/logo/tv/ii/itv4.jpg
 10079,ITVi Stream 44,interactive_itvi_44,ITVi Stream 44,0,0,0,0,0,
 10080,ITV1 Granada,tv_itv1_granada,ITV1 Granada,0,0,0,0,0,http://www.lyngsat-logo.com/logo/tv/ii/itv1_granada.jpg
