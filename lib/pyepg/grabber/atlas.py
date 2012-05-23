@@ -40,24 +40,33 @@ import pyepg.model.genre as genre
 # Atlas API
 # ###########################################################################
 
+ATLAS_API_HOST = 'atlas.metabroadcast.com'
+
 # Fetch raw data from atlas
-def atlas_fetch ( url ):
-  jdata = {}
-  url   = 'http://atlas.metabroadcast.com/3.0/' + url
+def atlas_fetch ( url, conn ):
+  jdata = None
+  url   = ('http://%s/3.0/' % ATLAS_API_HOST) + url
   log.debug('fetch %s' % url, 0)
   
   # Can fail occasionally - give more than 1 attempt
+  t = 2.0
   for i in range(5):
     try:
-      data = cache.get_url(url, cache=False)
-      log.debug('decode json', 1)
-      jdata = json.loads(data)
-      log.debug(jdata, 1, pprint=True)
-      break
+      data = cache.get_url(url, cache=False, conn=conn)
+      if data:
+        log.debug('decode json', 1)
+        jdata = json.loads(data)
+        log.debug(jdata, 5, pprint=True)
+        break
     except Exception, e:
+      import traceback
+      traceback.print_ex
       log.warn('failed to fetch %s [e=%s]' % (url, e))
       pass
-    time.sleep(i+1.0) # increase delay each time
+    time.sleep(t)
+    t *= 2
+  if not jdata:
+    log.error('failed to fetch %s, giving up' % url)
   return jdata
 
 # Get content data
@@ -85,7 +94,7 @@ def get_content ( uri, type ):
   ret = None
   try:
     data = atlas_fetch_content(uri)
-    if 'contents' in data:
+    if data and 'contents' in data:
       for c in data['contents']:
         if 'type' in c and c['type'] == type:
           ret = c
@@ -525,6 +534,7 @@ def _load_channels ():
     while True:
       temp   = atlas_fetch(url_root % offset)
       offset = offset + limit
+      if not temp: break
       if 'channels' not in temp: break
       if not temp['channels']: break
       data.append(temp)
@@ -610,13 +620,21 @@ class GrabThread ( Thread ):
 
   def __init__ ( self, idx, epg, channels, start, stop ):
     Thread.__init__(self)
-    self._idx   = idx
-    self._epg   = epg
-    self._chns  = channels
-    self._start = start
-    self._stop  = stop
+    self._idx    = idx
+    self._epg    = epg
+    self._chns   = channels
+    self._start  = start
+    self._stop   = stop
+    self._remain = len(channels)
+
+  def remain ( self ):
+    return self._remain
 
   def run ( self ):
+    import httplib
+    conn  = httplib.HTTPConnection(ATLAS_API_HOST)
+    log.info('atlas - thread %3d conn created' % self._idx)
+    # TODO: retry?
 
     # Config
     key    = conf.get('atlas_apikey', None)
@@ -663,10 +681,11 @@ class GrabThread ( Thread ):
           u = u + '&channel_id=' + c.shortid
 
           # Fetch data
-          data  = atlas_fetch(u)
+          # TODO: detect conn closure?
+          data  = atlas_fetch(u, conn)
 
           # Processs
-          if 'schedule' in data:
+          if data and 'schedule' in data:
             for s in data['schedule']:
               if 'items' in s:
                 sched.extend(s['items'])
@@ -680,6 +699,11 @@ class GrabThread ( Thread ):
 
       # Process into EPG
       process_schedule(self._epg, c, sched)
+      self._remain = self._remain - 1
+
+    # Done
+    if conn: conn.close()
+    log.info('atlas - thread %3d complete' % self._idx)
 
 # ###########################################################################
 # Grabber API
@@ -704,6 +728,7 @@ def grab ( epg, channels, start, stop ):
   # Split channels (for thread)
   threads = []
   for chns in util.chunk2(channels, thread_count):
+    if not chns: continue
 
     # Create thread
     t = GrabThread(len(threads), epg, chns, start, stop)
@@ -717,15 +742,23 @@ def grab ( epg, channels, start, stop ):
   for t in threads: t.start()
 
   # Wait for all threads to complete
+  remain = len(channels)
   while threads:
     wait = True
+    r    = 0
     for i in range(len(threads)):
       if not threads[i].isAlive():
-        log.info('atlas - thread %3d complete (%3d/%3d remain)'\
-                 % (threads[i]._idx, len(threads)-1, thread_count))
+        log.info('atlas - threads  remaining (%4d/%4d)'\
+                 % (len(threads)-1, thread_count))
         threads.pop(i)
         wait = False
         break
+      else:
+        r = r + threads[i].remain()
+    if r != remain:
+      remain = r
+      log.info('atlas - channels remaining (%4d/%4d)'\
+               % (remain, len(channels)))
     if wait: time.sleep(1.0)
 
 # Get a list of the support packages

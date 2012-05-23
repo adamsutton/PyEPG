@@ -46,6 +46,8 @@ CACHE_DB_DATA    = {
   'episode' : {},
 }
 
+PYEPG_USER_AGENT = 'PyEPG URL Fetcher/Cacher'
+
 # ###########################################################################
 # Cache API
 # ###########################################################################
@@ -231,7 +233,8 @@ def touch_file ( name ):
 # @param cache If True attempt to retrieve/store the data in the local cache
 # @param ttl   If local cache file is newer than ttl, don't bother to check
 #              remote object at all
-def get_url ( url, cache = True, ttl = 0 ):
+# @param conn  Persistent connection (created externally)
+def get_url ( url, cache = True, ttl = 0, conn = None ):
   import urllib2, urlparse
   log.debug('cache: get url %s' % url, 1)
   ret = None
@@ -239,13 +242,14 @@ def get_url ( url, cache = True, ttl = 0 ):
   # Create directories
   urlp = urlparse.urlparse(url)
   path = urlp.netloc + os.path.sep + urlp.path[1:]
+  http = urlp.scheme in [ 'http', 'https' ]
 
   # Don't cache dynamic requests
   if urlp.params or urlp.query: cache = False
 
   # Create request
   req  = urllib2.Request(url)
-  req.add_header('User-Agent', 'PyEPG URL Fetcher/Cacher')
+  req.add_header('User-Agent', PYEPG_USER_AGENT)
 
   # Check cache
   if cache:
@@ -256,14 +260,22 @@ def get_url ( url, cache = True, ttl = 0 ):
 
       # Check remote headers
       if not ttl:
+        head = {}
 
         # Fetch remote headers
-        req.get_method = lambda: 'HEAD'
-        up   = urllib2.urlopen(req)
+        if http and conn:
+          log.debug('cache: use persistent connection', 3)
+          conn.request('GET', url, None, {'User-Agent':PYEPG_USER_AGENT})
+          h = conn.getresponse().getheaders()
+          for (k,v) in h: head[k.lower()] = v
+        else:
+          req.get_method = lambda: 'HEAD'
+          up   = urllib2.urlopen(req, timeout=60.0)
+          head = up.headers
 
         # Static page unmodded
-        if 'last-modified' in up.headers and 'last-modified' in meta and\
-          up.headers['last-modified'] == meta['last-modified']:
+        if 'last-modified' in head and 'last-modified' in meta and\
+          head['last-modified'] == meta['last-modified']:
           log.debug('cache: last-modified matches', 2)
           ret = data
 
@@ -277,13 +289,22 @@ def get_url ( url, cache = True, ttl = 0 ):
   # Fetch
   if not ret:
     log.debug('cache: fetch remote', 1)
-    req.get_method = lambda: 'GET'
-    up   = urllib2.urlopen(req)
-    ret  = up.read()
+    head = {}
+    if http and conn:
+      log.debug('cache: use persistent connection', 3)
+      conn.request('GET', url, None, {'User-Agent':PYEPG_USER_AGENT})
+      r   = conn.getresponse()
+      for (k,v) in r.getheaders(): head[k.lower()] = v
+      ret = r.read()
+    else:
+      req.get_method = lambda: 'GET'
+      up   = urllib2.urlopen(req, timeout=60.0)
+      ret  = up.read()
+      head = up.headers
 
     # Store
     if cache:
-      put_file(path, ret, up.headers)
+      put_file(path, ret, head)
   
   return ret
 
