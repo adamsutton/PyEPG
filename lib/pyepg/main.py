@@ -117,7 +117,7 @@ def setup ( opts = {}, args = [], conf_path = None ):
   conf_over = {}
 
   # Process command line
-  if hasattr(opts, 'options'):
+  if hasattr(opts, 'option'):
     for o in opts.option:
       p = o.split('=')
       if len(p) == 2:

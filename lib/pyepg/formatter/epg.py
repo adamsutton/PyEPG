@@ -121,8 +121,7 @@ def out_episode ( out, eps ):
           else:
             print >>out, '      <%s>%s</%s>' % (r, str_format(p.name), r)
         except Exception, e:
-          log.error('failed to enter cast')
-          print e
+          log.error('failed to enter cast [e=%s]' % e)
           try:
             log.debug(repr(p.name))
           except: pass

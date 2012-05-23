@@ -142,13 +142,13 @@ def chunk ( items, num ):
 def chunk2 ( items, num ):
   from math import ceil
   num = min(len(items), num)
-  ret = []
-  per = int(ceil(len(items) / float(num)))
-  for i in range(num):
-    t = []
-    for j in range(per):
-      if items: t.append(items.pop())
-    ret.append(t)
+  ret = [None] * num
+  i   = 0
+  for item in items:
+    k = i % num
+    if not ret[k]: ret[k] = []
+    ret[k].append(item)
+    i = i + 1
   return ret
 
 # ###########################################################################
