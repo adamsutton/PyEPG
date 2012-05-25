@@ -242,7 +242,7 @@ def fix_plus_n ( epg, channels ):
         uri = c.uri.replace(r.group(1), '')
         for c1 in channels:
           if uri == c1.uri:
-            fix.append((c, os, c1))
+            fix.append((c, os*60, c1))
             break
 
   # Fix the channels
