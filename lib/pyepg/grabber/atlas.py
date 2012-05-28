@@ -816,7 +816,7 @@ def grab ( epg, channels, start, stop ):
 
   # Filter the channel list (only include those we have listing for)
   channels = filter_channels(channels)
-  days     = (stop - start).total_seconds() / 86400
+  days     = util.total_seconds(stop - start) / 86400
   channels = sorted(channels, cmp=lambda a,b: cmp(a.number,b.number))
   log.info('atlas - epg grab %d channels for %d days' % (len(channels), days))
 
