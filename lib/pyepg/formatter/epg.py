@@ -27,7 +27,7 @@ and to streamline things where data is repeated.
 # ###########################################################################
 
 import pyepg.log as log
-from pyepg.xml import Document, Element
+from pyepg._xml import Document, Element
 
 # ###########################################################################
 # Configuration

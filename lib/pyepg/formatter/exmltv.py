@@ -25,7 +25,7 @@
 
 import datetime
 
-from pyepg.xml import Document, Element
+from pyepg._xml import Document, Element
 import pyepg.util as util
 
 # ###########################################################################
