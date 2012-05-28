@@ -26,7 +26,8 @@
 # System
 import os, sys, urllib2, json, re
 import pprint, datetime, time
-from threading import Thread
+from threading import Thread, Lock, Condition
+from Queue import Queue, Empty
 
 # PyEPG
 import pyepg.log   as log
@@ -46,7 +47,7 @@ ATLAS_API_HOST = 'atlas.metabroadcast.com'
 def atlas_fetch ( url, conn ):
   jdata = None
   url   = ('http://%s/3.0/' % ATLAS_API_HOST) + url
-  log.debug('fetch %s' % url, 0)
+  log.debug('fetch %s' % url, 2)
   
   # Can fail occasionally - give more than 1 attempt
   t = 2.0
@@ -54,7 +55,7 @@ def atlas_fetch ( url, conn ):
     try:
       data = cache.get_url(url, cache=False, conn=conn)
       if data:
-        log.debug('decode json', 1)
+        log.debug('decode json', 3)
         jdata = json.loads(data)
         log.debug(jdata, 5, pprint=True)
         break
@@ -107,7 +108,7 @@ def get_content ( uri, type ):
 # Fetch brand
 #
 def get_brand ( uri, data = None ):
-  log.debug('get_brand(%s)' % uri, 2)
+  log.debug('get_brand(%s)' % uri, 4)
 
   # Check the cache
   ret = cache.get_brand(uri)
@@ -129,7 +130,7 @@ def get_brand ( uri, data = None ):
 # Fetch series
 #
 def get_series ( uri, data = None ):
-  log.debug('get_series(%s)' % uri, 2)
+  log.debug('get_series(%s)' % uri, 4)
 
   # Check cache
   ret = cache.get_series(uri)
@@ -152,7 +153,7 @@ def get_series ( uri, data = None ):
 # Get episode
 #
 def get_episode ( uri, data ):
-  log.debug('get_episode(%s)' % uri, 2)
+  log.debug('get_episode(%s)' % uri, 4)
 
   # Check cache
   ret = cache.get_episode(uri)
@@ -170,7 +171,7 @@ def get_episode ( uri, data ):
 # Get channel
 #
 def get_channel ( uri, data ):
-  log.debug('get_channel(%s)' % uri, 2)
+  log.debug('get_channel(%s)' % uri, 4)
 
   # Check cache
   ret = cache.get_channel(uri)
@@ -381,7 +382,7 @@ def process_episode ( data ):
 
   # OK
   ret = e
-  log.debug('episode = %s' % e, 3)
+  log.debug('episode = %s' % e, 5)
   return e
 
 # Process schedule
@@ -443,7 +444,7 @@ def process_schedule ( epg, chn, sched ):
 def publisher_overlay ( a, b, pubs ):
   pa   = a['publisher']['key']
   pb   = b['publisher']['key']
-  log.debug('publishers a=%s, b=%s' % (pa, pb), 5)
+  log.debug('publishers a=%s, b=%s' % (pa, pb), 6)
   ia   = -1
   ib   = -1
   try:
@@ -471,10 +472,10 @@ def publisher_overlay ( a, b, pubs ):
       return b
   ret = None
   if ib > ia:
-    log.debug('prefer publisher a', 5)
+    log.debug('prefer publisher a', 6)
     ret = _overlay(b, a)
   else:
-    log.debug('prefer publisher b', 5)
+    log.debug('prefer publisher b', 6)
     ret = _overlay(a, b)
   return ret
 
@@ -613,28 +614,40 @@ def group_channels_by_pub ( chns ):
   return ret
 
 # ###########################################################################
-# Grab thread
+# Threads
 # ###########################################################################
 
+#
+# Fetch data
+#
 class GrabThread ( Thread ):
 
-  def __init__ ( self, idx, epg, channels, start, stop ):
+  def __init__ ( self, idx, inq, outq, start, stop ):
     Thread.__init__(self)
+    self.setDaemon(True)
     self._idx    = idx
-    self._epg    = epg
-    self._chns   = channels
+    self._inq    = inq
+    self._outq   = outq
     self._start  = start
     self._stop   = stop
-    self._remain = len(channels)
-
-  def remain ( self ):
-    return self._remain
 
   def run ( self ):
+    conn = None
+    log.debug('atlas - grab thread %3d started' % self._idx, 0)
+
+    # Create connection
     import httplib
-    conn  = httplib.HTTPConnection(ATLAS_API_HOST)
-    log.info('atlas - thread %3d conn created' % self._idx)
-    # TODO: retry?
+    retry = conf.get('atlas_conn_retry_limit', 5)
+    while not conn and retry:
+      try:
+        conn  = httplib.HTTPConnection(ATLAS_API_HOST)
+        log.debug('atlas - grab thread %3d conn created' % self._idx, 1)
+      except:
+        retry = retry - 1
+        time.sleep(conf.get('atlas_conn_retry_period', 2.0))
+    if not conn:
+      log.error('atlas - grab thread %3d failed to connect')
+      return
 
     # Config
     key    = conf.get('atlas_apikey', None)
@@ -645,8 +658,7 @@ class GrabThread ( Thread ):
                       [ 'pressassociation.com' ])
     anno   = [ 'broadcasts', 'extended_description', 'series_summary',\
                'brand_summary', 'people' ]
-    csize  = conf.get('atlas_channel_chunk', len(self._chns))
-    tsize  = conf.get('atlas_time_chunk',    self._stop - self._start)
+    tsize  = conf.get('atlas_time_chunk', self._stop - self._start)
 
     # Time
     tm_from = time.mktime(self._start.timetuple())
@@ -657,9 +669,16 @@ class GrabThread ( Thread ):
     url = url + 'annotations=' + ','.join(anno)
     if key:  url = url + '&apiKey=' + key
 
-    # Channel at a time
-    for c in self._chns:
-      log.info('atlas - thread %3d fetch   %s' % (self._idx, c.title))
+    # Until queue exhausted
+    while True:
+    
+      # Get next entry
+      c = None
+      try:
+        c = self._inq.get_nowait()
+      except Empty:
+        break
+      log.debug('atlas - grab thread %3d fetch   %s' % (self._idx, c.title), 0)
       sched = []
 
       # By time
@@ -681,7 +700,6 @@ class GrabThread ( Thread ):
           u = u + '&channel_id=' + c.shortid
 
           # Fetch data
-          # TODO: detect conn closure?
           data  = atlas_fetch(u, conn)
 
           # Processs
@@ -693,17 +711,100 @@ class GrabThread ( Thread ):
         # Update
         tf = tf + tsize
 
-      # Process overlays
-      log.info('atlas - thread %3d process %s' % (self._idx, c.title))
-      sched = process_publisher_overlay(sched, pubs)
-
-      # Process into EPG
-      process_schedule(self._epg, c, sched)
-      self._remain = self._remain - 1
+      # Put into the output queue
+      log.debug('atlas - grab thread %3d fetched %s' % (self._idx, c.title), 1)
+      self._outq.put((c, pubs, sched))
+      self._inq.task_done()
 
     # Done
     if conn: conn.close()
-    log.info('atlas - thread %3d complete' % self._idx)
+    log.debug('atlas - grab thread %3d complete' % self._idx, 0)
+
+#
+# Process data
+#
+class DataThread ( Thread ):
+
+  def __init__ ( self, idx, inq, epg ):
+    Thread.__init__(self)
+    self.setDaemon(True)
+    self._idx = idx
+    self._inq = inq
+    self._epg = epg
+
+  def run ( self ):
+    log.debug('atlas - data thread %3d started' % self._idx, 0)
+    while True:
+      c = sched = None
+      try:
+        (c, pubs, sched) = self._inq.get()
+      except Empty:
+        break
+      log.debug('atlas - data thread %3d process %s' % (self._idx, c.title), 0)
+
+      # Process overlays
+      log.debug('atlas - data thread %3d overlay %s' % (self._idx, c.title), 1)
+      sched = process_publisher_overlay(sched, pubs)
+
+      # Process into EPG
+      log.debug('atlas - data thread %3d store   %s' % (self._idx, c.title), 1)
+      process_schedule(self._epg, c, sched)
+
+      # Done
+      self._inq.task_done()
+
+    log.debug('atlas - data thread %3d complete' % self._idx, 0)
+
+#
+# Channel Queue
+#
+class ChannelQueue ( Queue ):
+  def __init__ ( self, channels ):
+    Queue.__init__(self)
+    for c in channels: self.put(c)
+  def remain ( self ):
+    return self.unfinished_tasks
+
+#
+# Data Queue
+#
+# Slightly altered get() operation so that once the "count" number of
+# items has been inserted all subsequent get() requests will either
+# return immediately with a new value OR raise empty (even if a wait is
+# specified)
+#
+class DataQueue ( Queue ):
+
+  def __init__ ( self, count ):
+    Queue.__init__(self)
+    self._count = count
+    self._cond  = Condition()
+
+  def get ( self, block = True, timeout = None ):
+    self._cond.acquire()
+    if self.empty():
+      if not self._count:
+        raise Empty()
+      elif block:
+        self._cond.wait(timeout)
+        if self.empty() and not self._count:
+          self._cond.release()
+          raise Empty()
+    self._cond.release()
+    return Queue.get(self, block, timeout)
+
+  def put ( self, data ):
+    self._cond.acquire()
+    self._count = self._count - 1
+    Queue.put(self, data)
+    if self._count:
+      self._cond.notify()
+    else:
+      self._cond.notifyAll()
+    self._cond.release()
+
+  def remain ( self ):
+    return self._count + self.unfinished_tasks
 
 # ###########################################################################
 # Grabber API
@@ -711,6 +812,7 @@ class GrabThread ( Thread ):
 
 # Grab specified data
 def grab ( epg, channels, start, stop ):
+  import multiprocessing as mp
 
   # Filter the channel list (only include those we have listing for)
   channels = filter_channels(channels)
@@ -719,48 +821,50 @@ def grab ( epg, channels, start, stop ):
   log.info('atlas - epg grab %d channels for %d days' % (len(channels), days))
 
   # Config
-  thread_count = conf.get('atlas_thread_limit',  32)
-  if thread_count <= 0:
-    thread_count = len(channels)
-  else:
-    thread_count = min(thread_count, len(channels))
+  grab_thread_cnt = conf.get('atlas_grab_threads', 32)
+  data_thread_cnt = conf.get('atlas_data_threads', 0)
+  if grab_thread_cnt <= 0:
+    grab_thread_cnt = len(channels)
+  if data_thread_cnt <= 0:
+    data_thread_cnt = mp.cpu_count() * 2
+  data_thread_cnt = min(data_thread_cnt, len(channels))
+  grab_thread_cnt = min(grab_thread_cnt, len(channels))
 
-  # Split channels (for thread)
-  threads = []
-  for chns in util.chunk2(channels, thread_count):
-    if not chns: continue
+  # Create input/output queues
+  inq  = ChannelQueue(channels)
+  outq = DataQueue(len(channels))
 
-    # Create thread
-    t = GrabThread(len(threads), epg, chns, start, stop)
-    t.setDaemon(True)
-    threads.append(t)
+  # Create grab threads
+  grab_threads = []
+  for i in range(grab_thread_cnt):
+    t = GrabThread(i, inq, outq, start, stop)
+    grab_threads.append(t)
 
-    log.info('atlas - thread %3d' % len(threads))
-    for c in chns: log.info('atlas -   %s' % c.title)
+  # Create data threads
+  data_threads = []
+  for i in range(data_thread_cnt):
+    t = DataThread(i, outq, epg)
+    data_threads.append(t)
 
   # Start threads
-  for t in threads: t.start()
+  for t in grab_threads: t.start()
+  for t in data_threads: t.start()
 
-  # Wait for all threads to complete
-  remain = len(channels)
-  while threads:
-    wait = True
-    r    = 0
-    i    = 0
-    while i < len(threads):
-      if not threads[i].isAlive():
-        log.info('atlas - threads  remaining (%4d/%4d)'\
-                 % (len(threads)-1, thread_count))
-        threads.pop(i)
-        wait = False
-      else:
-        r = r + threads[i].remain()
-        i = i + 1
-    if r != remain:
-      remain = r
-      log.info('atlas - channels remaining (%4d/%4d)'\
-               % (remain, len(channels)))
-    if wait: time.sleep(1.0)
+  # Wait for completion (inq first)
+  ins = outs = len(channels)
+  while True:
+    s = inq.remain()
+    if s != ins:
+      ins = s
+      log.info('atlas - grab %3d/%3d channels remain' % (s, len(channels)))
+    s = outq.remain()
+    if s != outs:
+      outs = s
+      log.info('atlas - proc %3d/%3d channels remain' % (s, len(channels)))
+    if not ins and not outs: break
+    time.sleep(1.0)
+  inq.join()
+  outq.join()
 
 # Get a list of the support packages
 def packages ():

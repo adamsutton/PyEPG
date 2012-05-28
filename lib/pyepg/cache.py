@@ -145,7 +145,7 @@ def db_init ( path ):
 #
 def _get_file ( name, ttl = None ):
   import time
-  log.debug('cache: get file %s' % name, 1)
+  log.debug('cache: get file %s' % name, 3)
   ok    = False
   data  = None
   meta  = None
@@ -157,23 +157,23 @@ def _get_file ( name, ttl = None ):
 
   # Check age
   if os.path.exists(path) and os.path.exists(path + '.meta'):
-    log.debug('cache: %s in cache' % name, 2)
+    log.debug('cache: %s in cache' % name, 4)
     st   = os.stat(path)
     meta = eval(open(path + '.meta').read())
     data = open(path).read()
 
     # OK
     if (st.st_mtime + ttl) > time.time():
-      log.debug('cache: %s ttl ok' % name, 2)
+      log.debug('cache: %s ttl ok' % name, 4)
       ok = True
     
     # TTL passed
     else:
-      log.debug('cache: %s ttl expired' % name, 2)
+      log.debug('cache: %s ttl expired' % name, 4)
 
     # Validate
     if 'md5' in meta and meta['md5'] == md5(data):
-      log.debug('cache: %s md5 ok' % name, 2)
+      log.debug('cache: %s md5 ok' % name, 4)
       valid = True
     else:
       log.debug('cache: %s md5 mismatch' % name)
@@ -195,7 +195,7 @@ def get_file ( name, ttl = None ):
 # Put file in the cache
 #
 def put_file ( name, data, imeta = {} ):
-  log.debug('cache: put file %s' % name, 1)
+  log.debug('cache: put file %s' % name, 3)
   ret = None
 
   # Fix meta (use lower case keys)
@@ -236,7 +236,7 @@ def touch_file ( name ):
 # @param conn  Persistent connection (created externally)
 def get_url ( url, cache = True, ttl = 0, conn = None ):
   import urllib2, urlparse
-  log.debug('cache: get url %s' % url, 1)
+  log.debug('cache: get url %s' % url, 3)
   ret = None
 
   # Create directories
@@ -264,7 +264,7 @@ def get_url ( url, cache = True, ttl = 0, conn = None ):
 
         # Fetch remote headers
         if http and conn:
-          log.debug('cache: use persistent connection', 3)
+          log.debug('cache: use persistent connection', 5)
           conn.request('GET', url, None, {'User-Agent':PYEPG_USER_AGENT})
           h = conn.getresponse().getheaders()
           for (k,v) in h: head[k.lower()] = v
@@ -276,7 +276,7 @@ def get_url ( url, cache = True, ttl = 0, conn = None ):
         # Static page unmodded
         if 'last-modified' in head and 'last-modified' in meta and\
           head['last-modified'] == meta['last-modified']:
-          log.debug('cache: last-modified matches', 2)
+          log.debug('cache: last-modified matches', 4)
           ret = data
 
           # Update timestamp
@@ -291,7 +291,7 @@ def get_url ( url, cache = True, ttl = 0, conn = None ):
     log.debug('cache: fetch remote', 1)
     head = {}
     if http and conn:
-      log.debug('cache: use persistent connection', 3)
+      log.debug('cache: use persistent connection', 5)
       conn.request('GET', url, None, {'User-Agent':PYEPG_USER_AGENT})
       r   = conn.getresponse()
       for (k,v) in r.getheaders(): head[k.lower()] = v
