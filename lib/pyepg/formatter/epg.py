@@ -27,153 +27,152 @@ and to streamline things where data is repeated.
 # ###########################################################################
 
 import pyepg.log as log
+from pyepg.xml import Document, Element
 
 # ###########################################################################
 # Configuration
 # ###########################################################################
 
 PYEPG_TIME_FORMAT = '%Y-%m-%d %H:%M:%S %z'
+PYEPG_ENCODING    = 'utf8'
 
 # ###########################################################################
 # Output
 # ###########################################################################
 
-# Format string
-def str_format ( s ):
-  s = s.replace('&', '&amp;')
-  try:
-    s = s.encode('utf8')
-  except: pass
-  return s
-
-# Header
-def out_header ( out ):
-  print >>out, '<?xml version="1.0" encoding="utf8"?>'
-  print >>out, '<!DOCTYPE epg SYSTEM "pyepg.dtd">'
-  print >>out, '<epg>'
-
-# Footer
-def out_footer ( out ):
-  print >>out, '</epg>'
-
 # Channel
-def out_channel ( out, chn ):
-  print >>out, '  <channel id="%s">' % chn.uri
-  print >>out, '    <name>%s</name>' % str_format(chn.title)
+def out_channel ( xml, chn ):
+  ele = Element('channel', id=chn.uri)
+  ele.addChild(Element('name', chn.title))
+  if chn.image:
+    ele.addChild(Element('image', chn.image))
   if chn.radio:
-    print >>out, '    <radio />'
-  # TODO: icon?
-  print >>out, '  </channel>'
+    ele.addChild(Element('radio'))
+  # TODO: extra metadata
+  xml.addChild(ele)
 
 # Brand
-def out_brand ( out, brand ):
-  print >>out, '  <brand id="%s">' % brand.uri
+def out_brand ( xml, brand ):
+  ele = Element('brand', id=brand.uri)
   if brand.title:
-    print >>out, '    <title>%s</title>' % str_format(brand.title)
+    ele.addChild(Element('title', brand.title))
   if brand.summary:
-    print >>out, '    <summary>%s</summary>' % str_format(brand.summary)
-  # TODO: series count
-  # TODO: icon
-  print >>out, '  </brand>'
+    ele.addChild(Element('summary', brand.summary))
+  if brand.series_count:
+    ele.addChild(Element('series_count', brand.series_count))
+  if brand.image:
+    ele.addChild(Element('image', brand.image))
+  if brand.thumb:
+    ele.addChild(Element('thumb', brand.thumb))
+  xml.addChild(ele)
 
 # Series
-def out_series ( out, series ):
-  b = ''
-  if series.brand: b = ' brand="%s"' % series.brand.uri
-  print >>out, '  <series id="%s"%s>' % (series.uri, b)
+def out_series ( xml, series ):
+  ele = Element('series', id=series.uri)
+  if series.brand:
+    ele.addAttribute('brand', series.brand.uri)
   if series.title:
-    print >>out, '    <title>%s</title>' % str_format(series.title)
+    ele.addChild(Element('title', series.title))
   if series.summary:
-    print >>out, '    <summary>%s</summary>' % str_format(series.summary)
+    ele.addChild(Element('summary', series.summary))
+  if series.image:
+    ele.addChild(Element('image', series.image))
+  if series.thumb:
+    ele.addChild(Element('thumb', series.thumb))
   if series.number is not None:
-    print >>out, '    <number>%d</number>' % series.number
+    ele.addChild(Element('number', series.number))
   else:
     log.warn('no series number for %s' % series.uri)
-  # TODO: episode count
-  print >>out, '  </series>'
+  if series.episode_count:
+    ele.addChild(Element('episode_count', series.episode_count))
+  xml.addChild(ele)
 
 # Episode
-def out_episode ( out, eps ):
-  b = s = ''
-  if eps.brand:  b = ' brand="%s"' % eps.brand.uri
-  if eps.series: s = ' series="%s"' % eps.series.uri
-  print >>out, '  <episode id="%s"%s%s>' % (eps.uri, b, s)
-  print >>out, '    <title>%s</title>' % str_format(eps.get_title())
+def out_episode ( xml, eps ):
+  ele = Element('episode', id=eps.uri)
+  if eps.brand:
+    ele.addAttribute('brand', eps.brand.uri)
+  if eps.series:
+    ele.addAttribute('series', eps.series.uri)
+  # TODO: re-think this!
+  ele.addChild(Element('title', eps.get_title()))
   st = eps.get_subtitle()
   if st:
-    print >>out, '    <subtitle>%s</subtitle>' % str_format(st)
+    ele.addChild(Element('subtitle', st))
   su = eps.get_summary()
-  if eps.number:
-    print >>out, '    <number>%d</number>' % eps.number
   if su:
-    print >>out, '    <summary>%s</summary>' % str_format(su)
+    ele.addChild(Element('summary', su))
+  if eps.number:
+    ele.addChild(Element('number', eps.number))
+  if eps.part_num:
+    ele.addChild(Element('part-number', eps.part_num))
+  if eps.part_cnt:
+    ele.addChild(Element('part-count', eps.part_cnt))
   if eps.film:
-    print >>out, '    <film />'
+    ele.addChild(Element('film'))
   for g in eps.get_genres():
-    print >>out, '    <genre>%s</genre>' % g
+    ele.addChild(Element('genre', g))
   cs = eps.get_credits()
   if cs:
-    print >>out, '    <credits>'
+    cre = Element('credits')
     for r in cs:
       for p in cs[r]:
-        try:
-          if p.role == 'actor' and p.character:
-            print >>out, '      <actor character="%s">%s</actor>'\
-                  % (str_format(p.character), str_format(p.name))
-          else:
-            print >>out, '      <%s>%s</%s>' % (r, str_format(p.name), r)
-        except Exception, e:
-          log.error('failed to enter cast [e=%s]' % e)
-          try:
-            log.debug(repr(p.name))
-          except: pass
-          try:
-            log.debug(repr(str_format(p.name)))
-          except: pass
-    print >>out, '    </credits>'
+        if p.role == 'actor' and p.character:
+          cre.addChild(Element('actor', p.name, character=p.character))
+        else:
+          cre.addChild(Element(r, p.name))
+    ele.addChild(cre)
   if eps.year and eps.film:
-    print >>out, '    <date>%d</date>' % eps.year
+    ele.addChild(Element('date', eps.year))
   if eps.baw:
-    print >>out, '    <blackandwhite />'
-  # TODO: icon
-  # TODO: hd (as in showing on HD channel at same time)
-  print >>out, '  </episode>'
-  
+    ele.addChild(Element('blackandwhite'))
+
+  # TODO: images
+  #if eps.image:
+  #  ele.addChild(Element('image', eps.image))
+  #if eps.thumb:
+  #  ele.addChild(Element('thumb', eps.thumb))
+
+  # TODO: HD (as in showing on HD channel)
+
+  xml.addChild(ele)
+
 # Broadcast
-def out_broadcast ( out, bcast ):
-  # TODO: specify format!
-  f = bcast.start.strftime(PYEPG_TIME_FORMAT)
-  t = bcast.stop.strftime(PYEPG_TIME_FORMAT)
-  e = bcast.episode.uri
-  print >>out, '    <broadcast episode="%s" start="%s" stop="%s">' % (e, f, t)
+def out_broadcast ( xml, bcast ):
+  f   = bcast.start.strftime(PYEPG_TIME_FORMAT)
+  t   = bcast.stop.strftime(PYEPG_TIME_FORMAT)
+
+  ele = Element('broadcast', episode=bcast.episode.uri, start=f, stop=t)
+
   if bcast.hd:
-    print >>out, '      <hd />'
+    ele.addChild(Element('hd'))
   if bcast.widescreen or bcast.hd:
-    print >>out, '      <widescreen />'
+    ele.addChild(Element('widescreen'))
   # TODO: quality and aspect ratio
   if bcast.new:
-    print >>out, '      <new />'
+    ele.addChild(Element('new'))
   if bcast.premiere:
-    print >>out, '      <premiere />'
+    ele.addChild(Element('premiere'))
   if bcast.repeat:
-    print >>out, '      <repeat />'
+    ele.addChild(Element('repeat'))
   if bcast.subtitled:
-    print >>out, '      <subtitles type="teletext" />'
+    ele.addChild(Element('subtitles', type='teletext'))
   if bcast.signed:
-    print >>out, '      <subtitles type="deaf-signed" />'
+    ele.addChild(Element('subtitles', type='deaf-signed'))
   # TODO: audio described
   # TODO: certification and ratings
   # TODO: image
-  print >>out, '    </broadcast>'
+
+  xml.addChild(ele)
 
 # Schedule
-def out_schedule ( out, sched, channel ):
-  
+def out_schedule ( xml, sched, channel ):
+
   # Output broadcasts
-  print '  <schedule channel="%s">' % channel.uri
+  ele = Element('schedule', channel=channel.uri)
   for b in sched:
-    out_broadcast(out, b)
-  print '  </schedule>'
+    out_broadcast(ele, b)
+  xml.addChild(ele)
 
 # ###########################################################################
 # Formatter API
@@ -181,30 +180,31 @@ def out_schedule ( out, sched, channel ):
 
 # Output EPG
 def format ( epg, out ):
-  
-  # Header
-  out_header(out)
+
+  # Start XML document
+  xml = Document('epg', 'pyepg.dtd', '1.0', PYEPG_ENCODING)
+  xml.begin(out)
 
   # Channels
   for c in epg.get_channels():
-    out_channel(out, c)
+    out_channel(xml, c)
 
   # Brands
   for b in epg.get_brands():
-    out_brand(out, b)
+    out_brand(xml, b)
 
   # Series
   for s in epg.get_series():
-    out_series(out, s)
+    out_series(xml, s)
 
   # Episodes
   for e in epg.get_episodes():
-    out_episode(out, e)
+    out_episode(xml, e)
 
   # Schedules
   sc = epg.get_schedule()
   for c in sc:
-    out_schedule(out, sc[c], c)
+    out_schedule(xml, sc[c], c)
 
-  # Footer
-  out_footer(out)
+  # Done
+  xml.end()
