@@ -29,9 +29,9 @@
 
 class Element:
 
-  def __init__ ( self, name, cdata = None, **attrs ):
+  def __init__ ( self, name, text = None, **attrs ):
     self._name     = name
-    self._cdata    = cdata
+    self._text     = text
     self._attrs    = attrs
     self._children = []
     self._out      = None
@@ -39,9 +39,9 @@ class Element:
     self._encoding = None
     self._empty    = True
 
-  def setCData ( self, cdata ):
+  def setText ( self, text ):
     assert(self._out is None)
-    self._cdata = cdata
+    self._text = cdata
 
   def addAttribute ( self, key, val ):
     assert(self._out is None)
@@ -51,7 +51,7 @@ class Element:
     if self._out is None:
       self._children.append(ele)
     else:
-      if not self._cdata and self._empty:
+      if not self._text and self._empty:
         self._out.write('>')
       if self._empty:
         self._out.write('\n')
@@ -66,10 +66,10 @@ class Element:
     self._out.write('%s<%s' % ('  ' * indent, self._name))
     for k in self._attrs:
       self._out.write(' %s="%s"' % (k, self._format(self._attrs[k])))
-    if self._children or self._cdata:
+    if self._children or self._text:
       self._out.write('>')
-    if self._cdata:
-      self._out.write(self._format(self._cdata))
+    if self._text:
+      self._out.write(self._format(self._text))
     if self._children:
       self._out.write('\n')
       self._empty = False
@@ -78,7 +78,7 @@ class Element:
       c.end()
 
   def end ( self ):
-    if self._cdata or not self._empty:
+    if self._text or not self._empty:
       if not self._empty: self._out.write('  ' * self._indent)
       self._out.write('</%s>\n' % self._name)
     else:
@@ -86,12 +86,13 @@ class Element:
     self._out = None
 
   def _format ( self, data ):
-    s = str(data)
-    s = s.replace('&', '&amp;')
-    try:
-      s = s.encode(self._encoding)
-    except: pass
-    return s
+    from xml.sax.saxutils import escape, quoteattr
+    if isinstance(data, unicode):
+      data = data.encode(self._encoding, 'xmlcharrefreplace')
+    elif not isinstance(data, str):
+      data = str(data)
+    data = escape(data)
+    return data
 
 class Document ( Element ):
 
