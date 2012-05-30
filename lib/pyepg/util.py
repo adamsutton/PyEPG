@@ -151,6 +151,17 @@ def chunk2 ( items, num ):
     i = i + 1
   return ret
 
+#
+# Get total number of seconds in timedelta object
+#
+# Note: included as python 2.6 does not include built-in
+#
+def total_seconds ( td ):
+  if hasattr(td, 'total_seconds'):
+    return td.total_seconds()
+  else:
+    return (td.microseconds / 10**6) + (td.seconds + td.days * 24 * 3600)
+
 # ###########################################################################
 # Testing
 # ###########################################################################

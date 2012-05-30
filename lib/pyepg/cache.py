@@ -66,8 +66,8 @@ def init ( path ):
 
 # Create MD5 of an object
 def md5 ( obj ):
-  import md5
-  tmp = md5.new()
+  from hashlib import md5
+  tmp = md5()
   tmp.update(str(obj))
   return tmp.hexdigest()
 

@@ -24,6 +24,7 @@ from threading import Lock
 
 # PyEPG libs
 import pyepg.log as log
+from pyepg.util import total_seconds
 
 # Note: there is some redundancy in the data storage, this makes
 # access for the formatters quicker at a slight cost to entry during
@@ -101,7 +102,7 @@ class EPG:
       for i in self.schedule[c]:
         if p and p.stop > i.start:
           log.debug('epg - schedule overlap detected')
-          if (p.stop - i.start).total_seconds() < 600:
+          if total_seconds(p.stop - i.start) < 600:
             log.debug('epg - assume multi-provider discrepancy, will correct')
             p.stop = i.start
           else:
