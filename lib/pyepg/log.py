@@ -81,16 +81,20 @@ def out ( pre, msg, **dargs ):
     except: pass
 
     # Output to stderr, file
-    out = '%8s - %-6s: %s' % (tm, pre.lower(), msg)
-    print >>sys.stderr, out
-    if LOG_PATH:
-      open(LOG_PATH, 'a').write(out + '\n')
+    try:
+      out = '%8s - %-6s: %s' % (tm, pre.lower(), msg)
+      print >>sys.stderr, out
+      if LOG_PATH:
+        open(LOG_PATH, 'a').write(out + '\n')
+    except: pass
 
     # Output to syslog
     if LOG_SYSLOG:
-      pri = syslog.LOG_INFO
-      if pre in LOG_PRIO: pri = LOG_PRIO[pre]
-      syslog.syslog(pri, msg)
+      try:
+        pri = syslog.LOG_INFO
+        if pre in LOG_PRIO: pri = LOG_PRIO[pre]
+        syslog.syslog(pri, msg)
+      except: pass
 
 # Debug
 def debug ( msg, lvl=0, **dargs ):
