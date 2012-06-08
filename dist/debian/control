@@ -6,7 +6,7 @@ Standards-Version: 3.7.3
 
 Package: pyepg
 Architecture: any
-Depends: python, python-sqlite
+Depends: python
 Recommends: tvheadend
 Homepage: https://github.com/adamsutton/PyEPG
 Description: PyEPG
