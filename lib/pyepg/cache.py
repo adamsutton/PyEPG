@@ -179,7 +179,7 @@ def _get_file ( name, ttl = None ):
       log.debug('cache: %s md5 mismatch' % name)
 
   # Return data
-  return (data, meta, ttl, valid)
+  return (data, meta, ok, valid)
 
 #
 # Fetch a file from the cache (only return data)
