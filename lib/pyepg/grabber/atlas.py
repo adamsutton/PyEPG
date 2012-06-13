@@ -25,7 +25,7 @@
 
 # System
 import os, sys, urllib2, json, re
-import pprint, datetime, time
+import datetime, time
 from threading import Thread, Lock, Condition
 from Queue import Queue, Empty
 
@@ -79,7 +79,6 @@ def atlas_fetch_content ( uri, key = None ):
 
 # Parse time
 def atlas_p_time ( tm ):
-  # TODO: all times are Zulu?
   ret = datetime.datetime.strptime(tm, '%Y-%m-%dT%H:%M:%SZ')
   ret = ret.replace(tzinfo=util.TimeZoneSimple(0))
   return ret
@@ -403,8 +402,8 @@ def process_schedule ( epg, chn, sched ):
     bc = i['broadcasts'][0]
 
     # Timing
-    s.start = atlas_p_time(bc['transmission_time'])
-    s.stop  = atlas_p_time(bc['transmission_end_time'])
+    s.start = bc['transmission_time']
+    s.stop  = bc['transmission_end_time']
 
     # Zero-length (followed by entry)
     if s.start == s.stop:
@@ -439,12 +438,12 @@ def process_schedule ( epg, chn, sched ):
     p = s
 
 #
-# Overlay two publisher entries
+# Overlay publishers for a given broadcast entry
 #
 def publisher_overlay ( a, b, pubs ):
+  ignore_keys = conf.get('atlas_overlay_ignore', [ 'uri' ])#, 'transmission_end_time' ])
   pa   = a['publisher']['key']
   pb   = b['publisher']['key']
-  log.debug('publishers a=%s, b=%s' % (pa, pb), 6)
   ia   = -1
   ib   = -1
   try:
@@ -458,7 +457,7 @@ def publisher_overlay ( a, b, pubs ):
       for k in b:
         if k not in a:
           a[k] = b[k]
-        else:
+        elif k not in ignore_keys:
           a[k] = _overlay(a[k], b[k])
       return a
     elif type(b) == list:
@@ -471,98 +470,66 @@ def publisher_overlay ( a, b, pubs ):
     else:
       return b
   ret = None
-  if ib > ia:
-    log.debug('prefer publisher a', 6)
-    ret = _overlay(b, a)
-  else:
-    log.debug('prefer publisher b', 6)
-    ret = _overlay(a, b)
+  if ib < ia:
+    t = a
+    a = b
+    b = t
+  args = (a['uri'], a['broadcasts'][0]['transmission_time'].strftime('%H:%M'), a['broadcasts'][0]['transmission_end_time'].strftime('%H:%M'), b['uri'], b['broadcasts'][0]['transmission_time'].strftime('%H:%M'), b['broadcasts'][0]['transmission_end_time'].strftime('%H:%M'))
+  log.debug('overlay %s @ %s-%s with %s @ %s-%s' % args, 6)
+  ret = _overlay(a, b)
   return ret
 
-# Process publisher overlap
+#
+# Process publisher overlay for entire schedule, will attempt to
+# match then overlay each schedule entry
+#
+# Note: at this point sched is NOT sorted by broadcast time
 #
 def process_publisher_overlay ( sched, pubs ):
   ret = []
-  s   = sched
-  g   = []
-  for i in range(len(s)):
-    if i in g: continue
-    g.append(i)
-    a = s[i]
-    t = []
-    for j in range(i, len(s)):
-      if j in g: continue
-      b = s[j]
-      if a['broadcasts'][0]['transmission_time'] == b['broadcasts'][0]['transmission_time']:
-        t.append(b)
-        g.append(j)
-    for k in t:
-      a = publisher_overlay(a, k, pubs)
-    ret.append(a)
-  return ret
 
-# Get title mappings
-def get_title_map ():
-  ret  = {}
-  data = cache.get_file('atlas/title_map.csv')
-  if data:
-    for l in data.splitlines():
-      p = map(lambda x: x.strip(), l.split(','))
-      if len(p) == 2 and p[1]:
-        ret[p[0]] = p[1]
-  return ret
+  # Sort schedule into order based on start time
+  def _cmp ( a, b ):
+    t = a['broadcasts'][0]['transmission_time']\
+      - b['broadcasts'][0]['transmission_time']
+    t = util.total_seconds(t)
+    if t < 0: return -1
+    if t > 0: return 1
+    return 0
+  sched = sorted(sched, _cmp)
 
-# Fetch channel metadata
-def _load_channels ():
-  ret = []
-  log.info('get atlas channel list')
+  # Overlay
+  num = len(sched)
+  i   = 0
+  j   = 1
+  while i < num:
 
-  # Check cache (only update monthly)
-  data = cache.get_file('atlas/channels.json', 31*86400)
-  print data
+    # Terminate
+    if j == num:
+      ret.append(sched[i])
+      break
+    
+    # Get entries
+    a  = sched[i]
+    b  = sched[j]
+    at = a['broadcasts'][0]['transmission_time']
+    bt = b['broadcasts'][0]['transmission_time']
 
-  # Fetch
-  if not data:
-    log.info('fetcing remote data')
-    data = []
+    # Zero length/Unmatch (add and next)
+    if a['broadcasts'][0]['transmission_end_time'] == at or at != bt:
+      ret.append(a)
+      i = j
+      j = j + 1
 
-    # URL setup
-    limit    = 50
-    offset   = 0
-    url_root = ('channels.json?limit=%d' % limit) + '&offset=%d'
+    # Ignore
+    elif b['broadcasts'][0]['transmission_end_time'] == bt:
+      j = j + 1
 
-    # Query
-    while True:
-      temp   = atlas_fetch(url_root % offset)
-      offset = offset + limit
-      if not temp: break
-      if 'channels' not in temp: break
-      if not temp['channels']: break
-      data.append(temp)
+    # Overlay
+    else:
+      sched[i] = publisher_overlay(a, b, pubs)
+      j = j + 1
 
-    # Store
-    if data:
-      cache.put_file('atlas/channels.json', json.dumps(data))
-
-  # Unpack
-  else:
-    data = json.loads(data)
-
-  # Channel title mappings
-  title_map = get_title_map()
-
-  # Process
-  for i in data:
-    if 'channels' in i:
-      for c in i['channels']:
-        c = get_channel(c['uri'], c)
-        if c:
-          if c.title in title_map:
-            log.debug('atlas: title %s -> %s' % (c.title, title_map[c.title]), 2)
-            c.title = title_map[c.title]
-          ret.append(c)
-
-  log.info('  channel list grabbed')
   return ret
 
 # Load channels
@@ -601,17 +568,6 @@ def filter_channels ( channels ):
     if not ok:
       log.warn('unable to find EPG info for %s' % t.uri)
   return chns
-
-# Group channels by primary publisher
-def group_channels_by_pub ( chns ):
-  ret = {}
-  for c in chns:
-    p = None
-    if c.publisher: p = c.publisher[0]
-    if p not in ret:
-      ret[p] = []
-    ret[p].append(c)
-  return ret
 
 # ###########################################################################
 # Threads
@@ -689,10 +645,12 @@ class GrabThread ( Thread ):
               time.strftime('%Y-%m-%d %H:%M', time.localtime(tt)))
         #log.info('atlas -     period %s to %s' % a)
 
-        # For each publisher
-        pubs = set(c.publisher)
-        pubs.intersection_update(p_pubs)
-        pubs.update(s_pubs)
+        # Process each publisher
+        pubs = []
+        for p in s_pubs: pubs.append(p)
+        for p in p_pubs:
+          if p in c.publisher: pubs.append(p)
+        log.debug('PUBS: %s' % pubs, 0)
         for p in pubs:
           #log.info('atlas -       publisher %s' % p)
           u = url + '&from=%d&to=%d' % (tf, tt)
@@ -742,8 +700,18 @@ class DataThread ( Thread ):
         break
       log.debug('atlas - data thread %3d process %s' % (self._idx, c.title), 0)
 
+      # Process times
+      for s in sched:
+        for i in range(len(s['broadcasts'])):
+          for k in s['broadcasts'][i]:
+            if 'time' in k:
+              try:
+                s['broadcasts'][i][k] = atlas_p_time(s['broadcasts'][i][k])
+              except: pass
+
       # Process overlays
       log.debug('atlas - data thread %3d overlay %s' % (self._idx, c.title), 1)
+      log.debug('atlas - publishers %s' % pubs, 2)
       sched = process_publisher_overlay(sched, pubs)
 
       # Process into EPG
@@ -862,9 +830,21 @@ def grab ( epg, channels, start, stop ):
       outs = s
       log.info('atlas - proc %3d/%3d channels remain' % (s, len(channels)))
     if not ins and not outs: break
+  
+    # Safety checks
+    i = 0
+    for t in grab_threads:
+      if t.isAlive(): i = i + 1
+    if not i and ins:
+      log.error('atlas - grab threads have died prematurely')
+      break
+    i = 0
+    for t in data_threads:
+      if t.isAlive(): i = i + 1
+    if not i and outs:
+      log.error('atlas - proc threads have died prematurely')
+      break
     time.sleep(1.0)
-  inq.join()
-  outq.join()
 
 # Get a list of the support packages
 def packages ():

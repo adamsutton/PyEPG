@@ -102,9 +102,6 @@ class EPG:
       for i in self.schedule[c]:
         if p and p.stop > i.start:
           log.debug('epg - schedule overlap detected')
-          if total_seconds(p.stop - i.start) < 600:
-            log.debug('epg - assume multi-provider discrepancy, will correct')
-            p.stop = i.start
-          else:
-            log.warn('epg - uncorrectable schedule overlap detected %s' % p.stop)
+          log.debug('epg - assume multi-provider discrepancy, will correct')
+          p.stop = i.start
         p = i
