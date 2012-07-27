@@ -406,3 +406,27 @@ SID,IDENT,PYEPG,NAME,FSAT NUM,SKY NUM,HD,REGIONAL,RADIO,ICON
 55510,The Active Ch,tv_the_active_channel,The Active Channel,0,281,0,0,0,
 55515,9XM,tv_9xm,9XM,0,851,0,0,0,
 55520,Music India,tv_music_india,Music India,0,822,0,0,0,http://www.lyngsat-logo.com/logo/tv/mm/music_india.jpg
+7801,BBC Olym 1 HD,tv_bbc_olympic_1_hd,BBC Olympic 1 HD,151,550,1,0,0,http://www.whathifi.com/sites/whathifi.com/files/images/newsarchive2/Newsarchive3/Olympics_logo_0.jpg
+7803,BBC Olym 2 HD,tv_bbc_olympic_2_hd,BBC Olympic 2 HD,152,551,1,0,0,http://www.whathifi.com/sites/whathifi.com/files/images/newsarchive2/Newsarchive3/Olympics_logo_0.jpg
+7805,BBC Olym 3 HD,tv_bbc_olympic_3_hd,BBC Olympic 3 HD,153,552,1,0,0,http://www.whathifi.com/sites/whathifi.com/files/images/newsarchive2/Newsarchive3/Olympics_logo_0.jpg
+7807,BBC Olym 4 HD,tv_bbc_olympic_4_hd,BBC Olympic 4 HD,154,553,1,0,0,http://www.whathifi.com/sites/whathifi.com/files/images/newsarchive2/Newsarchive3/Olympics_logo_0.jpg
+7809,BBC Olym 5 HD,tv_bbc_olympic_5_hd,BBC Olympic 5 HD,155,554,1,0,0,http://www.whathifi.com/sites/whathifi.com/files/images/newsarchive2/Newsarchive3/Olympics_logo_0.jpg
+7811,BBC Olym 6 HD,tv_bbc_olympic_6_hd,BBC Olympic 6 HD,156,555,1,0,0,http://www.whathifi.com/sites/whathifi.com/files/images/newsarchive2/Newsarchive3/Olympics_logo_0.jpg
+7813,BBC Olym 7 HD,tv_bbc_olympic_7_hd,BBC Olympic 7 HD,157,556,1,0,0,http://www.whathifi.com/sites/whathifi.com/files/images/newsarchive2/Newsarchive3/Olympics_logo_0.jpg
+7815,BBC Olym 8 HD,tv_bbc_olympic_8_hd,BBC Olympic 8 HD,158,557,1,0,0,http://www.whathifi.com/sites/whathifi.com/files/images/newsarchive2/Newsarchive3/Olympics_logo_0.jpg
+7817,BBC Olym 9 HD,tv_bbc_olympic_9_hd,BBC Olympic 9 HD,159,558,1,0,0,http://www.whathifi.com/sites/whathifi.com/files/images/newsarchive2/Newsarchive3/Olympics_logo_0.jpg
+7819,BBC Olym 10 HD,tv_bbc_olympic_10_hd,BBC Olympic 10 HD,160,559,1,0,0,http://www.whathifi.com/sites/whathifi.com/files/images/newsarchive2/Newsarchive3/Olympics_logo_0.jpg
+7821,BBC Olym 11 HD,tv_bbc_olympic_11_hd,BBC Olympic 11 HD,161,560,1,0,0,http://www.whathifi.com/sites/whathifi.com/files/images/newsarchive2/Newsarchive3/Olympics_logo_0.jpg
+7823,BBC Olym 12 HD,tv_bbc_olympic_12_hd,BBC Olympic 12 HD,162,561,1,0,0,http://www.whathifi.com/sites/whathifi.com/files/images/newsarchive2/Newsarchive3/Olympics_logo_0.jpg
+7825,BBC Olym 13 HD,tv_bbc_olympic_13_hd,BBC Olympic 13 HD,163,562,1,0,0,http://www.whathifi.com/sites/whathifi.com/files/images/newsarchive2/Newsarchive3/Olympics_logo_0.jpg
+7827,BBC Olym 14 HD,tv_bbc_olympic_14_hd,BBC Olympic 14 HD,164,563,1,0,0,http://www.whathifi.com/sites/whathifi.com/files/images/newsarchive2/Newsarchive3/Olympics_logo_0.jpg
+7829,BBC Olym 15 HD,tv_bbc_olympic_15_hd,BBC Olympic 15 HD,165,564,1,0,0,http://www.whathifi.com/sites/whathifi.com/files/images/newsarchive2/Newsarchive3/Olympics_logo_0.jpg
+7831,BBC Olym 16 HD,tv_bbc_olympic_16_hd,BBC Olympic 16 HD,166,565,1,0,0,http://www.whathifi.com/sites/whathifi.com/files/images/newsarchive2/Newsarchive3/Olympics_logo_0.jpg
+7833,BBC Olym 17 HD,tv_bbc_olympic_17_hd,BBC Olympic 17 HD,167,566,1,0,0,http://www.whathifi.com/sites/whathifi.com/files/images/newsarchive2/Newsarchive3/Olympics_logo_0.jpg
+7835,BBC Olym 18 HD,tv_bbc_olympic_18_hd,BBC Olympic 18 HD,168,567,1,0,0,http://www.whathifi.com/sites/whathifi.com/files/images/newsarchive2/Newsarchive3/Olympics_logo_0.jpg
+7837,BBC Olym 19 HD,tv_bbc_olympic_19_hd,BBC Olympic 19 HD,169,568,1,0,0,http://www.whathifi.com/sites/whathifi.com/files/images/newsarchive2/Newsarchive3/Olympics_logo_0.jpg
+7839,BBC Olym 20 HD,tv_bbc_olympic_20_hd,BBC Olympic 20 HD,170,569,1,0,0,http://www.whathifi.com/sites/whathifi.com/files/images/newsarchive2/Newsarchive3/Olympics_logo_0.jpg
+7841,BBC Olym 21 HD,tv_bbc_olympic_21_hd,BBC Olympic 21 HD,171,570,1,0,0,http://www.whathifi.com/sites/whathifi.com/files/images/newsarchive2/Newsarchive3/Olympics_logo_0.jpg
+7843,BBC Olym 22 HD,tv_bbc_olympic_22_hd,BBC Olympic 22 HD,172,571,1,0,0,http://www.whathifi.com/sites/whathifi.com/files/images/newsarchive2/Newsarchive3/Olympics_logo_0.jpg
+7845,BBC Olym 23 HD,tv_bbc_olympic_23_hd,BBC Olympic 23 HD,173,572,1,0,0,http://www.whathifi.com/sites/whathifi.com/files/images/newsarchive2/Newsarchive3/Olympics_logo_0.jpg
+7847,BBC Olym 24 HD,tv_bbc_olympic_24_hd,BBC Olympic 24 HD,174,573,1,0,0,http://www.whathifi.com/sites/whathifi.com/files/images/newsarchive2/Newsarchive3/Olympics_logo_0.jpg
