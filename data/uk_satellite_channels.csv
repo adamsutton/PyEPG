@@ -1,409 +1,408 @@
-SID,IDENT,PYEPG,NAME,FSAT NUM,SKY NUM,HD,REGIONAL,RADIO,ICON
-0,,radio_bbc_london,BBC London 94.9,718,1152,0,0,1,
-0,,radio_cavalry_radio,Calvary Radio,0,1156,0,0,1,
-0,,radio_radio_caroline,Radio Caroline,0,0,0,0,0,http://www.lyngsat-logo.com/logo/radio/rr/radio_caroline.jpg
-0,,radio_rapture_radio,Rapture Radio,0,0,0,0,0,
-0,,tv_bbc_one,BBC One,101,101,0,1,0,http://www.lyngsat-logo.com/logo/tv/bb/bbc_one.jpg
-0,,tv_bbc_two,BBC Two,102,102,0,1,0,http://www.lyngsat-logo.com/logo/tv/bb/bbc2.jpg
-0,,tv_channel_4,Channel 4,104,104,0,1,0,http://www.lyngsat-logo.com/logo/tv/cc/channel4.jpg
-0,,tv_channel_4+1,Channel 4 +1,121,135,0,1,0,http://www.lyngsat-logo.com/logo/tv/cc/channel4_plus1.jpg
-0,,tv_channel_5,Channel 5,105,105,0,1,0,http://www.lyngsat-logo.com/logo/tv/cc/channel5_region1.jpg
-0,,tv_channel_5+1,Channel 5 +1,128,177,0,1,0,http://www.lyngsat-logo.com/logo/tv/cc/channel5_region1_plus1.jpg
-0,,tv_channel_line_up,Channel Line-up,0,996,0,0,0,
-0,,tv_itv1,ITV1,103,103,0,1,0,http://www.lyngsat-logo.com/logo/tv/ii/itv1.jpg
-0,,tv_itv1_hd,ITV1 HD,119,178,1,1,0,http://www.lyngsat-logo.com/logo/tv/ii/itv1_london_hd.jpg
-0,,tv_itv1+1,ITV1 +1,112,131,0,1,0,http://www.lyngsat-logo.com/logo/tv/ii/itv1_plus1.jpg
-0,,,EPG Background,0,0,0,0,0,
-0,,,ITV1 Anglia +1,0,0,0,0,0,http://www.lyngsat-logo.com/logo/tv/ii/itv1_plus1.jpg
-0,,,ITV1 West +1,0,0,0,0,0,http://www.lyngsat-logo.com/logo/tv/ii/itv1_plus1.jpg
-0,,,ITV1 Border and Tyne Tees +1,0,0,0,0,0,http://www.lyngsat-logo.com/logo/tv/ii/itv1_plus1.jpg
-0,,,ITV1 West +1,0,0,0,0,0,http://www.lyngsat-logo.com/logo/tv/ii/itv1_westcountry_west_plus1.jpg
-0,,,Channel 4 +1,975,995,0,0,0,http://www.lyngsat-logo.com/logo/tv/cc/channel4_plus1.jpg
-1015,ITV1 Border,,STV,0,0,0,0,0,http://www.lyngsat-logo.com/logo/tv/ss/stv_east.jpg
-3851,ITV1 HD,,ITV1 Granada HD,0,0,1,0,0,http://www.lyngsat-logo.com/logo/tv/ii/itv1_granada_hd.jpg
-4704,Sky News,tv_sky_news,Sky News,0,501,0,0,0,http://www.lyngsat-logo.com/logo/tv/ss/sky_uk_news.jpg
-4706,Sky News,tv_sky_news,Sky News,0,501,0,0,0,http://www.lyngsat-logo.com/logo/tv/ss/sky_uk_news.jpg
-4740,SNR,,SNR,0,0,0,0,0,http://www.lyngsat-logo.com/logo/tv/ss/snrt_1_laayoune.jpg
-5802,CommunityChnl,tv_community_channel,Community Channel,0,539,0,0,0,http://www.lyngsat-logo.com/logo/tv/cc/cignal_community_channel.jpg
-6301,BBC 1 London,tv_bbc_one_london,BBC One London,950,974,0,0,0,http://www.lyngsat-logo.com/logo/tv/bb/bbc_one_london.jpg
-6302,BBC 2 England,tv_bbc_two_england,BBC Two England,968,989,0,0,0,http://www.lyngsat-logo.com/logo/tv/bb/bbc2.jpg
-6317,CBBC Channel,tv_cbbc,CBBC,600,613,0,0,0,http://www.lyngsat-logo.com/logo/tv/cc/cbbc.jpg
-6319,BBC THREE,tv_bbc_three,BBC Three,106,115,0,0,0,http://www.lyngsat-logo.com/logo/tv/bb/bbc_three.jpg
-6335,Channel 5,tv_channel_5_england,Channel 5 England,0,0,0,0,0,http://www.lyngsat-logo.com/logo/tv/cc/channel5_region1.jpg
-6341,BBC 1 West,tv_bbc_one_west,BBC One West,965,986,0,0,0,http://www.lyngsat-logo.com/logo/tv/bb/bbc_one_west.jpg
-6351,BBC 1 East (W),tv_bbc_one_cambridge,BBC One Cambridge,0,0,0,0,0,http://www.lyngsat-logo.com/logo/tv/bb/bbc_one_east_west.jpg
-6361,BBC 1 CI,tv_bbc_one_channel_islands,BBC One Channel Islands,951,988,0,0,0,http://www.lyngsat-logo.com/logo/tv/bb/bbc_one_channel_islands.jpg
-6401,BBC R5L,radio_bbc_radio_5_live,BBC Radio 5 Live,705,1105,0,0,1,http://www.lyngsat-logo.com/logo/radio/bb/bbc_radio5_live_sports_extra.jpg
-6405,BBC NEWS,tv_bbc_news,BBC News,200,503,0,0,0,http://www.lyngsat-logo.com/logo/tv/bb/bbc_news.jpg
-6406,ETV1,,,0,0,0,0,0,
-6407,ETV2,,,0,0,0,0,0,http://www.lyngsat-logo.com/logo/tv/ee/etv2_ee.jpg
-6416,BBC FOUR,tv_bbc_four,BBC Four,107,116,0,0,0,http://www.lyngsat-logo.com/logo/tv/bb/bbc4.jpg
-6418,CBeebies,tv_cbeebies,CBeebies,601,614,0,0,0,http://www.lyngsat-logo.com/logo/tv/bb/bbc_cbeebies.jpg
-6421,BBC 1 Scotland,tv_bbc_one_scotland,BBC One Scotland,960,971,0,0,0,http://www.lyngsat-logo.com/logo/tv/bb/bbc_one_scotland.jpg
-6422,BBC 2 Scotland,tv_bbc_two_scotland,BBC Two Scotland,970,990,0,0,0,http://www.lyngsat-logo.com/logo/tv/bb/bbc2_scotland.jpg
-6441,BBC 1 N West,tv_bbc_one_north_west,BBC One North West,955,978,0,0,0,http://www.lyngsat-logo.com/logo/tv/bb/bbc_one_north_west.jpg
-6451,BBC 1 Yorks,tv_bbc_one_yorkshire,BBC One Yorkshire,966,976,0,0,0,http://www.lyngsat-logo.com/logo/tv/bb/bbc_one_yorkshire_lincolnshire.jpg
-6461,BBC 1 S East,tv_bbc_one_south_east,BBC One South East,959,983,0,0,0,http://www.lyngsat-logo.com/logo/tv/bb/bbc_one_south_east.jpg
-6464,BBC R5SX,radio_bbc_radio_5_live_sports_extra,BBC Radio 5 Live Sports Extra,706,1144,0,0,1,http://www.lyngsat-logo.com/logo/radio/bb/bbc_radio5_live_sports_extra.jpg
-6711,6711,interactive_bbci_1,BBCi 1,0,0,0,0,0,
-6712,6712,interactive_bbci_2,BBCi 2,0,0,0,0,0,
-6713,6713,interactive_bbci_3,BBCi 3,0,0,0,0,0,
-6714,6714,interactive_bbci_4,BBCi 4,0,0,0,0,0,
-6715,6715,interactive_bbci_5,BBCi 5,0,0,0,0,0,
-6751,BBC R1,radio_bbc_radio_1,BBC Radio 1,700,1101,0,0,1,http://www.lyngsat-logo.com/logo/radio/bb/bbc_radio1.jpg
-6752,BBC R2,radio_bbc_radio_2,BBC Radio 2,702,1102,0,0,1,http://www.lyngsat-logo.com/logo/radio/bb/bbc_radio2.jpg
-6753,BBC R3,radio_bbc_radio_3,BBC Radio 3,703,1103,0,0,1,http://www.lyngsat-logo.com/logo/radio/bb/bbc_radio3.jpg
-6754,BBC R4 FM,radio_bbc_radio_4,BBC Radio 4,704,1104,0,0,1,http://www.lyngsat-logo.com/logo/radio/bb/bbc_radio4.jpg
-6755,BBC R4 LW,radio_bbc_radio_4_lw,BBC Radio 4 LW,710,1143,0,0,1,http://www.lyngsat-logo.com/logo/radio/bb/bbc_radio4.jpg
-6757,BBC R Scot.,radio_bbc_radio_scotland,BBC Radio Scotland,712,1116,0,0,1,http://www.lyngsat-logo.com/logo/radio/bb/bbc_radio_scotland.jpg
-6758,BBC R Wales,radio_bbc_radio_wales,BBC Radio Wales,714,1117,0,0,1,http://www.lyngsat-logo.com/logo/radio/bb/bbc_radio_wales.jpg
-6759,BBC R Ulster,radio_bbc_radio_ulster,BBC Radio Ulster,716,1118,0,0,1,http://www.lyngsat-logo.com/logo/radio/bb/bbc_radio_ulster.jpg
-6760,BBC Asian,radio_bbc_asian_network,BBC Asian Network,709,1119,0,0,1,http://www.lyngsat-logo.com/logo/radio/bb/bbc_radio_asian_network.jpg
-6761,BBC WS,radio_bbc_world_service,BBC World Service,711,1115,0,0,1,http://www.lyngsat-logo.com/logo/radio/bb/bbc_world_service.jpg
-6762,ETV3,,ETV3,0,0,0,0,0,http://www.lyngsat-logo.com/logo/tv/ee/etv3_et.jpg
-6763,BBC R Cymru,radio_bbc_radio_cymru,BBC Radio Cymru,715,1154,0,0,1,http://www.lyngsat-logo.com/logo/radio/bb/bbc_radio_cymru.jpg
-6766,BBC R1X,radio_bbc_radio_1xtra,BBC Radio 1Xtra,701,1137,0,0,1,http://www.lyngsat-logo.com/logo/radio/bb/bbc_radio1_xtra.jpg
-6767,BBC 6 Music,radio_bbc_radio_6_music,BBC Radio 6 Music,707,1120,0,0,1,http://www.lyngsat-logo.com/logo/radio/bb/bbc_radio6_music.jpg
-6768,BBC R4 Ex,radio_bbc_radio_4_extra,BBC Radio 4 Extra,708,1131,0,0,1,http://www.lyngsat-logo.com/logo/radio/bb/bbc_radio4_extra.jpg
-6769,BBC R n Gael,radio_bbc_radio_nan_gaidheal,BBC Radio nan Gàidheal,713,1139,0,0,1,http://www.lyngsat-logo.com/logo/radio/bb/bbc_radio_nan_gaidheal.jpg
-6770,BBC  London,tv_bbc_one_london,BBC One London,950,974,0,0,0,http://www.lyngsat-logo.com/logo/tv/bb/bbc_one_london.jpg
-6780,T7 STRM-0,interactive_bbc_multiscreen,T7 STEM-0 (BBC Multi Screen),0,0,0,0,0,
-6940,BBC HD,tv_bbc_hd,BBC HD,109,169,1,0,0,http://www.lyngsat-logo.com/logo/tv/bb/bbc_hd_uk.jpg
-6941,BBC One HD,tv_bbc_one_hd,BBC One HD,108,143,1,0,0,http://www.lyngsat-logo.com/logo/tv/bb/bbc_one_hd.jpg
-7140,CNN,tv_cnn,CNN,207,506,0,0,0,http://www.lyngsat-logo.com/logo/tv/cc/cnn_international_europe.jpg
-7230,QVC,tv_qvc,QVC,800,640,0,0,0,http://www.lyngsat-logo.com/logo/tv/qq/qvc_uk.jpg
-7231,QVC Test,,,0,0,0,0,0,
-7234,QVC Mirror,,,0,0,0,0,0,
-7235,QVC Mosaic Test,,,0,0,0,0,0,
-7236,QVC MOSAIC,,,0,0,0,0,0,
-7250,bid,tv_bid,Bid,802,654,0,0,0,http://www.lyngsat-logo.com/logo/tv/bb/bid_tv.jpg
-7301,S4C,tv_s4c,S4C,120,134,0,0,0,http://www.lyngsat-logo.com/logo/tv/ss/s4c_digidol.jpg
-7702,Channel 5,tv_channel_5_north,Channel 5 North,0,0,0,0,0,http://www.lyngsat-logo.com/logo/tv/cc/channel5_region1.jpg
-7703,Channel 5,tv_channel_5_scotland,Channel 5 Scotland,0,0,0,0,0,http://www.lyngsat-logo.com/logo/tv/cc/channel5_region1.jpg
-7704,Channel 5,tv_channel_5_northern_ireland,Channel 5 Northern Ireland,0,0,0,0,0,http://www.lyngsat-logo.com/logo/tv/cc/channel5_region1.jpg
-7710,5 USA,tv_5usa,5USA,129,174,0,0,0,http://www.lyngsat-logo.com/logo/tv/cc/channel5_usa.jpg
-7711,5 USA +1,tv_5usa+1,5USA +1,130,175,0,0,0,http://www.lyngsat-logo.com/logo/tv/cc/channel5_usa.jpg
-7715,5*,tv_5star,5*,131,176,0,0,0,http://www.lyngsat-logo.com/logo/tv/cc/channel5_star.jpg
-7716,5* +1,tv_5star+1,5* +1,132,236,0,0,0,http://www.lyngsat-logo.com/logo/tv/cc/channel5_star_plus1.jpg
-8300,E4+1,tv_e4+1,E4 +1,123,137,0,0,0,http://www.lyngsat-logo.com/logo/tv/ee/e4_plus1.jpg
-8305,E4,tv_e4,E4,122,136,0,0,0,http://www.lyngsat-logo.com/logo/tv/ee/e4_plus1.jpg
-8311,Channel 4 +1,tv_channel_4_london+1,Channel 4 London +1,0,0,0,0,0,http://www.lyngsat-logo.com/logo/tv/cc/channel4_plus1.jpg
-8312,Channel 4 +1,tv_channel_4_south_and_east+1,Channel 4 South & East +1,0,0,0,0,0,http://www.lyngsat-logo.com/logo/tv/cc/channel4_south_east_plus1.jpg
-8313,Channel 4 +1,tv_channel_4_midlands+1,Channel 4 Midlands +1,0,0,0,0,0,http://www.lyngsat-logo.com/logo/tv/cc/channel4_midlands_plus1.jpg
-8314,Channel 4 +1,tv_channel_4_north+1,Channel 4 North +1,0,0,0,0,0,http://www.lyngsat-logo.com/logo/tv/cc/channel4_north_plus1.jpg
-8315,Channel 4 +1,tv_channel_4_northern_ireland+1,Channel 4 Northern Ireland +1,0,0,0,0,0,http://www.lyngsat-logo.com/logo/tv/cc/channel4_northern_ireland_plus1.jpg
-8316,Channel 4 +1,tv_channel_4_scotland+1,Channel 4 Scotland +1,0,0,0,0,0,http://www.lyngsat-logo.com/logo/tv/cc/channel4_scotland_plus1.jpg
-8340,More4,tv_more4,More4,124,138,0,0,0,http://www.lyngsat-logo.com/logo/tv/cc/channel4_more4_uk.jpg
-9211,Channel 4,tv_channel_4_london,Channel 4 London,974,994,0,0,0,http://www.lyngsat-logo.com/logo/tv/cc/channel4_uk.jpg
-9212,Channel 4,tv_channel_4_south_and_east,Channel 4 South & East,0,0,0,0,0,http://www.lyngsat-logo.com/logo/tv/cc/channel4_south_east.jpg
-9213,Channel 4,tv_channel_4_midlands,Channel 4 Midlands,0,0,0,0,0,http://www.lyngsat-logo.com/logo/tv/cc/channel4_midlands.jpg
-9214,Channel 4,tv_channel_4_north,Channel 4 North,0,0,0,0,0,http://www.lyngsat-logo.com/logo/tv/cc/channel4_north.jpg
-9215,Channel 4,tv_channel_4_northern_ireland,Channel 4 Northern Ireland,0,0,0,0,0,http://www.lyngsat-logo.com/logo/tv/cc/channel4_northern_ireland.jpg
-9216,Channel 4,tv_channel_4_scotland,Channel 4 Scotland,0,0,0,0,0,http://www.lyngsat-logo.com/logo/tv/cc/channel4_scotland.jpg
-9220,Film4,tv_film4,Film4,300,315,0,0,0,http://www.lyngsat-logo.com/logo/tv/ff/film4.jpg
-9225,Film4 +1,tv_film4+1,Film4 +1,301,316,0,0,0,http://www.lyngsat-logo.com/logo/tv/ff/film4_plus1.jpg
-9230,More4 +1,tv_more4+1,More4 +1,125,139,0,0,0,http://www.lyngsat-logo.com/logo/tv/cc/channel4_more4_uk_plus1.jpg
-9281,c4 l,tv_c4l,c4 l,0,0,0,0,0,
-9531,TV SHOP,tv_tv_shop,TV Shop,806,643,0,0,0,http://www.lyngsat-logo.com/logo/tv/tt/tv_shop.jpg
-9532,CBS Reality,tv_cbs_reality,CBS Reality,135,146,0,0,0,http://www.lyngsat-logo.com/logo/tv/cc/cbs_reality.jpg
-9533,Rocks & Co 1,tv_rocks_and_co_1,Rocks & Co 1,817,666,0,0,0,http://www.lyngsat-logo.com/logo/tv/rr/rocks_and_co.jpg
-9535,Record TV,tv_record_tv,Record TV,0,801,0,0,0,
-9536,Sangat,tv_sangat_tv,Sangat TV,0,847,0,0,0,http://www.lyngsat-logo.com/logo/tv/ss/sangat_tv.jpg
-9537,JML Home&DIY,tv_jml_home_and_diy,JML Home & DIY,0,653,0,0,0,http://www.lyngsat-logo.com/logo/tv/jj/jml_home_and_diy.jpg
-9546,Recordbrazil,radio_record_radio,Record Radio,0,1206,0,0,1,
-9548,Sukh Sagar,radio_sukh_sagar,Sukh Sagar,0,1150,0,0,1,http://www.lyngsat-logo.com/logo/radio/ss/sukh_sagar_radio.jpg
-9549,Choice FM,radio_choice_fm,Choice FM,720,1114,0,0,1,http://www.lyngsat-logo.com/logo/radio/cc/choice_fm.jpg
-9551,UCB UK,radio_ucb_uk,UCB UK,0,1125,0,0,1,http://www.lyngsat-logo.com/logo/radio/uu/ucb_uk.jpg
-9552,UCB Insp,radio_ucb_inspiration,UCB Inspiration,0,1136,0,0,1,http://www.lyngsat-logo.com/logo/radio/uu/ucb_inspirational.jpg
-9553,UCB Bible,radio_ucb_bible,UCB Bible,0,1134,0,0,1,http://www.lyngsat-logo.com/logo/radio/uu/ucb_bible.jpg
-9554,UCB Gospel,radio_ucb_gospel,UCB Gospel,0,1135,0,0,1,http://www.lyngsat-logo.com/logo/radio/uu/ucb_gospel.jpg
-9557,Solar Radio,radio_solar_radio,Solar Radio,0,1129,0,0,1,http://www.lyngsat-logo.com/logo/radio/ss/solar_radio.jpg
-9559,XFM,radio_xfm_london,XFM London,723,1113,0,0,1,http://www.lyngsat-logo.com/logo/radio/xx/xfm_1049.jpg
-9560,Capital FM,radio_capital_fm,Capital FM,719,1109,0,0,1,http://www.lyngsat-logo.com/logo/radio/cc/capital_fm_london.jpg
-9561,Gold,radio_gold,Gold,722,1121,0,0,1,http://www.lyngsat-logo.com/logo/radio/gg/gold_dab.jpg
-9563,Khushkhabri,radio_khushkhabri,Khushkhabri,0,1151,0,0,1,
-9566,Kismat,radio_kismat_radio,Kismat Radio,0,1173,0,0,1,http://www.lyngsat-logo.com/logo/radio/kk/kismat_radio.jpg
-9568,Chill,radio_chill,Chill,0,1177,0,0,1,http://www.lyngsat-logo.com/logo/radio/cc/chill.jpg
-9570,Classic FM,radio_classic_fm,Classic FM,721,1106,0,0,1,http://www.lyngsat-logo.com/logo/radio/cc/classic_fm_uk.jpg
-9575,Planet Rock,radio_planet_rock,Planet Rock,730,1110,0,0,1,http://www.lyngsat-logo.com/logo/radio/pp/planet_rock.jpg
-9611,RTE Radio 1,radio_rte_radio_1,RTÉ Radio 1,750,1160,0,0,1,http://www.lyngsat-logo.com/logo/radio/rr/rte_radio1.jpg
-9612,RTE 2FM,radio_rte_2fm,RTÉ 2fm,751,1164,0,0,1,http://www.lyngsat-logo.com/logo/radio/rr/rte_radio2.jpg
-9613,RTE R na G,radio_rte_raidio_na_gaeltachta,RTÉ Raidió na Gaeltachta,753,1166,0,0,1,http://www.lyngsat-logo.com/logo/radio/rr/rte_raidio_nagaeltachta.jpg
-9614,RTE Lyric fm,radio_rte_lyric_fm,RTÉ lyric fm,752,1165,0,0,1,http://www.lyngsat-logo.com/logo/radio/rr/rte_lyric_fm.jpg
-10000,ITV1 HD,tv_itv1_london_hd,ITV1 London HD,0,0,1,0,0,http://www.lyngsat-logo.com/logo/tv/ii/itv1_london_hd.jpg
-10015,ITV4+1,tv_itv4+1,ITV4 +1,118,0,0,0,0,http://www.lyngsat-logo.com/logo/tv/ii/itv4_plus1.jpg
-10020,ITV1 Wales,tv_itv1_wales,ITV1 Wales,0,0,0,0,0,http://www.lyngsat-logo.com/logo/tv/ii/itv1_wales.jpg
-10030,ITV1 West,tv_itv1_west,ITV1 West,0,0,0,0,0,http://www.lyngsat-logo.com/logo/tv/ii/itv1_west.jpg
-10040,ITV1 W Country,tv_itv1_west,ITV1 West,0,0,0,0,0,http://www.lyngsat-logo.com/logo/tv/ii/itv1_westcountry_south_west.jpg
-10055,ITV1+1,tv_utv+1,UTV +1,0,0,0,0,0,
-10060,ITV1 London,tv_itv1_london,ITV1 London,977,993,0,0,0,http://www.lyngsat-logo.com/logo/tv/ii/itv1_london.jpg
-10070,ITV2,tv_itv2,ITV2,113,118,0,0,0,http://www.lyngsat-logo.com/logo/tv/ii/itv2.jpg
-10071,CITV,tv_citv,CITV,602,621,0,0,0,http://www.lyngsat-logo.com/logo/tv/cc/citv_uk.jpg
-10072,ITV4,tv_itv4,ITV4,117,120,0,0,0,http://www.lyngsat-logo.com/logo/tv/ii/itv4.jpg
-10079,ITVi Stream 44,interactive_itvi_44,ITVi Stream 44,0,0,0,0,0,
-10080,ITV1 Granada,tv_itv1_granada,ITV1 Granada,0,0,0,0,0,http://www.lyngsat-logo.com/logo/tv/ii/itv1_granada.jpg
-10090,ITV1 Anglia E,tv_itv1_anglia,ITV1 Anglia,0,0,0,0,0,http://www.lyngsat-logo.com/logo/tv/ii/itv1_anglia.jpg
-10098,ITVi tp49,interactive_itvi_49,,0,0,0,0,0,
-10099,G49,,,0,0,0,0,0,
-10100,ITV1 Central W,tv_itv1_central,ITV1 Central,0,0,0,0,0,http://www.lyngsat-logo.com/logo/tv/ii/itv1_central_west.jpg
-10120,ITV1 Border,tv_itv1_border_and_tyne_tees,ITV1 Border and Tyne Tees,0,0,0,0,0,http://www.lyngsat-logo.com/logo/tv/ii/itv1_border.jpg
-10125,ITV1+1,tv_utv+1,UTV +1,0,0,0,0,0,
-10130,ITV1 Tyne Tees,tv_itv1_tyne_tees,ITV1 Tyne Tees,0,0,0,0,0,http://www.lyngsat-logo.com/logo/tv/ii/itv1_tyne_tees.jpg
-10140,ITV1 Meridian S,tv_itv1_meridian,ITV1 Meridian,0,0,0,0,0,http://www.lyngsat-logo.com/logo/tv/ii/itv1_meridian_south.jpg
-10141,ITV1 Meridian E,tv_itv1_meridian,ITV1 Meridian,0,0,0,0,0,http://www.lyngsat-logo.com/logo/tv/ii/itv1_meridian_se.jpg
-10145,ITV1+1,tv_itv1_central+1,ITV1 Central +1,0,0,0,0,0,http://www.lyngsat-logo.com/logo/tv/ii/itv1_central_west_plus1.jpg
-10150,ITV1 Anglia S,tv_itv1_anglia,ITV1 Anglia,0,0,0,0,0,http://www.lyngsat-logo.com/logo/tv/ii/itv1_anglia.jpg
-10155,ITV1+1,tv_itv1_london+1,ITV1 London +1,0,0,0,0,0,http://www.lyngsat-logo.com/logo/tv/ii/itv1_london_plus1.jpg
-10160,ITV1 Yorks W,tv_itv1_yorkshire_west,ITV1 Yorkshire West,0,0,0,0,0,http://www.lyngsat-logo.com/logo/tv/ii/itv1_yorkshire_west.jpg
-10165,ITV2+1,tv_itv2+1,ITV2 +1,114,179,0,0,0,http://www.lyngsat-logo.com/logo/tv/ii/itv2_plus1.jpg
-10169,G53,,G53,0,0,0,0,0,
-10200,ITV Channel Is,tv_itv1_channel_television,ITV1 Channel Television,0,0,0,0,0,http://www.lyngsat-logo.com/logo/tv/ii/itv1.jpg
-10210,stv,tv_stv,STV,0,0,0,0,0,http://www.lyngsat-logo.com/logo/tv/ss/stv_north.jpg
-10220,STV,tv_stv,STV,0,0,0,0,0,http://www.lyngsat-logo.com/logo/tv/ss/stv_west.jpg
-10221,stv,tv_stv,STV,0,0,0,0,0,http://www.lyngsat-logo.com/logo/tv/ss/stv_east.jpg
-10225,10225,tv_stv_west+1,STV West +1,0,0,0,0,0,http://www.lyngsat-logo.com/logo/tv/ss/stv_west_plus1.jpg
-10230,UTV,tv_utv,UTV,0,0,0,0,0,
-10238,TalkSport,radio_talksport,Talksport,731,1108,0,0,1,http://www.lyngsat-logo.com/logo/radio/tt/talksport.jpg
-10255,ITV1+1,tv_itv1_granada+1,ITV1 Granada +1,0,0,0,0,0,http://www.lyngsat-logo.com/logo/tv/ii/itv1_granada_plus1.jpg
-10260,ITV3,tv_itv3,ITV3,115,119,0,0,0,http://www.lyngsat-logo.com/logo/tv/ii/itv3.jpg
-10261,ITV3+1,tv_itv3+1,ITV3 +1,116,180,0,0,0,http://www.lyngsat-logo.com/logo/tv/ii/itv3_plus1.jpg
-10265,ITV1+1,tv_itv1_meridian+1,ITV1 Meridian +1,0,0,0,0,0,http://www.lyngsat-logo.com/logo/tv/ii/itv1_meridian_south_plus1.jpg
-10301,BBC 1 W Mids,tv_bbc_one_west_midlands,BBC One West Midlands,963,979,0,0,0,http://www.lyngsat-logo.com/logo/tv/bb/bbc_one_west_midlands.jpg
-10303,BBC 1 Yrks&Lin,tv_bbc_one_yorks_and_lincs,BBC One Yorks & Lincs,967,977,0,0,0,http://www.lyngsat-logo.com/logo/tv/bb/bbc_one_yorkshire_north_midlands.jpg
-10305,BBC 1 E Mids,tv_bbc_one_east_midlands,BBC One East Midlands,952,980,0,0,0,http://www.lyngsat-logo.com/logo/tv/bb/bbc_one_east_midlands.jpg
-10306,BBC 1 East (E),tv_bbc_one_east,BBC One East,953,981,0,0,0,http://www.lyngsat-logo.com/logo/tv/bb/bbc_one_east_east.jpg
-10307,BBC PARL'MNT,tv_bbc_parliament,BBC Parliament,201,504,0,0,0,http://www.lyngsat-logo.com/logo/tv/bb/bbc_parliament.jpg
-10311,BBC 1 Wales,tv_bbc_one_wales,BBC One Wales,964,972,0,0,0,http://www.lyngsat-logo.com/logo/tv/bb/bbc_one_wales.jpg
-10312,BBC 2 Wales,tv_bbc_two_wales,BBC Two Wales,971,991,0,0,0,http://www.lyngsat-logo.com/logo/tv/bb/bbc2_wales.jpg
-10353,BBC 1 South,tv_bbc_one_south,BBC One South,961,984,0,0,0,http://www.lyngsat-logo.com/logo/tv/bb/bbc_one_south.jpg
-10354,BBC 1 S West,tv_bbc_one_south_west,BBC One South West,962,987,0,0,0,http://www.lyngsat-logo.com/logo/tv/bb/bbc_one_south_west.jpg
-10355,BBC 1 NE & C,tv_bbc_one_north_east_and_cumbria,BBC One North East & Cumbria,956,975,0,0,0,http://www.lyngsat-logo.com/logo/tv/bb/bbc_one_north_east_cumbria.jpg
-10356,BBC 1 Oxford,tv_bbc_one_oxford,BBC One Oxford,958,985,0,0,0,http://www.lyngsat-logo.com/logo/tv/bb/bbc_one_oxford.jpg
-10357,BBC ALBA,tv_bbc_alba,BBC Alba,110,168,0,0,0,http://www.lyngsat-logo.com/logo/tv/bb/bbc_alba.jpg
-10361,BBC 1 NI,tv_bbc_one_northern_ireland,BBC One Northern Ireland,957,973,0,0,0,http://www.lyngsat-logo.com/logo/tv/bb/bbc_one_northern_ireland.jpg
-10362,BBC 2 NI,tv_bbc_two_northern_ireland,BBC Two Northern Ireland,969,992,0,0,0,http://www.lyngsat-logo.com/logo/tv/bb/bbc2_northern_ireland.jpg
-10530,Freesat Info,tv_freesat_info,Freesat Info,0,0,0,0,0,
-12150,ITVi Quad,interactive_itvi_quad,,0,0,0,0,0,
-20700,ITV1 Central S,tv_itv1_central,ITV1 Central,0,0,0,0,0,http://www.lyngsat-logo.com/logo/tv/ii/itv1_central_south.jpg
-20701,ITV1 Central E,tv_itv1_central,ITV1 Central,0,0,0,0,0,http://www.lyngsat-logo.com/logo/tv/ii/itv1_central_east.jpg
-20715,ITV1+1,,,0,0,0,0,0,
-20735,ITV1+1,,,0,0,0,0,0,
-20745,ITV1+1,,,0,0,0,0,0,
-20780,7480,tv_itv1_london_hd,ITV1 London HD,0,0,1,0,0,http://www.lyngsat-logo.com/logo/tv/ii/itv1_london_hd.jpg
-21200,Channel 4 HD,tv_channel_4_hd,Channel 4 HD,126,140,1,0,0,http://www.lyngsat-logo.com/logo/tv/cc/channel4_hd.jpg
-21250,4Seven,tv_channel_4_seven,4Seven,127,,0,0,0,http://www.lyngsat-logo.com/logo/tv/cc/channel4_seven_uk.jpg
-50330,Storm,tv_storm,Storm,0,966,0,0,0,http://www.lyngsat-logo.com/icon/tv/ss/storm_tv.gif
-50335,Islam Channel,tv_islam_channel,Islam Channel,693,813,0,0,0,http://www.lyngsat-logo.com/logo/tv/ii/islam_channel.jpg
-50340,Jewellery Ch.,tv_jewellery_channel,Jewellery Channel,815,650,0,0,0,http://www.lyngsat-logo.com/logo/tv/jj/jewelry_channel_th.jpg
-50355,CNC World,tv_cnc_world,CNC World,0,516,0,0,0,http://www.lyngsat-logo.com/logo/tv/cc/cnc_world_chinese.jpg
-50400,Paversshoes.tv,tv_paversshoes_tv,PaversShoes.tv,0,659,0,0,0,
-50425,V Channel,tv_v_channel,V Channel,0,664,0,0,0,http://www.lyngsat-logo.com/logo/tv/vv/v_channel_uk.jpg
-50470,Zing,tv_zing,Zing,509,789,0,0,0,http://www.lyngsat-logo.com/logo/tv/zz/zee_zing.jpg
-50485,GayXchange,tv_gayxchange,GayXchange,0,876,0,0,0,
-50490,Dating Channel,tv_dating_channel,Dating Channel,0,875,0,0,0,http://www.lyngsat-logo.com/logo/tv/dd/dating_channel.jpg
-50605,Elite TV 3,tv_elite_tv_3,Elite TV 3,0,968,0,0,0,http://www.lyngsat-logo.com/icon/tv/ee/elite_tv_968.gif
-50610,Sikh Channel,tv_sikh_channel,Sikh Channel,0,840,0,0,0,http://www.lyngsat-logo.com/logo/tv/ss/sikh_channel.jpg
-50615,Elite TV 4,tv_elite_tv_4,Elite TV 4,0,932,0,0,0,http://www.lyngsat-logo.com/icon/tv/ee/elite_tv_932.gif
-50630,Channel AKA,tv_channel_aka,Channel AKA,0,370,0,0,0,http://www.lyngsat-logo.com/logo/tv/cc/channel_aka.jpg
-50847,Russia Today,tv_rt,Russia Today,206,512,0,0,0,http://www.lyngsat-logo.com/logo/tv/rr/radio_tv_crne_gore.jpg
-50856,Kiss,radio_kiss,Kiss,0,1178,0,0,1,http://www.lyngsat-logo.com/logo/radio/kk/kiss100_fm_uk.jpg
-50860,Magic,radio_magic_fm,Magic 105.4 FM,0,1180,0,0,1,http://www.lyngsat-logo.com/logo/radio/mm/magic_fm.jpg
-50866,Abu Dhabi TV,tv_abu_dhabi_tv,Abu Dhabi TV,0,796,0,0,0,
-50878,PCNE Chinese,tv_pcne_chinese,PCNE Chinese,0,785,0,0,0,
-50879,Clubland TV,tv_clubland_tv,Clubland TV,514,383,0,0,0,http://www.lyngsat-logo.com/logo/tv/cc/clubland_tv.jpg
-50880,Information TV,tv_information_tv,Information TV,402,231,0,0,0,
-50882,Massive R&B,tv_massive_r_and_b,Massive R&B,518,385,0,0,0,http://www.lyngsat-logo.com/logo/tv/mm/massive_rb.jpg
-50884,Venus TV,tv_venus_tv,Venus TV,0,805,0,0,0,
-50903,CBS Drama,tv_cbs_drama,CBS Drama,134,149,0,0,0,http://www.lyngsat-logo.com/logo/tv/cc/cbs_drama.jpg
-51001,mta-muslim tv,tv_mta_muslim_tv,MTA Muslim TV,0,787,0,0,0,http://www.lyngsat-logo.com/logo/tv/mm/mta_international.jpg
-51005,Word Network,tv_word_network,Word Network,0,591,0,0,0,
-51006,SuperCasino,tv_super_casino,Super Casino,0,866,0,0,0,http://www.lyngsat-logo.com/logo/tv/ss/supercasino.jpg
-51011,CCTV News,tv_cctv_news,CCTV News,211,510,0,0,0,http://www.lyngsat-logo.com/logo/tv/cc/cctv_news_english.jpg
-51019,Inspiration,tv_inspiration,Inspiration,690,587,0,0,0,http://www.lyngsat-logo.com/logo/tv/ii/inspiration_network.jpg
-51033,TBN Europe,tv_tbn_europe,TBN Europe,0,583,0,0,0,http://www.lyngsat-logo.com/logo/tv/tt/tbn_europe.jpg
-51035,GOD Channel,tv_god_channel,God Channel,694,580,0,0,0,http://www.lyngsat-logo.com/logo/tv/gg/god_tv_uk.jpg
-51036,Showcase +1,tv_showcase+1,Showcase +1,0,235,0,0,0,http://www.lyngsat-logo.com/logo/tv/ss/showcase_tv_uk_plus1.jpg
-51037,UMP Movies,tv_ump_movies,UMP Movies,308,797,0,0,0,http://www.lyngsat-logo.com/logo/tv/uu/ump_movies.jpg
-51107,Al Jazeera Eng,tv_al_jazeera_english,Al Jazeera English,203,514,0,0,0,http://www.lyngsat-logo.com/logo/tv/aa/al_jazeera_english.jpg
-51114,Newstalk,radio_newstalk,Newstalk,0,1210,0,0,1,
-52001,UCB TV,tv_ucb_tv,UCB TV,0,586,0,0,0,http://www.lyngsat-logo.com/logo/tv/uu/ucb.jpg
-52002,horror ch+1,tv_horror_channel+1,Horror Channel +1,139,320,0,0,0,http://www.lyngsat-logo.com/logo/tv/hh/horror_channel_uk_plus1.jpg
-52004,UMMAH CHNL,tv_ummah_channel,Ummah Channel,0,828,0,0,0,http://www.lyngsat-logo.com/logo/tv/uu/ummah_channel.jpg
-52006,Jewelry Maker,tv_jewellery_maker,Jewellery Maker,807,655,0,0,0,http://www.lyngsat-logo.com/logo/tv/jj/jewellery_maker.jpg
-52007,CBS Action,tv_cbs_action,CBS Action,137,148,0,0,0,http://www.lyngsat-logo.com/logo/tv/cc/cbs_action.jpg
-52008,Get Lucky TV,tv_get_lucky_tv,Get Lucky TV,0,909,0,0,0,
-52010,Greatest Hits TV,tv_greatest_hits_tv,Greatest Hits TV,0,378,0,0,0,
-52013,Chat Box,tv_chat_box,Chat Box,0,878,0,0,0,
-52027,Sunrise,radio_sunrise_radio,Sunrise Radio,0,1133,0,0,1,http://www.lyngsat-logo.com/logo/radio/ss/sunrise_radio.jpg
-52028,BFBS Radio,radio_bfbs_radio_1,BFBS Radio 1,786,1211,0,0,1,http://www.lyngsat-logo.com/logo/radio/bb/bfbs_cyprus.jpg
-52029,LBC 97.3,radio_lbc_fm,LBC 97.3,0,1112,0,0,1,http://www.lyngsat-logo.com/logo/radio/ll/lbc_fm_uk.jpg
-52030,Heart,radio_heart,Heart,733,1111,0,0,1,http://www.lyngsat-logo.com/logo/radio/hh/heart_fm.jpg
-52031,LBC News,radio_lbc_news,LBC News 1152,0,1124,0,0,1,http://www.lyngsat-logo.com/logo/radio/ll/lbc_news_uk.jpg
-52040,SportxxxGirls,tv_sportxxxgirls,SportxxxGirls,0,967,0,0,0,
-52050,Northern Birds,tv_northern_birds,Northern Birds,0,954,0,0,0,
-52056,Controversial tv,tv_controversial_tv,Controversial TV,0,200,0,0,0,
-52060,BET +1,tv_bet+1,BET +1,141,198,0,0,0,http://www.lyngsat-logo.com/logo/tv/bb/bet_uk.jpg
-52070,Press TV,tv_press_tv,Press TV,515,0,0,0,0,http://www.lyngsat-logo.com/logo/tv/pp/press_tv.jpg
-52100,Travel Ch +1,tv_travel_channel+1,Travel Channel +1,0,252,0,0,0,http://www.lyngsat-logo.com/logo/tv/tt/travel_channel_uk_plus1.jpg
-52102,CBS Reality+1,tv_cbs_reality+1,CBS Reality +1,136,147,0,0,0,http://www.lyngsat-logo.com/logo/tv/cc/cbs_reality_plus1.jpg
-52104,Olive TV,tv_olive_tv,Olive TV,0,597,0,0,0,http://www.lyngsat-logo.com/logo/tv/oo/olive_tv.jpg
-52105,horror channel,tv_horror_channel,Horror Channel,138,319,0,0,0,http://www.lyngsat-logo.com/logo/tv/hh/horror_channel_uk.jpg
-52106,Gay Network,tv_gay_network,Gay Network,0,877,0,0,0,http://www.lyngsat-logo.com/icon/tv/gg/gay_network.gif
-52107,Wonderful,tv_wonderful,Wonderful,0,582,0,0,0,http://www.lyngsat-logo.com/logo/tv/ww/wonderful_tv.jpg
-52109,Thane Direct,tv_thane_direct,Thane Direct,820,660,0,0,0,http://www.lyngsat-logo.com/logo/tv/tt/thane_direct.jpg
-52110,DAYSTAR,tv_daystar,Daystar,691,584,0,0,0,http://www.lyngsat-logo.com/logo/tv/dd/daystar_tv_network.jpg
-52111,CNBC,tv_cnbc,CNBC,210,505,0,0,0,http://www.lyngsat-logo.com/logo/tv/cc/class_cnbc.jpg
-52118,SmartLive,tv_smart_live_casino,Smart Live Casino,0,869,0,0,0,http://www.lyngsat-logo.com/logo/tv/ss/smart_live_casino_roulette.jpg
-52121,mov4men2 +1,tv_movies4men_2+1,Movies4Men 2 +1,307,326,0,0,0,http://www.lyngsat-logo.com/logo/tv/mm/movies_4_men2_plus1.jpg
-52125,Showcase,tv_showcase,Showcase,403,201,0,0,0,http://www.lyngsat-logo.com/logo/tv/ss/showcase_tv_uk.jpg
-52127,revelation,tv_revelation,Revelation,692,581,0,0,0,http://www.lyngsat-logo.com/logo/tv/rr/revelation_tv.jpg
-52131,Ahlebait TV,tv_ahlebait_tv,Ahlebait TV,0,835,0,0,0,
-52132,Panjab Radio,radio_panjab_radio,Panjab Radio,0,1130,0,0,1,http://www.lyngsat-logo.com/logo/radio/pp/panjab_radio.jpg
-52135,B4U Music,tv_b4u_music,B4U Music,504,781,0,0,0,http://www.lyngsat-logo.com/logo/tv/bb/b4u_music.jpg
-52158,Gospel Channel,tv_gospel_channel,Gospel Channel,0,590,0,0,0,http://www.lyngsat-logo.com/logo/tv/gg/gospel_channel_europe.jpg
-52162,Renault TV,tv_renault_tv,Renault TV,651,883,0,0,0,http://www.lyngsat-logo.com/logo/tv/rr/renault_tv.jpg
-52166,NTV,tv_ntv,NTV,0,834,0,0,0,http://www.lyngsat-logo.com/logo/tv/nn/new_cartoontv.jpg
-52170,Sonlife,tv_sonlife_broadcasting_network,SonLife Broadcasting Network,695,599,0,0,0,http://www.lyngsat-logo.com/logo/tv/ss/sonlife_broadcasting_network.jpg
-52232,Ideal World,tv_ideal_world,Ideal World,812,644,0,0,0,http://www.lyngsat-logo.com/logo/tv/ii/ideal_world.jpg
-52233,Ideal Extra,tv_ideal_extra,Ideal Extra,810,651,0,0,0,http://www.lyngsat-logo.com/logo/tv/ii/ideal_extra.jpg
-52234,Create & Craft,tv_create_and_craft,Create and Craft,813,671,0,0,0,http://www.lyngsat-logo.com/logo/tv/cc/create_and_craft.jpg
-52235,Ideal & More,tv_ideal_and_more,Ideal & More,0,668,0,0,0,http://www.lyngsat-logo.com/logo/tv/ii/ideal_and_more.jpg
-52299,Premier,radio_premier_christian_radio,Premier Christian Radio,0,1123,0,0,1,http://www.lyngsat-logo.com/logo/radio/pp/premier_christian_radio.jpg
-52510,price drop,tv_price_drop,Price Drop,801,645,0,0,0,http://www.lyngsat-logo.com/logo/tv/pp/price_drop_tv.jpg
-52535,ARY QTV,tv_ary_qtv,ARY Qtv,0,804,0,0,0,http://www.lyngsat-logo.com/logo/tv/aa/ary_qtv.jpg
-52545,Screenshop2,tv_screenshop_2,Screenshop 2,0,680,0,0,0,
-52546,speed auction,tv_speed_auction,Speed Auction,814,665,0,0,0,http://www.lyngsat-logo.com/logo/tv/ss/speed_auction_tv.jpg
-52550,Bloomberg,tv_bloomberg_tv,Bloomberg TV,208,502,0,0,0,http://www.lyngsat-logo.com/logo/tv/bb/bloomberg.jpg
-52570,FRANCE 24,tv_france_24,France 24,205,513,0,0,0,http://www.lyngsat-logo.com/logo/tv/ff/france24.jpg
-53109,movies4men,tv_movies4men,Movies4Men,304,323,0,0,0,http://www.lyngsat-logo.com/logo/tv/mm/movies_4_men.jpg
-53110,movies4men 2,tv_movies4men_2,Movies4Men 2,306,325,0,0,0,http://www.lyngsat-logo.com/logo/tv/mm/movies_4_men2.jpg
-53116,PTV Global,tv_ptv_global,PTV Global,0,810,0,0,0,http://www.lyngsat-logo.com/logo/tv/pp/ptv_global.jpg
-53118,jazeerachildren,tv_al_jazeera_childrens_channel,Al Jazeera Children's Channel,0,823,0,0,0,
-53120,Absolute CR,radio_absolute_classic_rock,Absolute Classic Rock,725,1201,0,0,1,http://www.lyngsat-logo.com/logo/radio/aa/absolute_radio_classic_rock.jpg
-53121,Absolute,radio_absolute_radio,Absolute Radio,724,1107,0,0,1,http://www.lyngsat-logo.com/logo/radio/aa/absolute_radio_00s.jpg
-53122,Absolute80s,radio_absolute_80s,Absolute 80s,726,1200,0,0,1,http://www.lyngsat-logo.com/logo/radio/aa/absolute_radio_80s.jpg
-53123,Amrit Bani,radio_amrit_bani,Amrit Bani,0,1176,0,0,1,http://www.lyngsat-logo.com/logo/radio/aa/amrit_bani.jpg
-53124,InsightRadio,radio_insight_radio,Insight Radio,777,1188,0,0,1,http://www.lyngsat-logo.com/logo/radio/ii/insight_radio.jpg
-53126,Desi Radio,radio_desi_radio,Desi Radio,0,1169,0,0,1,http://www.lyngsat-logo.com/logo/radio/dd/desi_radio.jpg
-53127,Abs Rad 90s,radio_absolute_radio_90s,Absolute Radio 90s,0,1203,0,0,1,http://www.lyngsat-logo.com/logo/radio/aa/absolute_radio_90s.jpg
-53129,Rainbow,radio_rainbow_radio,Rainbow Radio,0,1207,0,0,1,http://www.lyngsat-logo.com/logo/radio/rr/rainbow_radio.jpg
-53131,Liberty,radio_liberty_radio,Liberty Radio,0,1186,0,0,1,http://www.lyngsat-logo.com/logo/radio/ll/liberty_radio.jpg
-53132,Spectrum 1,radio_spectrum_radio,Spectrum Radio,0,1185,0,0,1,http://www.lyngsat-logo.com/logo/radio/ss/spectrum_fm_es.jpg
-53133,TWR,radio_twr,TWR,790,1138,0,0,1,http://www.lyngsat-logo.com/logo/radio/tt/twr.jpg
-53135,WRN Europe,radio_wrn_europe,WRN Europe,728,1122,0,0,1,http://www.lyngsat-logo.com/logo/radio/ww/wrn.jpg
-53136,Yorkshire R,radio_yorkshire_radio,Yorkshire Radio,0,1209,0,0,1,http://www.lyngsat-logo.com/logo/radio/yy/yorkshire_radio_digital.jpg
-53137,Gaydarradio,radio_gaydar_radio,Gaydar Radio,0,0,0,0,1,
-53138,RTE R1 Extra,radio_rte_radio_1_extra,RTÉ Radio 1 Extra,0,1142,0,0,1,
-53139,Family Radio,radio_family_radio,Family Radio,0,1159,0,0,1,http://www.lyngsat-logo.com/logo/radio/ff/family_radio.jpg
-53140,Shop Radio,radio_shop_radio,Shop Radio,0,1184,0,0,1,http://www.lyngsat-logo.com/logo/radio/ss/shop_radio_uk.jpg
-53141,WRN Arabic,radio_wrn_arabic,WRN Arabic,0,1205,0,0,1,http://www.lyngsat-logo.com/logo/radio/ww/wrn.jpg
-53142,Jazz FM,radio_jazz_fm,Jazz FM,729,1202,0,0,1,http://www.lyngsat-logo.com/logo/radio/jj/jazz_fm_radio.jpg
-53147,NHK World HD,tv_nhk_world_hd,NHK World HD,209,507,1,0,0,http://www.lyngsat-logo.com/logo/tv/nn/nhk_world.jpg
-53210,Sumo TV,tv_sumo_tv,Sumo TV,0,212,0,0,0,http://www.lyngsat-logo.com/logo/tv/ss/sumo_tv.jpg
-53230,BET,tv_bet,BET,140,191,0,0,0,http://www.lyngsat-logo.com/logo/tv/bb/bet_uk.jpg
-53255,Elite TV 2,tv_elite_tv_2,Elite TV 2,0,914,0,0,0,http://www.lyngsat-logo.com/icon/tv/ee/elite_tv_914.gif
-53260,Food Network,tv_food_network,Food Network,405,262,0,0,0,http://www.lyngsat-logo.com/logo/tv/ff/food_network_uk.jpg
-53270,Food Netwrk+1,tv_food_network+1,Food Network +1,406,263,0,0,0,http://www.lyngsat-logo.com/logo/tv/ff/food_network_uk_plus1.jpg
-53275,Blue Kiss TV,tv_blue_bird_tv,Blue Bird TV,0,0,0,0,0,
-53280,wedding tv,tv_wedding_tv,Wedding TV,400,266,0,0,0,http://www.lyngsat-logo.com/logo/tv/ww/wedding_tv_asia.jpg
-53290,Hidayat TV,tv_hidayat_tv,Hidayat TV,0,803,0,0,0,http://www.lyngsat-logo.com/logo/tv/hh/hidayat_tv.jpg
-53295,LivexxxBabes,tv_livexxxbabes,LiveXXXBabes,0,0,0,0,0,
-53297,Essex Babes,tv_essex_babes,Essex Babes,0,955,0,0,0,
-53300,Flava,tv_flava,Flava,502,367,0,0,0,http://www.lyngsat-logo.com/logo/tv/ff/flava_uk.jpg
-53305,Bliss,tv_bliss,Bliss,517,372,0,0,0,http://www.lyngsat-logo.com/logo/tv/bb/bliss.jpg
-53310,Scuzz,tv_scuzz,Scuzz,503,374,0,0,0,http://www.lyngsat-logo.com/logo/tv/ss/scuzz.jpg
-53315,DanceNationTV,tv_dance_nation_tv,Dance Nation TV,0,376,0,0,0,
-53320,True Movies 1,tv_true_movies_1,True Movies 1,302,321,0,0,0,http://www.lyngsat-logo.com/logo/tv/tt/true_movies1.jpg
-53325,True Movies 2,tv_true_movies_2,True Movies 2,303,322,0,0,0,http://www.lyngsat-logo.com/logo/tv/tt/true_movies2.jpg
-53330,Tiny Pop,tv_tiny_pop,Tiny Pop,605,617,0,0,0,http://www.lyngsat-logo.com/logo/tv/tt/tiny_pop.jpg
-53335,Chart Show+1,tv_chart_show_tv+1,Chart Show TV +1,516,382,0,0,0,http://www.lyngsat-logo.com/logo/tv/cc/chart_show.jpg
-53340,POP,tv_pop,POP,603,616,0,0,0,http://www.lyngsat-logo.com/logo/tv/pp/pop_uk.jpg
-53345,Tiny Pop +1,tv_tiny_pop+1,Tiny Pop +1,0,625,0,0,0,http://www.lyngsat-logo.com/logo/tv/tt/tiny_pop.jpg
-53350,Kix!,tv_kix,Kix!,606,627,0,0,0,http://www.lyngsat-logo.com/logo/tv/kk/kix_uk.jpg
-53355,The Vault,tv_the_vault,The Vault,501,366,0,0,0,http://www.lyngsat-logo.com/logo/tv/tt/the_vault.jpg
-53360,PopGirl,tv_pop_girl,Pop Girl,604,626,0,0,0,http://www.lyngsat-logo.com/logo/tv/pp/pop_girl.jpg
-53365,Chart Show TV,tv_chart_show_tv,Chart Show TV,500,365,0,0,0,http://www.lyngsat-logo.com/logo/tv/cc/chart_show.jpg
-53370,PopGirl +1,tv_pop_girl+1,Pop Girl +1,0,629,0,0,0,http://www.lyngsat-logo.com/logo/tv/pp/pop_girl.jpg
-53375,True Ent,tv_true_entertainment,True Entertainment,142,188,0,0,0,http://www.lyngsat-logo.com/logo/tv/tt/true_entertainment.jpg
-53510,ARY World,tv_ary_one_world,ARY One World,0,806,0,0,0,
-53586,Psychic Line,tv_pyschic_line,Psychic Line,0,885,0,0,0,
-53587,Babe Guide,tv_babe_guide,Babe Guide,0,951,0,0,0,
-53588,Red Light 4,tv_red_light_4,Red Light 4,0,950,0,0,0,http://www.lyngsat-logo.com/icon/tv/rr/red_light_central_tv4.gif
-53589,CelebrityShop,tv_celebrity_shop,Celebrity Shop,0,677,0,0,0,http://www.lyngsat-logo.com/logo/tv/cc/celebrity_shop.jpg
-53590,Red Light 3,tv_red_light_3,Red Light 3,0,948,0,0,0,http://www.lyngsat-logo.com/icon/tv/rr/red_light_central_tv3.gif
-53591,PlayboyTV Chat,tv_playboytv_chat,PlayboyTV Chat,875,902,0,0,0,http://www.lyngsat-logo.com/icon/tv/pp/playboy.gif
-53598,Red Light 1,tv_red_light_1,Red Light 1,0,911,0,0,0,http://www.lyngsat-logo.com/icon/tv/rr/red_light_central_tv.gif
-54051,Showcase 2,tv_showcase_2,Showcase 2,0,203,0,0,0,http://www.lyngsat-logo.com/logo/tv/ss/showcase_2_uk.jpg
-54053,ATN Bangla UK,tv_atn_bangla,ATN Bangla,0,827,0,0,0,http://www.lyngsat-logo.com/logo/tv/aa/atn_bangla.jpg
-54054,IQRA TV,tv_iqra_tv,IQRA TV,0,826,0,0,0,http://www.lyngsat-logo.com/logo/tv/ii/iqra_uk.jpg
-54060,KICC TV,tv_kicc_tv,KICC TV,0,594,0,0,0,http://www.lyngsat-logo.com/logo/tv/kk/kicc_tv.jpg
-54062,Channel 'S',tv_channel_s,Channel S,0,814,0,0,0,http://www.lyngsat-logo.com/logo/tv/cc/channel_s.jpg
-54063,Peace TV,tv_peace_tv,Peace TV,0,820,0,0,0,http://www.lyngsat-logo.com/logo/tv/pp/peace_tv.jpg
-54064,Peace TV Urdu,tv_peace_tv_urdu,Peace TV Urdu,0,841,0,0,0,
-54066,Info TV +1,tv_information_tv+1,Information TV +1,0,189,0,0,0,
-54067,Faith World TV,tv_faith_world_tv,Faith World TV,0,593,0,0,0,http://www.lyngsat-logo.com/logo/tv/ff/faith_world_tv.jpg
-54068,Channel i,tv_channel_i,Channel i,0,844,0,0,0,http://www.lyngsat-logo.com/logo/tv/cc/channel_i.jpg
-54101,Body In Balance,tv_body_in_balance_uk,Body In Balance UK,0,0,0,0,0,http://www.lyngsat-logo.com/logo/tv/bb/body_in_balance.jpg
-54102,Travel Channel,tv_travel_channel,Travel Channel,0,251,0,0,0,http://www.lyngsat-logo.com/logo/tv/tt/travel_channel_uk.jpg
-54103,Retail TV,tv_retail_tv,Retail TV,0,647,0,0,0,
-54106,Argos TV,tv_argos_tv,Argos TV,819,642,0,0,0,http://www.lyngsat-logo.com/logo/tv/aa/argos_tv.jpg
-54110,Men & Movies,tv_men_and_movies,Men&Movies,143,228,0,0,0,http://www.lyngsat-logo.com/logo/tv/mm/men_and_movies.jpg
-54112,Best Direct,tv_best_direct,Best Direct,0,649,0,0,0,http://www.lyngsat-logo.com/logo/tv/bb/bestdirect.jpg
-54113,QVC Beauty,tv_qvc_beauty,QVC Beauty,816,658,0,0,0,http://www.lyngsat-logo.com/logo/tv/qq/qvc_beauty_uk.jpg
-54115,Bangla TV,tv_bangla_tv,Bangla TV,0,786,0,0,0,http://www.lyngsat-logo.com/logo/tv/bb/bangla_tv.jpg
-54120,JML Cookshop,tv_jml_cookshop,JML Cookshop,809,667,0,0,0,http://www.lyngsat-logo.com/logo/tv/jj/jml_cook_shop.jpg
-54135,Believe TV,tv_believe_tv,Believe TV,0,596,0,0,0,http://www.lyngsat-logo.com/logo/tv/bb/believe_tv.jpg
-54140,Horse & Country,tv_horse_and_country_tv,Horse & Country TV,0,280,0,0,0,http://www.lyngsat-logo.com/logo/tv/hh/horse_country_tv.jpg
-54150,JML Direct,tv_jml_direct,JML Direct,808,647,0,0,0,http://www.lyngsat-logo.com/logo/tv/jj/jml_direct.jpg
-54165,Fitness TV,tv_fitness_tv,Fitness TV,0,282,0,0,0,http://www.lyngsat-logo.com/logo/tv/ff/fitness_tv.jpg
-54170,Glory TV,tv_glory_tv,Glory TV,0,832,0,0,0,http://www.lyngsat-logo.com/logo/tv/gg/glory_tv.jpg
-54203,Noor TV,tv_noor_tv,Noor TV,0,819,0,0,0,http://www.lyngsat-logo.com/logo/tv/nn/noor_tv_af.jpg
-54208,HiTV,tv_hitv,HiTV,0,204,0,0,0,http://www.lyngsat-logo.com/logo/tv/hh/hi_tv_uk.jpg
-54210,xxXpanded TV,tv_xxxpanded_tv,xxXpanded TV,0,931,0,0,0,http://www.lyngsat-logo.com/icon/tv/xx/xxxpanded_tv.gif
-54211,LOVEWORLD TV,tv_loveworld_tv,Loveworld TV,0,588,0,0,0,http://www.lyngsat-logo.com/logo/tv/ll/love_world_tv.jpg
-54212,UCTV,tv_uctv,UCTV,0,843,0,0,0,http://www.lyngsat-logo.com/logo/tv/uu/uctv_california.jpg
-54214,Praise TV,tv_praise_tv,Praise TV,0,598,0,0,0,http://www.lyngsat-logo.com/logo/tv/pp/praise_tv_network.jpg
-54215,PTV Prime,tv_ptv_prime,PTV Prime,0,792,0,0,0,
-54219,DM Digital,tv_dm_digital,DM Digital,0,802,0,0,0,http://www.lyngsat-logo.com/logo/tv/dd/dm_digital.jpg
-54249,Flirt TV 2,tv_flirt_tv_2,Flirt TV 2,0,933,0,0,0,
-54300,MATV National,tv_matv_national,MATV National,0,793,0,0,0,
-54315,Pitch TV,tv_pitch_tv,Pitch TV,803,646,0,0,0,http://www.lyngsat-logo.com/logo/tv/pp/pitch_television.jpg
-54330,Elite TV,tv_elite_tv_1,Elite TV 1,0,965,0,0,0,http://www.lyngsat-logo.com/icon/tv/ee/elite_tv_965.gif
-54345,OceanFinance,tv_ocean_finance,Ocean Finance,650,888,0,0,0,http://www.lyngsat-logo.com/logo/tv/oo/ocean_finance_tv.jpg
-54360,Pitch World,tv_pitch_world,Pitch World,804,657,0,0,0,http://www.lyngsat-logo.com/logo/tv/pp/pitch_world.jpg
-55002,BEN,tv_ben,BEN,0,184,0,0,0,http://www.lyngsat-logo.com/logo/tv/bb/ben.jpg
-55005,EWTN,radio_ewtn_europe,EWTN Europe,0,1147,0,0,1,http://www.lyngsat-logo.com/logo/radio/ee/ewtn_radio.jpg
-55008,EWTN,tv_ewtn_tv,EWTN TV,0,589,0,0,0,http://www.lyngsat-logo.com/logo/tv/ee/ewtn_us.jpg
-55013,mov4men+1,tv_movies4men+1,Movies4Men +1,305,324,0,0,0,http://www.lyngsat-logo.com/logo/tv/mm/movies_4_men_plus1.jpg
-55014,Real Radio,radio_real_radio_wales,Real Radio Wales,0,1146,0,0,1,http://www.lyngsat-logo.com/logo/radio/rr/real_radio_lk.jpg
-55015,Smooth,radio_smooth_radio,Smooth Radio,732,1128,0,0,1,http://www.lyngsat-logo.com/logo/radio/ss/smooth_fm.jpg
-55018,Madani Chnl,tv_madani_channel,Madani Channel,0,838,0,0,0,http://www.lyngsat-logo.com/logo/tv/mm/madani_channel.jpg
-55021,Vox Africa,tv_vox_africa,Vox Africa,0,218,0,0,0,http://www.lyngsat-logo.com/logo/tv/vv/voxafrica.jpg
-55022,Vintage TV,tv_vintage_tv,Vintage TV,515,369,0,0,0,http://www.lyngsat-logo.com/logo/tv/vv/vintage_tv.jpg
-55104,Gems TV Extra,tv_gems_tv_extra,Gems TV Extra,818,656,0,0,0,http://www.lyngsat-logo.com/logo/tv/gg/gems_tv_extra.jpg
-55108,Brit Asia TV,tv_brit_asia_tv,Brit Asia TV,0,833,0,0,0,http://www.lyngsat-logo.com/logo/tv/bb/brit_asia_tv.jpg
-55109,Sunrise TV,tv_sunrise_tv,Sunrise TV,0,830,0,0,0,http://www.lyngsat-logo.com/logo/tv/ss/sunrise_television.jpg
-55110,Gems TV,tv_gems_tv,Gems TV,805,652,0,0,0,http://www.lyngsat-logo.com/logo/tv/gg/gems_tv.jpg
-55112,Desh TV,tv_desh_tv,Desh TV,0,850,0,0,0,http://www.lyngsat-logo.com/logo/tv/dd/desh_tv.jpg
-55119,OHTV,tv_open_heaven_tv,Open Heaven TV,0,199,0,0,0,
-55128,UCB Ireland,radio_ucb_ireland,UCB Ireland,0,1214,0,0,1,http://www.lyngsat-logo.com/logo/radio/uu/ucb_ireland.jpg
-55132,punjabi radio,radio_punjabi_radio,Punjabi Radio,0,1187,0,0,1,http://www.lyngsat-logo.com/logo/radio/pp/punjabi_radio_uk.jpg
-55202,Starz TV,tv_starz_tv,Starz TV,0,371,0,0,0,http://www.lyngsat-logo.com/logo/tv/ss/starz_uk.jpg
-55204,Lucky Star,tv_lucky_star,Lucky Star,0,910,0,0,0,
-55207,Babestation,tv_babestation,Babestation,870,906,0,0,0,http://www.lyngsat-logo.com/icon/tv/bb/babestation.gif
-55209,Imagine Dil Se,tv_imagine_dil_se,Imagine...Dil Se,0,831,0,0,0,http://www.lyngsat-logo.com/logo/tv/ii/imagine_dil_se.jpg
-55212,Babeworld.tv,tv_the_chat_lounge,The Chat Lounge,0,0,0,0,0,
-55213,Takbeer TV,tv_takbeer_tv,Takbeer TV,0,845,0,0,0,http://www.lyngsat-logo.com/logo/tv/tt/takbeer_tv.jpg
-55214,My Channel,tv_my_channel,My Channel,0,219,0,0,0,
-55226,Psychic Today,tv_psychic_today,Psychic Today,652,886,0,0,0,http://www.lyngsat-logo.com/logo/tv/pp/psychic_today.jpg
-55228,Ahlulbayt TV,tv_ahlulbayt_tv,Ahlulbayt TV,0,842,0,0,0,http://www.lyngsat-logo.com/logo/tv/aa/ahlulbayt.jpg
-55236,holiday+cruise,tv_holiday_and_cruise,Holiday+Cruise,0,284,0,0,0,http://www.lyngsat-logo.com/logo/tv/hh/holiday_cruise.jpg
-55242,Filth,tv_filth,Filth,874,0,0,0,0,http://www.lyngsat-logo.com/logo/tv/rr/red_hot_tv_uk.jpg
-55246,Dirty Talk,tv_dirty_talk,Dirty Talk,0,921,0,0,0,
-55250,The Dept Store,tv_the_dept_store,The Dept Store,0,681,0,0,0,
-55270,propeller,tv_propeller_tv,Propeller TV,0,195,0,0,0,http://www.lyngsat-logo.com/logo/tv/pp/propeller.jpg
-55280,Euronews,tv_euronews,Euronews,204,508,0,0,0,http://www.lyngsat-logo.com/logo/tv/ee/euronews.jpg
-55500,Aastha,tv_aastha_tv,Aastha TV,0,849,0,0,0,http://www.lyngsat-logo.com/logo/tv/aa/aastha.jpg
-55510,The Active Ch,tv_the_active_channel,The Active Channel,0,281,0,0,0,
-55515,9XM,tv_9xm,9XM,0,851,0,0,0,
-55520,Music India,tv_music_india,Music India,0,822,0,0,0,http://www.lyngsat-logo.com/logo/tv/mm/music_india.jpg
+0,,radio_bbc_london,BBC London 94.9,718,1152,0,0,1,,
+0,,radio_cavalry_radio,Calvary Radio,0,1156,0,0,1,,
+0,,radio_radio_caroline,Radio Caroline,0,0,0,0,0,http://www.lyngsat-logo.com/logo/radio/rr/radio_caroline.jpg,http://www.lyngsat-logo.com/hires/rr/radio_caroline.png
+0,,radio_rapture_radio,Rapture Radio,0,0,0,0,0,,
+0,,tv_bbc_one,BBC One,101,101,0,1,0,http://www.lyngsat-logo.com/logo/tv/bb/bbc_one.jpg,http://www.lyngsat-logo.com/hires/bb/bbc_one.png
+0,,tv_bbc_two,BBC Two,102,102,0,1,0,http://www.lyngsat-logo.com/logo/tv/bb/bbc2.jpg,http://www.lyngsat-logo.com/hires/bb/bbc2.png
+0,,tv_channel_4,Channel 4,104,104,0,1,0,http://www.lyngsat-logo.com/logo/tv/cc/channel4.jpg,http://www.lyngsat-logo.com/hires/cc/channel4.png
+0,,tv_channel_4+1,Channel 4 +1,121,135,0,1,0,http://www.lyngsat-logo.com/logo/tv/cc/channel4_plus1.jpg,http://www.lyngsat-logo.com/hires/cc/channel4_plus1.png
+0,,tv_channel_5,Channel 5,105,105,0,1,0,http://www.lyngsat-logo.com/logo/tv/cc/channel5_region1.jpg,http://www.lyngsat-logo.com/hires/cc/channel5_region1.png
+0,,tv_channel_5+1,Channel 5 +1,128,177,0,1,0,http://www.lyngsat-logo.com/logo/tv/cc/channel5_region1_plus1.jpg,http://www.lyngsat-logo.com/hires/cc/channel5_region1_plus1.png
+0,,tv_channel_line_up,Channel Line-up,0,996,0,0,0,,
+0,,tv_itv1,ITV1,103,103,0,1,0,http://www.lyngsat-logo.com/logo/tv/ii/itv1.jpg,http://www.lyngsat-logo.com/hires/ii/itv1.png
+0,,tv_itv1_hd,ITV1 HD,119,178,1,1,0,http://www.lyngsat-logo.com/logo/tv/ii/itv1_london_hd.jpg,http://www.lyngsat-logo.com/hires/ii/itv1_london_hd.png
+0,,tv_itv1+1,ITV1 +1,112,131,0,1,0,http://www.lyngsat-logo.com/logo/tv/ii/itv1_plus1.jpg,http://www.lyngsat-logo.com/hires/ii/itv1_plus1.png
+0,,,EPG Background,0,0,0,0,0,,
+0,,,ITV1 Anglia +1,0,0,0,0,0,http://www.lyngsat-logo.com/logo/tv/ii/itv1_plus1.jpg,http://www.lyngsat-logo.com/hires/ii/itv1_plus1.png
+0,,,ITV1 West +1,0,0,0,0,0,http://www.lyngsat-logo.com/logo/tv/ii/itv1_plus1.jpg,http://www.lyngsat-logo.com/hires/ii/itv1_plus1.png
+0,,,ITV1 Border and Tyne Tees +1,0,0,0,0,0,http://www.lyngsat-logo.com/logo/tv/ii/itv1_plus1.jpg,http://www.lyngsat-logo.com/hires/ii/itv1_plus1.png
+0,,,ITV1 West +1,0,0,0,0,0,http://www.lyngsat-logo.com/logo/tv/ii/itv1_westcountry_west_plus1.jpg,http://www.lyngsat-logo.com/hires/ii/itv1_westcountry_west_plus1.png
+0,,,Channel 4 +1,975,995,0,0,0,http://www.lyngsat-logo.com/logo/tv/cc/channel4_plus1.jpg,http://www.lyngsat-logo.com/hires/cc/channel4_plus1.png
+1015,ITV1 Border,,STV,0,0,0,0,0,http://www.lyngsat-logo.com/logo/tv/ss/stv_east.jpg,http://www.lyngsat-logo.com/hires/ss/stv_east.png
+3851,ITV1 HD,,ITV1 Granada HD,0,0,1,0,0,http://www.lyngsat-logo.com/logo/tv/ii/itv1_granada_hd.jpg,http://www.lyngsat-logo.com/hires/ii/itv1_granada_hd.png
+4704,Sky News,tv_sky_news,Sky News,0,501,0,0,0,http://www.lyngsat-logo.com/logo/tv/ss/sky_uk_news.jpg,http://www.lyngsat-logo.com/hires/ss/sky_uk_news.png
+4706,Sky News,tv_sky_news,Sky News,0,501,0,0,0,http://www.lyngsat-logo.com/logo/tv/ss/sky_uk_news.jpg,http://www.lyngsat-logo.com/hires/ss/sky_uk_news.png
+4740,SNR,,SNR,0,0,0,0,0,http://www.lyngsat-logo.com/logo/tv/ss/snrt_1_laayoune.jpg,http://www.lyngsat-logo.com/hires/ss/snrt_1_laayoune.png
+5802,CommunityChnl,tv_community_channel,Community Channel,0,539,0,0,0,http://www.lyngsat-logo.com/logo/tv/cc/cignal_community_channel.jpg,http://www.lyngsat-logo.com/hires/cc/cignal_community_channel.png
+6301,BBC 1 London,tv_bbc_one_london,BBC One London,950,974,0,0,0,http://www.lyngsat-logo.com/logo/tv/bb/bbc_one_london.jpg,http://www.lyngsat-logo.com/hires/bb/bbc_one_london.png
+6302,BBC 2 England,tv_bbc_two_england,BBC Two England,968,989,0,0,0,http://www.lyngsat-logo.com/logo/tv/bb/bbc2.jpg,http://www.lyngsat-logo.com/hires/bb/bbc2.png
+6317,CBBC Channel,tv_cbbc,CBBC,600,613,0,0,0,http://www.lyngsat-logo.com/logo/tv/cc/cbbc.jpg,http://www.lyngsat-logo.com/hires/cc/cbbc.png
+6319,BBC THREE,tv_bbc_three,BBC Three,106,115,0,0,0,http://www.lyngsat-logo.com/logo/tv/bb/bbc_three.jpg,http://www.lyngsat-logo.com/hires/bb/bbc_three.png
+6335,Channel 5,tv_channel_5_england,Channel 5 England,0,0,0,0,0,http://www.lyngsat-logo.com/logo/tv/cc/channel5_region1.jpg,http://www.lyngsat-logo.com/hires/cc/channel5_region1.png
+6341,BBC 1 West,tv_bbc_one_west,BBC One West,965,986,0,0,0,http://www.lyngsat-logo.com/logo/tv/bb/bbc_one_west.jpg,http://www.lyngsat-logo.com/hires/bb/bbc_one_west.png
+6351,BBC 1 East (W),tv_bbc_one_cambridge,BBC One Cambridge,0,0,0,0,0,http://www.lyngsat-logo.com/logo/tv/bb/bbc_one_east_west.jpg,http://www.lyngsat-logo.com/hires/bb/bbc_one_east_west.png
+6361,BBC 1 CI,tv_bbc_one_channel_islands,BBC One Channel Islands,951,988,0,0,0,http://www.lyngsat-logo.com/logo/tv/bb/bbc_one_channel_islands.jpg,http://www.lyngsat-logo.com/hires/bb/bbc_one_channel_islands.png
+6401,BBC R5L,radio_bbc_radio_5_live,BBC Radio 5 Live,705,1105,0,0,1,http://www.lyngsat-logo.com/logo/radio/bb/bbc_radio5_live_sports_extra.jpg,http://www.lyngsat-logo.com/hires/bb/bbc_radio5_live_sports_extra.png
+6405,BBC NEWS,tv_bbc_news,BBC News,200,503,0,0,0,http://www.lyngsat-logo.com/logo/tv/bb/bbc_news.jpg,http://www.lyngsat-logo.com/hires/bb/bbc_news.png
+6406,ETV1,,,0,0,0,0,0,,
+6407,ETV2,,,0,0,0,0,0,http://www.lyngsat-logo.com/logo/tv/ee/etv2_ee.jpg,http://www.lyngsat-logo.com/hires/ee/etv2_ee.png
+6416,BBC FOUR,tv_bbc_four,BBC Four,107,116,0,0,0,http://www.lyngsat-logo.com/logo/tv/bb/bbc4.jpg,http://www.lyngsat-logo.com/hires/bb/bbc4.png
+6418,CBeebies,tv_cbeebies,CBeebies,601,614,0,0,0,http://www.lyngsat-logo.com/logo/tv/bb/bbc_cbeebies.jpg,http://www.lyngsat-logo.com/hires/bb/bbc_cbeebies.png
+6421,BBC 1 Scotland,tv_bbc_one_scotland,BBC One Scotland,960,971,0,0,0,http://www.lyngsat-logo.com/logo/tv/bb/bbc_one_scotland.jpg,http://www.lyngsat-logo.com/hires/bb/bbc_one_scotland.png
+6422,BBC 2 Scotland,tv_bbc_two_scotland,BBC Two Scotland,970,990,0,0,0,http://www.lyngsat-logo.com/logo/tv/bb/bbc2_scotland.jpg,http://www.lyngsat-logo.com/hires/bb/bbc2_scotland.png
+6441,BBC 1 N West,tv_bbc_one_north_west,BBC One North West,955,978,0,0,0,http://www.lyngsat-logo.com/logo/tv/bb/bbc_one_north_west.jpg,http://www.lyngsat-logo.com/hires/bb/bbc_one_north_west.png
+6451,BBC 1 Yorks,tv_bbc_one_yorkshire,BBC One Yorkshire,966,976,0,0,0,http://www.lyngsat-logo.com/logo/tv/bb/bbc_one_yorkshire_lincolnshire.jpg,http://www.lyngsat-logo.com/hires/bb/bbc_one_yorkshire_lincolnshire.png
+6461,BBC 1 S East,tv_bbc_one_south_east,BBC One South East,959,983,0,0,0,http://www.lyngsat-logo.com/logo/tv/bb/bbc_one_south_east.jpg,http://www.lyngsat-logo.com/hires/bb/bbc_one_south_east.png
+6464,BBC R5SX,radio_bbc_radio_5_live_sports_extra,BBC Radio 5 Live Sports Extra,706,1144,0,0,1,http://www.lyngsat-logo.com/logo/radio/bb/bbc_radio5_live_sports_extra.jpg,http://www.lyngsat-logo.com/hires/bb/bbc_radio5_live_sports_extra.png
+6711,6711,interactive_bbci_1,BBCi 1,0,0,0,0,0,,
+6712,6712,interactive_bbci_2,BBCi 2,0,0,0,0,0,,
+6713,6713,interactive_bbci_3,BBCi 3,0,0,0,0,0,,
+6714,6714,interactive_bbci_4,BBCi 4,0,0,0,0,0,,
+6715,6715,interactive_bbci_5,BBCi 5,0,0,0,0,0,,
+6751,BBC R1,radio_bbc_radio_1,BBC Radio 1,700,1101,0,0,1,http://www.lyngsat-logo.com/logo/radio/bb/bbc_radio1.jpg,http://www.lyngsat-logo.com/hires/bb/bbc_radio1.png
+6752,BBC R2,radio_bbc_radio_2,BBC Radio 2,702,1102,0,0,1,http://www.lyngsat-logo.com/logo/radio/bb/bbc_radio2.jpg,http://www.lyngsat-logo.com/hires/bb/bbc_radio2.png
+6753,BBC R3,radio_bbc_radio_3,BBC Radio 3,703,1103,0,0,1,http://www.lyngsat-logo.com/logo/radio/bb/bbc_radio3.jpg,http://www.lyngsat-logo.com/hires/bb/bbc_radio3.png
+6754,BBC R4 FM,radio_bbc_radio_4,BBC Radio 4,704,1104,0,0,1,http://www.lyngsat-logo.com/logo/radio/bb/bbc_radio4.jpg,http://www.lyngsat-logo.com/hires/bb/bbc_radio4.png
+6755,BBC R4 LW,radio_bbc_radio_4_lw,BBC Radio 4 LW,710,1143,0,0,1,http://www.lyngsat-logo.com/logo/radio/bb/bbc_radio4.jpg,http://www.lyngsat-logo.com/hires/bb/bbc_radio4.png
+6757,BBC R Scot.,radio_bbc_radio_scotland,BBC Radio Scotland,712,1116,0,0,1,http://www.lyngsat-logo.com/logo/radio/bb/bbc_radio_scotland.jpg,http://www.lyngsat-logo.com/hires/bb/bbc_radio_scotland.png
+6758,BBC R Wales,radio_bbc_radio_wales,BBC Radio Wales,714,1117,0,0,1,http://www.lyngsat-logo.com/logo/radio/bb/bbc_radio_wales.jpg,http://www.lyngsat-logo.com/hires/bb/bbc_radio_wales.png
+6759,BBC R Ulster,radio_bbc_radio_ulster,BBC Radio Ulster,716,1118,0,0,1,http://www.lyngsat-logo.com/logo/radio/bb/bbc_radio_ulster.jpg,http://www.lyngsat-logo.com/hires/bb/bbc_radio_ulster.png
+6760,BBC Asian,radio_bbc_asian_network,BBC Asian Network,709,1119,0,0,1,http://www.lyngsat-logo.com/logo/radio/bb/bbc_radio_asian_network.jpg,http://www.lyngsat-logo.com/hires/bb/bbc_radio_asian_network.png
+6761,BBC WS,radio_bbc_world_service,BBC World Service,711,1115,0,0,1,http://www.lyngsat-logo.com/logo/radio/bb/bbc_world_service.jpg,http://www.lyngsat-logo.com/hires/bb/bbc_world_service.png
+6762,ETV3,,ETV3,0,0,0,0,0,http://www.lyngsat-logo.com/logo/tv/ee/etv3_et.jpg,http://www.lyngsat-logo.com/hires/ee/etv3_et.png
+6763,BBC R Cymru,radio_bbc_radio_cymru,BBC Radio Cymru,715,1154,0,0,1,http://www.lyngsat-logo.com/logo/radio/bb/bbc_radio_cymru.jpg,http://www.lyngsat-logo.com/hires/bb/bbc_radio_cymru.png
+6766,BBC R1X,radio_bbc_radio_1xtra,BBC Radio 1Xtra,701,1137,0,0,1,http://www.lyngsat-logo.com/logo/radio/bb/bbc_radio1_xtra.jpg,http://www.lyngsat-logo.com/hires/bb/bbc_radio1_xtra.png
+6767,BBC 6 Music,radio_bbc_radio_6_music,BBC Radio 6 Music,707,1120,0,0,1,http://www.lyngsat-logo.com/logo/radio/bb/bbc_radio6_music.jpg,http://www.lyngsat-logo.com/hires/bb/bbc_radio6_music.png
+6768,BBC R4 Ex,radio_bbc_radio_4_extra,BBC Radio 4 Extra,708,1131,0,0,1,http://www.lyngsat-logo.com/logo/radio/bb/bbc_radio4_extra.jpg,http://www.lyngsat-logo.com/hires/bb/bbc_radio4_extra.png
+6769,BBC R n Gael,radio_bbc_radio_nan_gaidheal,BBC Radio nan Gàidheal,713,1139,0,0,1,http://www.lyngsat-logo.com/logo/radio/bb/bbc_radio_nan_gaidheal.jpg,http://www.lyngsat-logo.com/hires/bb/bbc_radio_nan_gaidheal.png
+6770,BBC  London,tv_bbc_one_london,BBC One London,950,974,0,0,0,http://www.lyngsat-logo.com/logo/tv/bb/bbc_one_london.jpg,http://www.lyngsat-logo.com/hires/bb/bbc_one_london.png
+6780,T7 STRM-0,interactive_bbc_multiscreen,T7 STEM-0 (BBC Multi Screen),0,0,0,0,0,,
+6940,BBC HD,tv_bbc_hd,BBC HD,109,169,1,0,0,http://www.lyngsat-logo.com/logo/tv/bb/bbc_hd_uk.jpg,http://www.lyngsat-logo.com/hires/bb/bbc_hd_uk.png
+6941,BBC One HD,tv_bbc_one_hd,BBC One HD,108,143,1,0,0,http://www.lyngsat-logo.com/logo/tv/bb/bbc_one_hd.jpg,http://www.lyngsat-logo.com/hires/bb/bbc_one_hd.png
+7140,CNN,tv_cnn,CNN,207,506,0,0,0,http://www.lyngsat-logo.com/logo/tv/cc/cnn_international_europe.jpg,http://www.lyngsat-logo.com/hires/cc/cnn_international_europe.png
+7230,QVC,tv_qvc,QVC,800,640,0,0,0,http://www.lyngsat-logo.com/logo/tv/qq/qvc_uk.jpg,http://www.lyngsat-logo.com/hires/qq/qvc_uk.png
+7231,QVC Test,,,0,0,0,0,0,,
+7234,QVC Mirror,,,0,0,0,0,0,,
+7235,QVC Mosaic Test,,,0,0,0,0,0,,
+7236,QVC MOSAIC,,,0,0,0,0,0,,
+7250,bid,tv_bid,Bid,802,654,0,0,0,http://www.lyngsat-logo.com/logo/tv/bb/bid_tv.jpg,http://www.lyngsat-logo.com/hires/bb/bid_tv.png
+7301,S4C,tv_s4c,S4C,120,134,0,0,0,http://www.lyngsat-logo.com/logo/tv/ss/s4c_digidol.jpg,http://www.lyngsat-logo.com/hires/ss/s4c_digidol.png
+7702,Channel 5,tv_channel_5_north,Channel 5 North,0,0,0,0,0,http://www.lyngsat-logo.com/logo/tv/cc/channel5_region1.jpg,http://www.lyngsat-logo.com/hires/cc/channel5_region1.png
+7703,Channel 5,tv_channel_5_scotland,Channel 5 Scotland,0,0,0,0,0,http://www.lyngsat-logo.com/logo/tv/cc/channel5_region1.jpg,http://www.lyngsat-logo.com/hires/cc/channel5_region1.png
+7704,Channel 5,tv_channel_5_northern_ireland,Channel 5 Northern Ireland,0,0,0,0,0,http://www.lyngsat-logo.com/logo/tv/cc/channel5_region1.jpg,http://www.lyngsat-logo.com/hires/cc/channel5_region1.png
+7710,5 USA,tv_5usa,5USA,129,174,0,0,0,http://www.lyngsat-logo.com/logo/tv/cc/channel5_usa.jpg,http://www.lyngsat-logo.com/hires/cc/channel5_usa.png
+7711,5 USA +1,tv_5usa+1,5USA +1,130,175,0,0,0,http://www.lyngsat-logo.com/logo/tv/cc/channel5_usa.jpg,http://www.lyngsat-logo.com/hires/cc/channel5_usa.png
+7715,5*,tv_5star,5*,131,176,0,0,0,http://www.lyngsat-logo.com/logo/tv/cc/channel5_star.jpg,http://www.lyngsat-logo.com/hires/cc/channel5_star.png
+7716,5* +1,tv_5star+1,5* +1,132,236,0,0,0,http://www.lyngsat-logo.com/logo/tv/cc/channel5_star_plus1.jpg,http://www.lyngsat-logo.com/hires/cc/channel5_star_plus1.png
+8300,E4+1,tv_e4+1,E4 +1,123,137,0,0,0,http://www.lyngsat-logo.com/logo/tv/ee/e4_plus1.jpg,http://www.lyngsat-logo.com/hires/ee/e4_plus1.png
+8305,E4,tv_e4,E4,122,136,0,0,0,http://www.lyngsat-logo.com/logo/tv/ee/e4_plus1.jpg,http://www.lyngsat-logo.com/hires/ee/e4_plus1.png
+8311,Channel 4 +1,tv_channel_4_london+1,Channel 4 London +1,0,0,0,0,0,http://www.lyngsat-logo.com/logo/tv/cc/channel4_plus1.jpg,http://www.lyngsat-logo.com/hires/cc/channel4_plus1.png
+8312,Channel 4 +1,tv_channel_4_south_and_east+1,Channel 4 South & East +1,0,0,0,0,0,http://www.lyngsat-logo.com/logo/tv/cc/channel4_south_east_plus1.jpg,http://www.lyngsat-logo.com/hires/cc/channel4_south_east_plus1.png
+8313,Channel 4 +1,tv_channel_4_midlands+1,Channel 4 Midlands +1,0,0,0,0,0,http://www.lyngsat-logo.com/logo/tv/cc/channel4_midlands_plus1.jpg,http://www.lyngsat-logo.com/hires/cc/channel4_midlands_plus1.png
+8314,Channel 4 +1,tv_channel_4_north+1,Channel 4 North +1,0,0,0,0,0,http://www.lyngsat-logo.com/logo/tv/cc/channel4_north_plus1.jpg,http://www.lyngsat-logo.com/hires/cc/channel4_north_plus1.png
+8315,Channel 4 +1,tv_channel_4_northern_ireland+1,Channel 4 Northern Ireland +1,0,0,0,0,0,http://www.lyngsat-logo.com/logo/tv/cc/channel4_northern_ireland_plus1.jpg,http://www.lyngsat-logo.com/hires/cc/channel4_northern_ireland_plus1.png
+8316,Channel 4 +1,tv_channel_4_scotland+1,Channel 4 Scotland +1,0,0,0,0,0,http://www.lyngsat-logo.com/logo/tv/cc/channel4_scotland_plus1.jpg,http://www.lyngsat-logo.com/hires/cc/channel4_scotland_plus1.png
+8340,More4,tv_more4,More4,124,138,0,0,0,http://www.lyngsat-logo.com/logo/tv/cc/channel4_more4_uk.jpg,http://www.lyngsat-logo.com/hires/cc/channel4_more4_uk.png
+9211,Channel 4,tv_channel_4_london,Channel 4 London,974,994,0,0,0,http://www.lyngsat-logo.com/logo/tv/cc/channel4_uk.jpg,http://www.lyngsat-logo.com/hires/cc/channel4_uk.png
+9212,Channel 4,tv_channel_4_south_and_east,Channel 4 South & East,0,0,0,0,0,http://www.lyngsat-logo.com/logo/tv/cc/channel4_south_east.jpg,http://www.lyngsat-logo.com/hires/cc/channel4_south_east.png
+9213,Channel 4,tv_channel_4_midlands,Channel 4 Midlands,0,0,0,0,0,http://www.lyngsat-logo.com/logo/tv/cc/channel4_midlands.jpg,http://www.lyngsat-logo.com/hires/cc/channel4_midlands.png
+9214,Channel 4,tv_channel_4_north,Channel 4 North,0,0,0,0,0,http://www.lyngsat-logo.com/logo/tv/cc/channel4_north.jpg,http://www.lyngsat-logo.com/hires/cc/channel4_north.png
+9215,Channel 4,tv_channel_4_northern_ireland,Channel 4 Northern Ireland,0,0,0,0,0,http://www.lyngsat-logo.com/logo/tv/cc/channel4_northern_ireland.jpg,http://www.lyngsat-logo.com/hires/cc/channel4_northern_ireland.png
+9216,Channel 4,tv_channel_4_scotland,Channel 4 Scotland,0,0,0,0,0,http://www.lyngsat-logo.com/logo/tv/cc/channel4_scotland.jpg,http://www.lyngsat-logo.com/hires/cc/channel4_scotland.png
+9220,Film4,tv_film4,Film4,300,315,0,0,0,http://www.lyngsat-logo.com/logo/tv/ff/film4.jpg,http://www.lyngsat-logo.com/hires/ff/film4.png
+9225,Film4 +1,tv_film4+1,Film4 +1,301,316,0,0,0,http://www.lyngsat-logo.com/logo/tv/ff/film4_plus1.jpg,http://www.lyngsat-logo.com/hires/ff/film4_plus1.png
+9230,More4 +1,tv_more4+1,More4 +1,125,139,0,0,0,http://www.lyngsat-logo.com/logo/tv/cc/channel4_more4_uk_plus1.jpg,http://www.lyngsat-logo.com/hires/cc/channel4_more4_uk_plus1.png
+9281,c4 l,tv_c4l,c4 l,0,0,0,0,0,,
+9531,TV SHOP,tv_tv_shop,TV Shop,806,643,0,0,0,http://www.lyngsat-logo.com/logo/tv/tt/tv_shop.jpg,http://www.lyngsat-logo.com/hires/tt/tv_shop.png
+9532,CBS Reality,tv_cbs_reality,CBS Reality,135,146,0,0,0,http://www.lyngsat-logo.com/logo/tv/cc/cbs_reality.jpg,http://www.lyngsat-logo.com/hires/cc/cbs_reality.png
+9533,Rocks & Co 1,tv_rocks_and_co_1,Rocks & Co 1,817,666,0,0,0,http://www.lyngsat-logo.com/logo/tv/rr/rocks_and_co.jpg,http://www.lyngsat-logo.com/hires/rr/rocks_and_co.png
+9535,Record TV,tv_record_tv,Record TV,0,801,0,0,0,,
+9536,Sangat,tv_sangat_tv,Sangat TV,0,847,0,0,0,http://www.lyngsat-logo.com/logo/tv/ss/sangat_tv.jpg,http://www.lyngsat-logo.com/hires/ss/sangat_tv.png
+9537,JML Home&DIY,tv_jml_home_and_diy,JML Home & DIY,0,653,0,0,0,http://www.lyngsat-logo.com/logo/tv/jj/jml_home_and_diy.jpg,http://www.lyngsat-logo.com/hires/jj/jml_home_and_diy.png
+9546,Recordbrazil,radio_record_radio,Record Radio,0,1206,0,0,1,,
+9548,Sukh Sagar,radio_sukh_sagar,Sukh Sagar,0,1150,0,0,1,http://www.lyngsat-logo.com/logo/radio/ss/sukh_sagar_radio.jpg,http://www.lyngsat-logo.com/hires/ss/sukh_sagar_radio.png
+9549,Choice FM,radio_choice_fm,Choice FM,720,1114,0,0,1,http://www.lyngsat-logo.com/logo/radio/cc/choice_fm.jpg,http://www.lyngsat-logo.com/hires/cc/choice_fm.png
+9551,UCB UK,radio_ucb_uk,UCB UK,0,1125,0,0,1,http://www.lyngsat-logo.com/logo/radio/uu/ucb_uk.jpg,http://www.lyngsat-logo.com/hires/uu/ucb_uk.png
+9552,UCB Insp,radio_ucb_inspiration,UCB Inspiration,0,1136,0,0,1,http://www.lyngsat-logo.com/logo/radio/uu/ucb_inspirational.jpg,http://www.lyngsat-logo.com/hires/uu/ucb_inspirational.png
+9553,UCB Bible,radio_ucb_bible,UCB Bible,0,1134,0,0,1,http://www.lyngsat-logo.com/logo/radio/uu/ucb_bible.jpg,http://www.lyngsat-logo.com/hires/uu/ucb_bible.png
+9554,UCB Gospel,radio_ucb_gospel,UCB Gospel,0,1135,0,0,1,http://www.lyngsat-logo.com/logo/radio/uu/ucb_gospel.jpg,http://www.lyngsat-logo.com/hires/uu/ucb_gospel.png
+9557,Solar Radio,radio_solar_radio,Solar Radio,0,1129,0,0,1,http://www.lyngsat-logo.com/logo/radio/ss/solar_radio.jpg,http://www.lyngsat-logo.com/hires/ss/solar_radio.png
+9559,XFM,radio_xfm_london,XFM London,723,1113,0,0,1,http://www.lyngsat-logo.com/logo/radio/xx/xfm_1049.jpg,http://www.lyngsat-logo.com/hires/xx/xfm_1049.png
+9560,Capital FM,radio_capital_fm,Capital FM,719,1109,0,0,1,http://www.lyngsat-logo.com/logo/radio/cc/capital_fm_london.jpg,http://www.lyngsat-logo.com/hires/cc/capital_fm_london.png
+9561,Gold,radio_gold,Gold,722,1121,0,0,1,http://www.lyngsat-logo.com/logo/radio/gg/gold_dab.jpg,http://www.lyngsat-logo.com/hires/gg/gold_dab.png
+9563,Khushkhabri,radio_khushkhabri,Khushkhabri,0,1151,0,0,1,,
+9566,Kismat,radio_kismat_radio,Kismat Radio,0,1173,0,0,1,http://www.lyngsat-logo.com/logo/radio/kk/kismat_radio.jpg,http://www.lyngsat-logo.com/hires/kk/kismat_radio.png
+9568,Chill,radio_chill,Chill,0,1177,0,0,1,http://www.lyngsat-logo.com/logo/radio/cc/chill.jpg,http://www.lyngsat-logo.com/hires/cc/chill.png
+9570,Classic FM,radio_classic_fm,Classic FM,721,1106,0,0,1,http://www.lyngsat-logo.com/logo/radio/cc/classic_fm_uk.jpg,http://www.lyngsat-logo.com/hires/cc/classic_fm_uk.png
+9575,Planet Rock,radio_planet_rock,Planet Rock,730,1110,0,0,1,http://www.lyngsat-logo.com/logo/radio/pp/planet_rock.jpg,http://www.lyngsat-logo.com/hires/pp/planet_rock.png
+9611,RTE Radio 1,radio_rte_radio_1,RTÉ Radio 1,750,1160,0,0,1,http://www.lyngsat-logo.com/logo/radio/rr/rte_radio1.jpg,http://www.lyngsat-logo.com/hires/rr/rte_radio1.png
+9612,RTE 2FM,radio_rte_2fm,RTÉ 2fm,751,1164,0,0,1,http://www.lyngsat-logo.com/logo/radio/rr/rte_radio2.jpg,http://www.lyngsat-logo.com/hires/rr/rte_radio2.png
+9613,RTE R na G,radio_rte_raidio_na_gaeltachta,RTÉ Raidió na Gaeltachta,753,1166,0,0,1,http://www.lyngsat-logo.com/logo/radio/rr/rte_raidio_nagaeltachta.jpg,http://www.lyngsat-logo.com/hires/rr/rte_raidio_nagaeltachta.png
+9614,RTE Lyric fm,radio_rte_lyric_fm,RTÉ lyric fm,752,1165,0,0,1,http://www.lyngsat-logo.com/logo/radio/rr/rte_lyric_fm.jpg,http://www.lyngsat-logo.com/hires/rr/rte_lyric_fm.png
+10000,ITV1 HD,tv_itv1_london_hd,ITV1 London HD,0,0,1,0,0,http://www.lyngsat-logo.com/logo/tv/ii/itv1_london_hd.jpg,http://www.lyngsat-logo.com/hires/ii/itv1_london_hd.png
+10015,ITV4+1,tv_itv4+1,ITV4 +1,118,0,0,0,0,http://www.lyngsat-logo.com/logo/tv/ii/itv4_plus1.jpg,http://www.lyngsat-logo.com/hires/ii/itv4_plus1.png
+10020,ITV1 Wales,tv_itv1_wales,ITV1 Wales,0,0,0,0,0,http://www.lyngsat-logo.com/logo/tv/ii/itv1_wales.jpg,http://www.lyngsat-logo.com/hires/ii/itv1_wales.png
+10030,ITV1 West,tv_itv1_west,ITV1 West,0,0,0,0,0,http://www.lyngsat-logo.com/logo/tv/ii/itv1_west.jpg,http://www.lyngsat-logo.com/hires/ii/itv1_west.png
+10040,ITV1 W Country,tv_itv1_west,ITV1 West,0,0,0,0,0,http://www.lyngsat-logo.com/logo/tv/ii/itv1_westcountry_south_west.jpg,http://www.lyngsat-logo.com/hires/ii/itv1_westcountry_south_west.png
+10055,ITV1+1,tv_utv+1,UTV +1,0,0,0,0,0,,
+10060,ITV1 London,tv_itv1_london,ITV1 London,977,993,0,0,0,http://www.lyngsat-logo.com/logo/tv/ii/itv1_london.jpg,http://www.lyngsat-logo.com/hires/ii/itv1_london.png
+10070,ITV2,tv_itv2,ITV2,113,118,0,0,0,http://www.lyngsat-logo.com/logo/tv/ii/itv2.jpg,http://www.lyngsat-logo.com/hires/ii/itv2.png
+10071,CITV,tv_citv,CITV,602,621,0,0,0,http://www.lyngsat-logo.com/logo/tv/cc/citv_uk.jpg,http://www.lyngsat-logo.com/hires/cc/citv_uk.png
+10072,ITV4,tv_itv4,ITV4,117,120,0,0,0,http://www.lyngsat-logo.com/logo/tv/ii/itv4.jpg,http://www.lyngsat-logo.com/hires/ii/itv4.png
+10079,ITVi Stream 44,interactive_itvi_44,ITVi Stream 44,0,0,0,0,0,,
+10080,ITV1 Granada,tv_itv1_granada,ITV1 Granada,0,0,0,0,0,http://www.lyngsat-logo.com/logo/tv/ii/itv1_granada.jpg,http://www.lyngsat-logo.com/hires/ii/itv1_granada.png
+10090,ITV1 Anglia E,tv_itv1_anglia,ITV1 Anglia,0,0,0,0,0,http://www.lyngsat-logo.com/logo/tv/ii/itv1_anglia.jpg,http://www.lyngsat-logo.com/hires/ii/itv1_anglia.png
+10098,ITVi tp49,interactive_itvi_49,,0,0,0,0,0,,
+10099,G49,,,0,0,0,0,0,,
+10100,ITV1 Central W,tv_itv1_central,ITV1 Central,0,0,0,0,0,http://www.lyngsat-logo.com/logo/tv/ii/itv1_central_west.jpg,http://www.lyngsat-logo.com/hires/ii/itv1_central_west.png
+10120,ITV1 Border,tv_itv1_border_and_tyne_tees,ITV1 Border and Tyne Tees,0,0,0,0,0,http://www.lyngsat-logo.com/logo/tv/ii/itv1_border.jpg,http://www.lyngsat-logo.com/hires/ii/itv1_border.png
+10125,ITV1+1,tv_utv+1,UTV +1,0,0,0,0,0,,
+10130,ITV1 Tyne Tees,tv_itv1_tyne_tees,ITV1 Tyne Tees,0,0,0,0,0,http://www.lyngsat-logo.com/logo/tv/ii/itv1_tyne_tees.jpg,http://www.lyngsat-logo.com/hires/ii/itv1_tyne_tees.png
+10140,ITV1 Meridian S,tv_itv1_meridian,ITV1 Meridian,0,0,0,0,0,http://www.lyngsat-logo.com/logo/tv/ii/itv1_meridian_south.jpg,http://www.lyngsat-logo.com/hires/ii/itv1_meridian_south.png
+10141,ITV1 Meridian E,tv_itv1_meridian,ITV1 Meridian,0,0,0,0,0,http://www.lyngsat-logo.com/logo/tv/ii/itv1_meridian_se.jpg,http://www.lyngsat-logo.com/hires/ii/itv1_meridian_se.png
+10145,ITV1+1,tv_itv1_central+1,ITV1 Central +1,0,0,0,0,0,http://www.lyngsat-logo.com/logo/tv/ii/itv1_central_west_plus1.jpg,http://www.lyngsat-logo.com/hires/ii/itv1_central_west_plus1.png
+10150,ITV1 Anglia S,tv_itv1_anglia,ITV1 Anglia,0,0,0,0,0,http://www.lyngsat-logo.com/logo/tv/ii/itv1_anglia.jpg,http://www.lyngsat-logo.com/hires/ii/itv1_anglia.png
+10155,ITV1+1,tv_itv1_london+1,ITV1 London +1,0,0,0,0,0,http://www.lyngsat-logo.com/logo/tv/ii/itv1_london_plus1.jpg,http://www.lyngsat-logo.com/hires/ii/itv1_london_plus1.png
+10160,ITV1 Yorks W,tv_itv1_yorkshire_west,ITV1 Yorkshire West,0,0,0,0,0,http://www.lyngsat-logo.com/logo/tv/ii/itv1_yorkshire_west.jpg,http://www.lyngsat-logo.com/hires/ii/itv1_yorkshire_west.png
+10165,ITV2+1,tv_itv2+1,ITV2 +1,114,179,0,0,0,http://www.lyngsat-logo.com/logo/tv/ii/itv2_plus1.jpg,http://www.lyngsat-logo.com/hires/ii/itv2_plus1.png
+10169,G53,,G53,0,0,0,0,0,,
+10200,ITV Channel Is,tv_itv1_channel_television,ITV1 Channel Television,0,0,0,0,0,http://www.lyngsat-logo.com/logo/tv/ii/itv1.jpg,http://www.lyngsat-logo.com/hires/ii/itv1.png
+10210,stv,tv_stv,STV,0,0,0,0,0,http://www.lyngsat-logo.com/logo/tv/ss/stv_north.jpg,http://www.lyngsat-logo.com/hires/ss/stv_north.png
+10220,STV,tv_stv,STV,0,0,0,0,0,http://www.lyngsat-logo.com/logo/tv/ss/stv_west.jpg,http://www.lyngsat-logo.com/hires/ss/stv_west.png
+10221,stv,tv_stv,STV,0,0,0,0,0,http://www.lyngsat-logo.com/logo/tv/ss/stv_east.jpg,http://www.lyngsat-logo.com/hires/ss/stv_east.png
+10225,10225,tv_stv_west+1,STV West +1,0,0,0,0,0,http://www.lyngsat-logo.com/logo/tv/ss/stv_west_plus1.jpg,http://www.lyngsat-logo.com/hires/ss/stv_west_plus1.png
+10230,UTV,tv_utv,UTV,0,0,0,0,0,,
+10238,TalkSport,radio_talksport,Talksport,731,1108,0,0,1,http://www.lyngsat-logo.com/logo/radio/tt/talksport.jpg,http://www.lyngsat-logo.com/hires/tt/talksport.png
+10255,ITV1+1,tv_itv1_granada+1,ITV1 Granada +1,0,0,0,0,0,http://www.lyngsat-logo.com/logo/tv/ii/itv1_granada_plus1.jpg,http://www.lyngsat-logo.com/hires/ii/itv1_granada_plus1.png
+10260,ITV3,tv_itv3,ITV3,115,119,0,0,0,http://www.lyngsat-logo.com/logo/tv/ii/itv3.jpg,http://www.lyngsat-logo.com/hires/ii/itv3.png
+10261,ITV3+1,tv_itv3+1,ITV3 +1,116,180,0,0,0,http://www.lyngsat-logo.com/logo/tv/ii/itv3_plus1.jpg,http://www.lyngsat-logo.com/hires/ii/itv3_plus1.png
+10265,ITV1+1,tv_itv1_meridian+1,ITV1 Meridian +1,0,0,0,0,0,http://www.lyngsat-logo.com/logo/tv/ii/itv1_meridian_south_plus1.jpg,http://www.lyngsat-logo.com/hires/ii/itv1_meridian_south_plus1.png
+10301,BBC 1 W Mids,tv_bbc_one_west_midlands,BBC One West Midlands,963,979,0,0,0,http://www.lyngsat-logo.com/logo/tv/bb/bbc_one_west_midlands.jpg,http://www.lyngsat-logo.com/hires/bb/bbc_one_west_midlands.png
+10303,BBC 1 Yrks&Lin,tv_bbc_one_yorks_and_lincs,BBC One Yorks & Lincs,967,977,0,0,0,http://www.lyngsat-logo.com/logo/tv/bb/bbc_one_yorkshire_north_midlands.jpg,http://www.lyngsat-logo.com/hires/bb/bbc_one_yorkshire_north_midlands.png
+10305,BBC 1 E Mids,tv_bbc_one_east_midlands,BBC One East Midlands,952,980,0,0,0,http://www.lyngsat-logo.com/logo/tv/bb/bbc_one_east_midlands.jpg,http://www.lyngsat-logo.com/hires/bb/bbc_one_east_midlands.png
+10306,BBC 1 East (E),tv_bbc_one_east,BBC One East,953,981,0,0,0,http://www.lyngsat-logo.com/logo/tv/bb/bbc_one_east_east.jpg,http://www.lyngsat-logo.com/hires/bb/bbc_one_east_east.png
+10307,BBC PARL'MNT,tv_bbc_parliament,BBC Parliament,201,504,0,0,0,http://www.lyngsat-logo.com/logo/tv/bb/bbc_parliament.jpg,http://www.lyngsat-logo.com/hires/bb/bbc_parliament.png
+10311,BBC 1 Wales,tv_bbc_one_wales,BBC One Wales,964,972,0,0,0,http://www.lyngsat-logo.com/logo/tv/bb/bbc_one_wales.jpg,http://www.lyngsat-logo.com/hires/bb/bbc_one_wales.png
+10312,BBC 2 Wales,tv_bbc_two_wales,BBC Two Wales,971,991,0,0,0,http://www.lyngsat-logo.com/logo/tv/bb/bbc2_wales.jpg,http://www.lyngsat-logo.com/hires/bb/bbc2_wales.png
+10353,BBC 1 South,tv_bbc_one_south,BBC One South,961,984,0,0,0,http://www.lyngsat-logo.com/logo/tv/bb/bbc_one_south.jpg,http://www.lyngsat-logo.com/hires/bb/bbc_one_south.png
+10354,BBC 1 S West,tv_bbc_one_south_west,BBC One South West,962,987,0,0,0,http://www.lyngsat-logo.com/logo/tv/bb/bbc_one_south_west.jpg,http://www.lyngsat-logo.com/hires/bb/bbc_one_south_west.png
+10355,BBC 1 NE & C,tv_bbc_one_north_east_and_cumbria,BBC One North East & Cumbria,956,975,0,0,0,http://www.lyngsat-logo.com/logo/tv/bb/bbc_one_north_east_cumbria.jpg,http://www.lyngsat-logo.com/hires/bb/bbc_one_north_east_cumbria.png
+10356,BBC 1 Oxford,tv_bbc_one_oxford,BBC One Oxford,958,985,0,0,0,http://www.lyngsat-logo.com/logo/tv/bb/bbc_one_oxford.jpg,http://www.lyngsat-logo.com/hires/bb/bbc_one_oxford.png
+10357,BBC ALBA,tv_bbc_alba,BBC Alba,110,168,0,0,0,http://www.lyngsat-logo.com/logo/tv/bb/bbc_alba.jpg,http://www.lyngsat-logo.com/hires/bb/bbc_alba.png
+10361,BBC 1 NI,tv_bbc_one_northern_ireland,BBC One Northern Ireland,957,973,0,0,0,http://www.lyngsat-logo.com/logo/tv/bb/bbc_one_northern_ireland.jpg,http://www.lyngsat-logo.com/hires/bb/bbc_one_northern_ireland.png
+10362,BBC 2 NI,tv_bbc_two_northern_ireland,BBC Two Northern Ireland,969,992,0,0,0,http://www.lyngsat-logo.com/logo/tv/bb/bbc2_northern_ireland.jpg,http://www.lyngsat-logo.com/hires/bb/bbc2_northern_ireland.png
+10530,Freesat Info,tv_freesat_info,Freesat Info,0,0,0,0,0,,
+12150,ITVi Quad,interactive_itvi_quad,,0,0,0,0,0,,
+20700,ITV1 Central S,tv_itv1_central,ITV1 Central,0,0,0,0,0,http://www.lyngsat-logo.com/logo/tv/ii/itv1_central_south.jpg,http://www.lyngsat-logo.com/hires/ii/itv1_central_south.png
+20701,ITV1 Central E,tv_itv1_central,ITV1 Central,0,0,0,0,0,http://www.lyngsat-logo.com/logo/tv/ii/itv1_central_east.jpg,http://www.lyngsat-logo.com/hires/ii/itv1_central_east.png
+20715,ITV1+1,,,0,0,0,0,0,,
+20735,ITV1+1,,,0,0,0,0,0,,
+20745,ITV1+1,,,0,0,0,0,0,,
+20780,7480,tv_itv1_london_hd,ITV1 London HD,0,0,1,0,0,http://www.lyngsat-logo.com/logo/tv/ii/itv1_london_hd.jpg,http://www.lyngsat-logo.com/hires/ii/itv1_london_hd.png
+21200,Channel 4 HD,tv_channel_4_hd,Channel 4 HD,126,140,1,0,0,http://www.lyngsat-logo.com/logo/tv/cc/channel4_hd.jpg,http://www.lyngsat-logo.com/hires/cc/channel4_hd.png
+21250,4Seven,tv_channel_4_seven,4Seven,127,,0,0,0,http://www.lyngsat-logo.com/logo/tv/cc/channel4_seven_uk.jpg,http://www.lyngsat-logo.com/hires/cc/channel4_seven_uk.png
+50330,Storm,tv_storm,Storm,0,966,0,0,0,http://www.lyngsat-logo.com/icon/tv/ss/storm_tv.gif,http://www.lyngsat-logo.com/hires/ss/storm_tv.gif
+50335,Islam Channel,tv_islam_channel,Islam Channel,693,813,0,0,0,http://www.lyngsat-logo.com/logo/tv/ii/islam_channel.jpg,http://www.lyngsat-logo.com/hires/ii/islam_channel.png
+50340,Jewellery Ch.,tv_jewellery_channel,Jewellery Channel,815,650,0,0,0,http://www.lyngsat-logo.com/logo/tv/jj/jewelry_channel_th.jpg,http://www.lyngsat-logo.com/hires/jj/jewelry_channel_th.png
+50355,CNC World,tv_cnc_world,CNC World,0,516,0,0,0,http://www.lyngsat-logo.com/logo/tv/cc/cnc_world_chinese.jpg,http://www.lyngsat-logo.com/hires/cc/cnc_world_chinese.png
+50400,Paversshoes.tv,tv_paversshoes_tv,PaversShoes.tv,0,659,0,0,0,,
+50425,V Channel,tv_v_channel,V Channel,0,664,0,0,0,http://www.lyngsat-logo.com/logo/tv/vv/v_channel_uk.jpg,http://www.lyngsat-logo.com/hires/vv/v_channel_uk.png
+50470,Zing,tv_zing,Zing,509,789,0,0,0,http://www.lyngsat-logo.com/logo/tv/zz/zee_zing.jpg,http://www.lyngsat-logo.com/hires/zz/zee_zing.png
+50485,GayXchange,tv_gayxchange,GayXchange,0,876,0,0,0,,
+50490,Dating Channel,tv_dating_channel,Dating Channel,0,875,0,0,0,http://www.lyngsat-logo.com/logo/tv/dd/dating_channel.jpg,http://www.lyngsat-logo.com/hires/dd/dating_channel.png
+50605,Elite TV 3,tv_elite_tv_3,Elite TV 3,0,968,0,0,0,http://www.lyngsat-logo.com/icon/tv/ee/elite_tv_968.gif,http://www.lyngsat-logo.com/hires/ee/elite_tv_968.gif
+50610,Sikh Channel,tv_sikh_channel,Sikh Channel,0,840,0,0,0,http://www.lyngsat-logo.com/logo/tv/ss/sikh_channel.jpg,http://www.lyngsat-logo.com/hires/ss/sikh_channel.png
+50615,Elite TV 4,tv_elite_tv_4,Elite TV 4,0,932,0,0,0,http://www.lyngsat-logo.com/icon/tv/ee/elite_tv_932.gif,http://www.lyngsat-logo.com/hires/ee/elite_tv_932.gif
+50630,Channel AKA,tv_channel_aka,Channel AKA,0,370,0,0,0,http://www.lyngsat-logo.com/logo/tv/cc/channel_aka.jpg,http://www.lyngsat-logo.com/hires/cc/channel_aka.png
+50847,Russia Today,tv_rt,Russia Today,206,512,0,0,0,http://www.lyngsat-logo.com/logo/tv/rr/radio_tv_crne_gore.jpg,http://www.lyngsat-logo.com/hires/rr/radio_tv_crne_gore.png
+50856,Kiss,radio_kiss,Kiss,0,1178,0,0,1,http://www.lyngsat-logo.com/logo/radio/kk/kiss100_fm_uk.jpg,http://www.lyngsat-logo.com/hires/kk/kiss100_fm_uk.png
+50860,Magic,radio_magic_fm,Magic 105.4 FM,0,1180,0,0,1,http://www.lyngsat-logo.com/logo/radio/mm/magic_fm.jpg,http://www.lyngsat-logo.com/hires/mm/magic_fm.png
+50866,Abu Dhabi TV,tv_abu_dhabi_tv,Abu Dhabi TV,0,796,0,0,0,,
+50878,PCNE Chinese,tv_pcne_chinese,PCNE Chinese,0,785,0,0,0,,
+50879,Clubland TV,tv_clubland_tv,Clubland TV,514,383,0,0,0,http://www.lyngsat-logo.com/logo/tv/cc/clubland_tv.jpg,http://www.lyngsat-logo.com/hires/cc/clubland_tv.png
+50880,Information TV,tv_information_tv,Information TV,402,231,0,0,0,,
+50882,Massive R&B,tv_massive_r_and_b,Massive R&B,518,385,0,0,0,http://www.lyngsat-logo.com/logo/tv/mm/massive_rb.jpg,http://www.lyngsat-logo.com/hires/mm/massive_rb.png
+50884,Venus TV,tv_venus_tv,Venus TV,0,805,0,0,0,,
+50903,CBS Drama,tv_cbs_drama,CBS Drama,134,149,0,0,0,http://www.lyngsat-logo.com/logo/tv/cc/cbs_drama.jpg,http://www.lyngsat-logo.com/hires/cc/cbs_drama.png
+51001,mta-muslim tv,tv_mta_muslim_tv,MTA Muslim TV,0,787,0,0,0,http://www.lyngsat-logo.com/logo/tv/mm/mta_international.jpg,http://www.lyngsat-logo.com/hires/mm/mta_international.png
+51005,Word Network,tv_word_network,Word Network,0,591,0,0,0,,
+51006,SuperCasino,tv_super_casino,Super Casino,0,866,0,0,0,http://www.lyngsat-logo.com/logo/tv/ss/supercasino.jpg,http://www.lyngsat-logo.com/hires/ss/supercasino.png
+51011,CCTV News,tv_cctv_news,CCTV News,211,510,0,0,0,http://www.lyngsat-logo.com/logo/tv/cc/cctv_news_english.jpg,http://www.lyngsat-logo.com/hires/cc/cctv_news_english.png
+51019,Inspiration,tv_inspiration,Inspiration,690,587,0,0,0,http://www.lyngsat-logo.com/logo/tv/ii/inspiration_network.jpg,http://www.lyngsat-logo.com/hires/ii/inspiration_network.png
+51033,TBN Europe,tv_tbn_europe,TBN Europe,0,583,0,0,0,http://www.lyngsat-logo.com/logo/tv/tt/tbn_europe.jpg,http://www.lyngsat-logo.com/hires/tt/tbn_europe.png
+51035,GOD Channel,tv_god_channel,God Channel,694,580,0,0,0,http://www.lyngsat-logo.com/logo/tv/gg/god_tv_uk.jpg,http://www.lyngsat-logo.com/hires/gg/god_tv_uk.png
+51036,Showcase +1,tv_showcase+1,Showcase +1,0,235,0,0,0,http://www.lyngsat-logo.com/logo/tv/ss/showcase_tv_uk_plus1.jpg,http://www.lyngsat-logo.com/hires/ss/showcase_tv_uk_plus1.png
+51037,UMP Movies,tv_ump_movies,UMP Movies,308,797,0,0,0,http://www.lyngsat-logo.com/logo/tv/uu/ump_movies.jpg,http://www.lyngsat-logo.com/hires/uu/ump_movies.png
+51107,Al Jazeera Eng,tv_al_jazeera_english,Al Jazeera English,203,514,0,0,0,http://www.lyngsat-logo.com/logo/tv/aa/al_jazeera_english.jpg,http://www.lyngsat-logo.com/hires/aa/al_jazeera_english.png
+51114,Newstalk,radio_newstalk,Newstalk,0,1210,0,0,1,,
+52001,UCB TV,tv_ucb_tv,UCB TV,0,586,0,0,0,http://www.lyngsat-logo.com/logo/tv/uu/ucb.jpg,http://www.lyngsat-logo.com/hires/uu/ucb.png
+52002,horror ch+1,tv_horror_channel+1,Horror Channel +1,139,320,0,0,0,http://www.lyngsat-logo.com/logo/tv/hh/horror_channel_uk_plus1.jpg,http://www.lyngsat-logo.com/hires/hh/horror_channel_uk_plus1.png
+52004,UMMAH CHNL,tv_ummah_channel,Ummah Channel,0,828,0,0,0,http://www.lyngsat-logo.com/logo/tv/uu/ummah_channel.jpg,http://www.lyngsat-logo.com/hires/uu/ummah_channel.png
+52006,Jewelry Maker,tv_jewellery_maker,Jewellery Maker,807,655,0,0,0,http://www.lyngsat-logo.com/logo/tv/jj/jewellery_maker.jpg,http://www.lyngsat-logo.com/hires/jj/jewellery_maker.png
+52007,CBS Action,tv_cbs_action,CBS Action,137,148,0,0,0,http://www.lyngsat-logo.com/logo/tv/cc/cbs_action.jpg,http://www.lyngsat-logo.com/hires/cc/cbs_action.png
+52008,Get Lucky TV,tv_get_lucky_tv,Get Lucky TV,0,909,0,0,0,,
+52010,Greatest Hits TV,tv_greatest_hits_tv,Greatest Hits TV,0,378,0,0,0,,
+52013,Chat Box,tv_chat_box,Chat Box,0,878,0,0,0,,
+52027,Sunrise,radio_sunrise_radio,Sunrise Radio,0,1133,0,0,1,http://www.lyngsat-logo.com/logo/radio/ss/sunrise_radio.jpg,http://www.lyngsat-logo.com/hires/ss/sunrise_radio.png
+52028,BFBS Radio,radio_bfbs_radio_1,BFBS Radio 1,786,1211,0,0,1,http://www.lyngsat-logo.com/logo/radio/bb/bfbs_cyprus.jpg,http://www.lyngsat-logo.com/hires/bb/bfbs_cyprus.png
+52029,LBC 97.3,radio_lbc_fm,LBC 97.3,0,1112,0,0,1,http://www.lyngsat-logo.com/logo/radio/ll/lbc_fm_uk.jpg,http://www.lyngsat-logo.com/hires/ll/lbc_fm_uk.png
+52030,Heart,radio_heart,Heart,733,1111,0,0,1,http://www.lyngsat-logo.com/logo/radio/hh/heart_fm.jpg,http://www.lyngsat-logo.com/hires/hh/heart_fm.png
+52031,LBC News,radio_lbc_news,LBC News 1152,0,1124,0,0,1,http://www.lyngsat-logo.com/logo/radio/ll/lbc_news_uk.jpg,http://www.lyngsat-logo.com/hires/ll/lbc_news_uk.png
+52040,SportxxxGirls,tv_sportxxxgirls,SportxxxGirls,0,967,0,0,0,,
+52050,Northern Birds,tv_northern_birds,Northern Birds,0,954,0,0,0,,
+52056,Controversial tv,tv_controversial_tv,Controversial TV,0,200,0,0,0,,
+52060,BET +1,tv_bet+1,BET +1,141,198,0,0,0,http://www.lyngsat-logo.com/logo/tv/bb/bet_uk.jpg,http://www.lyngsat-logo.com/hires/bb/bet_uk.png
+52070,Press TV,tv_press_tv,Press TV,515,0,0,0,0,http://www.lyngsat-logo.com/logo/tv/pp/press_tv.jpg,http://www.lyngsat-logo.com/hires/pp/press_tv.png
+52100,Travel Ch +1,tv_travel_channel+1,Travel Channel +1,0,252,0,0,0,http://www.lyngsat-logo.com/logo/tv/tt/travel_channel_uk_plus1.jpg,http://www.lyngsat-logo.com/hires/tt/travel_channel_uk_plus1.png
+52102,CBS Reality+1,tv_cbs_reality+1,CBS Reality +1,136,147,0,0,0,http://www.lyngsat-logo.com/logo/tv/cc/cbs_reality_plus1.jpg,http://www.lyngsat-logo.com/hires/cc/cbs_reality_plus1.png
+52104,Olive TV,tv_olive_tv,Olive TV,0,597,0,0,0,http://www.lyngsat-logo.com/logo/tv/oo/olive_tv.jpg,http://www.lyngsat-logo.com/hires/oo/olive_tv.png
+52105,horror channel,tv_horror_channel,Horror Channel,138,319,0,0,0,http://www.lyngsat-logo.com/logo/tv/hh/horror_channel_uk.jpg,http://www.lyngsat-logo.com/hires/hh/horror_channel_uk.png
+52106,Gay Network,tv_gay_network,Gay Network,0,877,0,0,0,http://www.lyngsat-logo.com/icon/tv/gg/gay_network.gif,http://www.lyngsat-logo.com/hires/gg/gay_network.gif
+52107,Wonderful,tv_wonderful,Wonderful,0,582,0,0,0,http://www.lyngsat-logo.com/logo/tv/ww/wonderful_tv.jpg,http://www.lyngsat-logo.com/hires/ww/wonderful_tv.png
+52109,Thane Direct,tv_thane_direct,Thane Direct,820,660,0,0,0,http://www.lyngsat-logo.com/logo/tv/tt/thane_direct.jpg,http://www.lyngsat-logo.com/hires/tt/thane_direct.png
+52110,DAYSTAR,tv_daystar,Daystar,691,584,0,0,0,http://www.lyngsat-logo.com/logo/tv/dd/daystar_tv_network.jpg,http://www.lyngsat-logo.com/hires/dd/daystar_tv_network.png
+52111,CNBC,tv_cnbc,CNBC,210,505,0,0,0,http://www.lyngsat-logo.com/logo/tv/cc/class_cnbc.jpg,http://www.lyngsat-logo.com/hires/cc/class_cnbc.png
+52118,SmartLive,tv_smart_live_casino,Smart Live Casino,0,869,0,0,0,http://www.lyngsat-logo.com/logo/tv/ss/smart_live_casino_roulette.jpg,http://www.lyngsat-logo.com/hires/ss/smart_live_casino_roulette.png
+52121,mov4men2 +1,tv_movies4men_2+1,Movies4Men 2 +1,307,326,0,0,0,http://www.lyngsat-logo.com/logo/tv/mm/movies_4_men2_plus1.jpg,http://www.lyngsat-logo.com/hires/mm/movies_4_men2_plus1.png
+52125,Showcase,tv_showcase,Showcase,403,201,0,0,0,http://www.lyngsat-logo.com/logo/tv/ss/showcase_tv_uk.jpg,http://www.lyngsat-logo.com/hires/ss/showcase_tv_uk.png
+52127,revelation,tv_revelation,Revelation,692,581,0,0,0,http://www.lyngsat-logo.com/logo/tv/rr/revelation_tv.jpg,http://www.lyngsat-logo.com/hires/rr/revelation_tv.png
+52131,Ahlebait TV,tv_ahlebait_tv,Ahlebait TV,0,835,0,0,0,,
+52132,Panjab Radio,radio_panjab_radio,Panjab Radio,0,1130,0,0,1,http://www.lyngsat-logo.com/logo/radio/pp/panjab_radio.jpg,http://www.lyngsat-logo.com/hires/pp/panjab_radio.png
+52135,B4U Music,tv_b4u_music,B4U Music,504,781,0,0,0,http://www.lyngsat-logo.com/logo/tv/bb/b4u_music.jpg,http://www.lyngsat-logo.com/hires/bb/b4u_music.png
+52158,Gospel Channel,tv_gospel_channel,Gospel Channel,0,590,0,0,0,http://www.lyngsat-logo.com/logo/tv/gg/gospel_channel_europe.jpg,http://www.lyngsat-logo.com/hires/gg/gospel_channel_europe.png
+52162,Renault TV,tv_renault_tv,Renault TV,651,883,0,0,0,http://www.lyngsat-logo.com/logo/tv/rr/renault_tv.jpg,http://www.lyngsat-logo.com/hires/rr/renault_tv.png
+52166,NTV,tv_ntv,NTV,0,834,0,0,0,http://www.lyngsat-logo.com/logo/tv/nn/new_cartoontv.jpg,http://www.lyngsat-logo.com/hires/nn/new_cartoontv.png
+52170,Sonlife,tv_sonlife_broadcasting_network,SonLife Broadcasting Network,695,599,0,0,0,http://www.lyngsat-logo.com/logo/tv/ss/sonlife_broadcasting_network.jpg,http://www.lyngsat-logo.com/hires/ss/sonlife_broadcasting_network.png
+52232,Ideal World,tv_ideal_world,Ideal World,812,644,0,0,0,http://www.lyngsat-logo.com/logo/tv/ii/ideal_world.jpg,http://www.lyngsat-logo.com/hires/ii/ideal_world.png
+52233,Ideal Extra,tv_ideal_extra,Ideal Extra,810,651,0,0,0,http://www.lyngsat-logo.com/logo/tv/ii/ideal_extra.jpg,http://www.lyngsat-logo.com/hires/ii/ideal_extra.png
+52234,Create & Craft,tv_create_and_craft,Create and Craft,813,671,0,0,0,http://www.lyngsat-logo.com/logo/tv/cc/create_and_craft.jpg,http://www.lyngsat-logo.com/hires/cc/create_and_craft.png
+52235,Ideal & More,tv_ideal_and_more,Ideal & More,0,668,0,0,0,http://www.lyngsat-logo.com/logo/tv/ii/ideal_and_more.jpg,http://www.lyngsat-logo.com/hires/ii/ideal_and_more.png
+52299,Premier,radio_premier_christian_radio,Premier Christian Radio,0,1123,0,0,1,http://www.lyngsat-logo.com/logo/radio/pp/premier_christian_radio.jpg,http://www.lyngsat-logo.com/hires/pp/premier_christian_radio.png
+52510,price drop,tv_price_drop,Price Drop,801,645,0,0,0,http://www.lyngsat-logo.com/logo/tv/pp/price_drop_tv.jpg,http://www.lyngsat-logo.com/hires/pp/price_drop_tv.png
+52535,ARY QTV,tv_ary_qtv,ARY Qtv,0,804,0,0,0,http://www.lyngsat-logo.com/logo/tv/aa/ary_qtv.jpg,http://www.lyngsat-logo.com/hires/aa/ary_qtv.png
+52545,Screenshop2,tv_screenshop_2,Screenshop 2,0,680,0,0,0,,
+52546,speed auction,tv_speed_auction,Speed Auction,814,665,0,0,0,http://www.lyngsat-logo.com/logo/tv/ss/speed_auction_tv.jpg,http://www.lyngsat-logo.com/hires/ss/speed_auction_tv.png
+52550,Bloomberg,tv_bloomberg_tv,Bloomberg TV,208,502,0,0,0,http://www.lyngsat-logo.com/logo/tv/bb/bloomberg.jpg,http://www.lyngsat-logo.com/hires/bb/bloomberg.png
+52570,FRANCE 24,tv_france_24,France 24,205,513,0,0,0,http://www.lyngsat-logo.com/logo/tv/ff/france24.jpg,http://www.lyngsat-logo.com/hires/ff/france24.png
+53109,movies4men,tv_movies4men,Movies4Men,304,323,0,0,0,http://www.lyngsat-logo.com/logo/tv/mm/movies_4_men.jpg,http://www.lyngsat-logo.com/hires/mm/movies_4_men.png
+53110,movies4men 2,tv_movies4men_2,Movies4Men 2,306,325,0,0,0,http://www.lyngsat-logo.com/logo/tv/mm/movies_4_men2.jpg,http://www.lyngsat-logo.com/hires/mm/movies_4_men2.png
+53116,PTV Global,tv_ptv_global,PTV Global,0,810,0,0,0,http://www.lyngsat-logo.com/logo/tv/pp/ptv_global.jpg,http://www.lyngsat-logo.com/hires/pp/ptv_global.png
+53118,jazeerachildren,tv_al_jazeera_childrens_channel,Al Jazeera Children's Channel,0,823,0,0,0,,
+53120,Absolute CR,radio_absolute_classic_rock,Absolute Classic Rock,725,1201,0,0,1,http://www.lyngsat-logo.com/logo/radio/aa/absolute_radio_classic_rock.jpg,http://www.lyngsat-logo.com/hires/aa/absolute_radio_classic_rock.png
+53121,Absolute,radio_absolute_radio,Absolute Radio,724,1107,0,0,1,http://www.lyngsat-logo.com/logo/radio/aa/absolute_radio_00s.jpg,http://www.lyngsat-logo.com/hires/aa/absolute_radio_00s.png
+53122,Absolute80s,radio_absolute_80s,Absolute 80s,726,1200,0,0,1,http://www.lyngsat-logo.com/logo/radio/aa/absolute_radio_80s.jpg,http://www.lyngsat-logo.com/hires/aa/absolute_radio_80s.png
+53123,Amrit Bani,radio_amrit_bani,Amrit Bani,0,1176,0,0,1,http://www.lyngsat-logo.com/logo/radio/aa/amrit_bani.jpg,http://www.lyngsat-logo.com/hires/aa/amrit_bani.png
+53124,InsightRadio,radio_insight_radio,Insight Radio,777,1188,0,0,1,http://www.lyngsat-logo.com/logo/radio/ii/insight_radio.jpg,http://www.lyngsat-logo.com/hires/ii/insight_radio.png
+53126,Desi Radio,radio_desi_radio,Desi Radio,0,1169,0,0,1,http://www.lyngsat-logo.com/logo/radio/dd/desi_radio.jpg,http://www.lyngsat-logo.com/hires/dd/desi_radio.png
+53127,Abs Rad 90s,radio_absolute_radio_90s,Absolute Radio 90s,0,1203,0,0,1,http://www.lyngsat-logo.com/logo/radio/aa/absolute_radio_90s.jpg,http://www.lyngsat-logo.com/hires/aa/absolute_radio_90s.png
+53129,Rainbow,radio_rainbow_radio,Rainbow Radio,0,1207,0,0,1,http://www.lyngsat-logo.com/logo/radio/rr/rainbow_radio.jpg,http://www.lyngsat-logo.com/hires/rr/rainbow_radio.png
+53131,Liberty,radio_liberty_radio,Liberty Radio,0,1186,0,0,1,http://www.lyngsat-logo.com/logo/radio/ll/liberty_radio.jpg,http://www.lyngsat-logo.com/hires/ll/liberty_radio.png
+53132,Spectrum 1,radio_spectrum_radio,Spectrum Radio,0,1185,0,0,1,http://www.lyngsat-logo.com/logo/radio/ss/spectrum_fm_es.jpg,http://www.lyngsat-logo.com/hires/ss/spectrum_fm_es.png
+53133,TWR,radio_twr,TWR,790,1138,0,0,1,http://www.lyngsat-logo.com/logo/radio/tt/twr.jpg,http://www.lyngsat-logo.com/hires/tt/twr.png
+53135,WRN Europe,radio_wrn_europe,WRN Europe,728,1122,0,0,1,http://www.lyngsat-logo.com/logo/radio/ww/wrn.jpg,http://www.lyngsat-logo.com/hires/ww/wrn.png
+53136,Yorkshire R,radio_yorkshire_radio,Yorkshire Radio,0,1209,0,0,1,http://www.lyngsat-logo.com/logo/radio/yy/yorkshire_radio_digital.jpg,http://www.lyngsat-logo.com/hires/yy/yorkshire_radio_digital.png
+53137,Gaydarradio,radio_gaydar_radio,Gaydar Radio,0,0,0,0,1,,
+53138,RTE R1 Extra,radio_rte_radio_1_extra,RTÉ Radio 1 Extra,0,1142,0,0,1,,
+53139,Family Radio,radio_family_radio,Family Radio,0,1159,0,0,1,http://www.lyngsat-logo.com/logo/radio/ff/family_radio.jpg,http://www.lyngsat-logo.com/hires/ff/family_radio.png
+53140,Shop Radio,radio_shop_radio,Shop Radio,0,1184,0,0,1,http://www.lyngsat-logo.com/logo/radio/ss/shop_radio_uk.jpg,http://www.lyngsat-logo.com/hires/ss/shop_radio_uk.png
+53141,WRN Arabic,radio_wrn_arabic,WRN Arabic,0,1205,0,0,1,http://www.lyngsat-logo.com/logo/radio/ww/wrn.jpg,http://www.lyngsat-logo.com/hires/ww/wrn.png
+53142,Jazz FM,radio_jazz_fm,Jazz FM,729,1202,0,0,1,http://www.lyngsat-logo.com/logo/radio/jj/jazz_fm_radio.jpg,http://www.lyngsat-logo.com/hires/jj/jazz_fm_radio.png
+53147,NHK World HD,tv_nhk_world_hd,NHK World HD,209,507,1,0,0,http://www.lyngsat-logo.com/logo/tv/nn/nhk_world.jpg,http://www.lyngsat-logo.com/hires/nn/nhk_world.png
+53210,Sumo TV,tv_sumo_tv,Sumo TV,0,212,0,0,0,http://www.lyngsat-logo.com/logo/tv/ss/sumo_tv.jpg,http://www.lyngsat-logo.com/hires/ss/sumo_tv.png
+53230,BET,tv_bet,BET,140,191,0,0,0,http://www.lyngsat-logo.com/logo/tv/bb/bet_uk.jpg,http://www.lyngsat-logo.com/hires/bb/bet_uk.png
+53255,Elite TV 2,tv_elite_tv_2,Elite TV 2,0,914,0,0,0,http://www.lyngsat-logo.com/icon/tv/ee/elite_tv_914.gif,http://www.lyngsat-logo.com/hires/ee/elite_tv_914.gif
+53260,Food Network,tv_food_network,Food Network,405,262,0,0,0,http://www.lyngsat-logo.com/logo/tv/ff/food_network_uk.jpg,http://www.lyngsat-logo.com/hires/ff/food_network_uk.png
+53270,Food Netwrk+1,tv_food_network+1,Food Network +1,406,263,0,0,0,http://www.lyngsat-logo.com/logo/tv/ff/food_network_uk_plus1.jpg,http://www.lyngsat-logo.com/hires/ff/food_network_uk_plus1.png
+53275,Blue Kiss TV,tv_blue_bird_tv,Blue Bird TV,0,0,0,0,0,,
+53280,wedding tv,tv_wedding_tv,Wedding TV,400,266,0,0,0,http://www.lyngsat-logo.com/logo/tv/ww/wedding_tv_asia.jpg,http://www.lyngsat-logo.com/hires/ww/wedding_tv_asia.png
+53290,Hidayat TV,tv_hidayat_tv,Hidayat TV,0,803,0,0,0,http://www.lyngsat-logo.com/logo/tv/hh/hidayat_tv.jpg,http://www.lyngsat-logo.com/hires/hh/hidayat_tv.png
+53295,LivexxxBabes,tv_livexxxbabes,LiveXXXBabes,0,0,0,0,0,,
+53297,Essex Babes,tv_essex_babes,Essex Babes,0,955,0,0,0,,
+53300,Flava,tv_flava,Flava,502,367,0,0,0,http://www.lyngsat-logo.com/logo/tv/ff/flava_uk.jpg,http://www.lyngsat-logo.com/hires/ff/flava_uk.png
+53305,Bliss,tv_bliss,Bliss,517,372,0,0,0,http://www.lyngsat-logo.com/logo/tv/bb/bliss.jpg,http://www.lyngsat-logo.com/hires/bb/bliss.png
+53310,Scuzz,tv_scuzz,Scuzz,503,374,0,0,0,http://www.lyngsat-logo.com/logo/tv/ss/scuzz.jpg,http://www.lyngsat-logo.com/hires/ss/scuzz.png
+53315,DanceNationTV,tv_dance_nation_tv,Dance Nation TV,0,376,0,0,0,,
+53320,True Movies 1,tv_true_movies_1,True Movies 1,302,321,0,0,0,http://www.lyngsat-logo.com/logo/tv/tt/true_movies1.jpg,http://www.lyngsat-logo.com/hires/tt/true_movies1.png
+53325,True Movies 2,tv_true_movies_2,True Movies 2,303,322,0,0,0,http://www.lyngsat-logo.com/logo/tv/tt/true_movies2.jpg,http://www.lyngsat-logo.com/hires/tt/true_movies2.png
+53330,Tiny Pop,tv_tiny_pop,Tiny Pop,605,617,0,0,0,http://www.lyngsat-logo.com/logo/tv/tt/tiny_pop.jpg,http://www.lyngsat-logo.com/hires/tt/tiny_pop.png
+53335,Chart Show+1,tv_chart_show_tv+1,Chart Show TV +1,516,382,0,0,0,http://www.lyngsat-logo.com/logo/tv/cc/chart_show.jpg,http://www.lyngsat-logo.com/hires/cc/chart_show.png
+53340,POP,tv_pop,POP,603,616,0,0,0,http://www.lyngsat-logo.com/logo/tv/pp/pop_uk.jpg,http://www.lyngsat-logo.com/hires/pp/pop_uk.png
+53345,Tiny Pop +1,tv_tiny_pop+1,Tiny Pop +1,0,625,0,0,0,http://www.lyngsat-logo.com/logo/tv/tt/tiny_pop.jpg,http://www.lyngsat-logo.com/hires/tt/tiny_pop.png
+53350,Kix!,tv_kix,Kix!,606,627,0,0,0,http://www.lyngsat-logo.com/logo/tv/kk/kix_uk.jpg,http://www.lyngsat-logo.com/hires/kk/kix_uk.png
+53355,The Vault,tv_the_vault,The Vault,501,366,0,0,0,http://www.lyngsat-logo.com/logo/tv/tt/the_vault.jpg,http://www.lyngsat-logo.com/hires/tt/the_vault.png
+53360,PopGirl,tv_pop_girl,Pop Girl,604,626,0,0,0,http://www.lyngsat-logo.com/logo/tv/pp/pop_girl.jpg,http://www.lyngsat-logo.com/hires/pp/pop_girl.png
+53365,Chart Show TV,tv_chart_show_tv,Chart Show TV,500,365,0,0,0,http://www.lyngsat-logo.com/logo/tv/cc/chart_show.jpg,http://www.lyngsat-logo.com/hires/cc/chart_show.png
+53370,PopGirl +1,tv_pop_girl+1,Pop Girl +1,0,629,0,0,0,http://www.lyngsat-logo.com/logo/tv/pp/pop_girl.jpg,http://www.lyngsat-logo.com/hires/pp/pop_girl.png
+53375,True Ent,tv_true_entertainment,True Entertainment,142,188,0,0,0,http://www.lyngsat-logo.com/logo/tv/tt/true_entertainment.jpg,http://www.lyngsat-logo.com/hires/tt/true_entertainment.png
+53510,ARY World,tv_ary_one_world,ARY One World,0,806,0,0,0,,
+53586,Psychic Line,tv_pyschic_line,Psychic Line,0,885,0,0,0,,
+53587,Babe Guide,tv_babe_guide,Babe Guide,0,951,0,0,0,,
+53588,Red Light 4,tv_red_light_4,Red Light 4,0,950,0,0,0,http://www.lyngsat-logo.com/icon/tv/rr/red_light_central_tv4.gif,http://www.lyngsat-logo.com/hires/rr/red_light_central_tv4.gif
+53589,CelebrityShop,tv_celebrity_shop,Celebrity Shop,0,677,0,0,0,http://www.lyngsat-logo.com/logo/tv/cc/celebrity_shop.jpg,http://www.lyngsat-logo.com/hires/cc/celebrity_shop.png
+53590,Red Light 3,tv_red_light_3,Red Light 3,0,948,0,0,0,http://www.lyngsat-logo.com/icon/tv/rr/red_light_central_tv3.gif,http://www.lyngsat-logo.com/hires/rr/red_light_central_tv3.gif
+53591,PlayboyTV Chat,tv_playboytv_chat,PlayboyTV Chat,875,902,0,0,0,http://www.lyngsat-logo.com/icon/tv/pp/playboy.gif,http://www.lyngsat-logo.com/hires/pp/playboy.gif
+53598,Red Light 1,tv_red_light_1,Red Light 1,0,911,0,0,0,http://www.lyngsat-logo.com/icon/tv/rr/red_light_central_tv.gif,http://www.lyngsat-logo.com/hires/rr/red_light_central_tv.gif
+54051,Showcase 2,tv_showcase_2,Showcase 2,0,203,0,0,0,http://www.lyngsat-logo.com/logo/tv/ss/showcase_2_uk.jpg,http://www.lyngsat-logo.com/hires/ss/showcase_2_uk.png
+54053,ATN Bangla UK,tv_atn_bangla,ATN Bangla,0,827,0,0,0,http://www.lyngsat-logo.com/logo/tv/aa/atn_bangla.jpg,http://www.lyngsat-logo.com/hires/aa/atn_bangla.png
+54054,IQRA TV,tv_iqra_tv,IQRA TV,0,826,0,0,0,http://www.lyngsat-logo.com/logo/tv/ii/iqra_uk.jpg,http://www.lyngsat-logo.com/hires/ii/iqra_uk.png
+54060,KICC TV,tv_kicc_tv,KICC TV,0,594,0,0,0,http://www.lyngsat-logo.com/logo/tv/kk/kicc_tv.jpg,http://www.lyngsat-logo.com/hires/kk/kicc_tv.png
+54062,Channel 'S',tv_channel_s,Channel S,0,814,0,0,0,http://www.lyngsat-logo.com/logo/tv/cc/channel_s.jpg,http://www.lyngsat-logo.com/hires/cc/channel_s.png
+54063,Peace TV,tv_peace_tv,Peace TV,0,820,0,0,0,http://www.lyngsat-logo.com/logo/tv/pp/peace_tv.jpg,http://www.lyngsat-logo.com/hires/pp/peace_tv.png
+54064,Peace TV Urdu,tv_peace_tv_urdu,Peace TV Urdu,0,841,0,0,0,,
+54066,Info TV +1,tv_information_tv+1,Information TV +1,0,189,0,0,0,,
+54067,Faith World TV,tv_faith_world_tv,Faith World TV,0,593,0,0,0,http://www.lyngsat-logo.com/logo/tv/ff/faith_world_tv.jpg,http://www.lyngsat-logo.com/hires/ff/faith_world_tv.png
+54068,Channel i,tv_channel_i,Channel i,0,844,0,0,0,http://www.lyngsat-logo.com/logo/tv/cc/channel_i.jpg,http://www.lyngsat-logo.com/hires/cc/channel_i.png
+54101,Body In Balance,tv_body_in_balance_uk,Body In Balance UK,0,0,0,0,0,http://www.lyngsat-logo.com/logo/tv/bb/body_in_balance.jpg,http://www.lyngsat-logo.com/hires/bb/body_in_balance.png
+54102,Travel Channel,tv_travel_channel,Travel Channel,0,251,0,0,0,http://www.lyngsat-logo.com/logo/tv/tt/travel_channel_uk.jpg,http://www.lyngsat-logo.com/hires/tt/travel_channel_uk.png
+54103,Retail TV,tv_retail_tv,Retail TV,0,647,0,0,0,,
+54106,Argos TV,tv_argos_tv,Argos TV,819,642,0,0,0,http://www.lyngsat-logo.com/logo/tv/aa/argos_tv.jpg,http://www.lyngsat-logo.com/hires/aa/argos_tv.png
+54110,Men & Movies,tv_men_and_movies,Men&Movies,143,228,0,0,0,http://www.lyngsat-logo.com/logo/tv/mm/men_and_movies.jpg,http://www.lyngsat-logo.com/hires/mm/men_and_movies.png
+54112,Best Direct,tv_best_direct,Best Direct,0,649,0,0,0,http://www.lyngsat-logo.com/logo/tv/bb/bestdirect.jpg,http://www.lyngsat-logo.com/hires/bb/bestdirect.png
+54113,QVC Beauty,tv_qvc_beauty,QVC Beauty,816,658,0,0,0,http://www.lyngsat-logo.com/logo/tv/qq/qvc_beauty_uk.jpg,http://www.lyngsat-logo.com/hires/qq/qvc_beauty_uk.png
+54115,Bangla TV,tv_bangla_tv,Bangla TV,0,786,0,0,0,http://www.lyngsat-logo.com/logo/tv/bb/bangla_tv.jpg,http://www.lyngsat-logo.com/hires/bb/bangla_tv.png
+54120,JML Cookshop,tv_jml_cookshop,JML Cookshop,809,667,0,0,0,http://www.lyngsat-logo.com/logo/tv/jj/jml_cook_shop.jpg,http://www.lyngsat-logo.com/hires/jj/jml_cook_shop.png
+54135,Believe TV,tv_believe_tv,Believe TV,0,596,0,0,0,http://www.lyngsat-logo.com/logo/tv/bb/believe_tv.jpg,http://www.lyngsat-logo.com/hires/bb/believe_tv.png
+54140,Horse & Country,tv_horse_and_country_tv,Horse & Country TV,0,280,0,0,0,http://www.lyngsat-logo.com/logo/tv/hh/horse_country_tv.jpg,http://www.lyngsat-logo.com/hires/hh/horse_country_tv.png
+54150,JML Direct,tv_jml_direct,JML Direct,808,647,0,0,0,http://www.lyngsat-logo.com/logo/tv/jj/jml_direct.jpg,http://www.lyngsat-logo.com/hires/jj/jml_direct.png
+54165,Fitness TV,tv_fitness_tv,Fitness TV,0,282,0,0,0,http://www.lyngsat-logo.com/logo/tv/ff/fitness_tv.jpg,http://www.lyngsat-logo.com/hires/ff/fitness_tv.png
+54170,Glory TV,tv_glory_tv,Glory TV,0,832,0,0,0,http://www.lyngsat-logo.com/logo/tv/gg/glory_tv.jpg,http://www.lyngsat-logo.com/hires/gg/glory_tv.png
+54203,Noor TV,tv_noor_tv,Noor TV,0,819,0,0,0,http://www.lyngsat-logo.com/logo/tv/nn/noor_tv_af.jpg,http://www.lyngsat-logo.com/hires/nn/noor_tv_af.png
+54208,HiTV,tv_hitv,HiTV,0,204,0,0,0,http://www.lyngsat-logo.com/logo/tv/hh/hi_tv_uk.jpg,http://www.lyngsat-logo.com/hires/hh/hi_tv_uk.png
+54210,xxXpanded TV,tv_xxxpanded_tv,xxXpanded TV,0,931,0,0,0,http://www.lyngsat-logo.com/icon/tv/xx/xxxpanded_tv.gif,http://www.lyngsat-logo.com/hires/xx/xxxpanded_tv.gif
+54211,LOVEWORLD TV,tv_loveworld_tv,Loveworld TV,0,588,0,0,0,http://www.lyngsat-logo.com/logo/tv/ll/love_world_tv.jpg,http://www.lyngsat-logo.com/hires/ll/love_world_tv.png
+54212,UCTV,tv_uctv,UCTV,0,843,0,0,0,http://www.lyngsat-logo.com/logo/tv/uu/uctv_california.jpg,http://www.lyngsat-logo.com/hires/uu/uctv_california.png
+54214,Praise TV,tv_praise_tv,Praise TV,0,598,0,0,0,http://www.lyngsat-logo.com/logo/tv/pp/praise_tv_network.jpg,http://www.lyngsat-logo.com/hires/pp/praise_tv_network.png
+54215,PTV Prime,tv_ptv_prime,PTV Prime,0,792,0,0,0,,
+54219,DM Digital,tv_dm_digital,DM Digital,0,802,0,0,0,http://www.lyngsat-logo.com/logo/tv/dd/dm_digital.jpg,http://www.lyngsat-logo.com/hires/dd/dm_digital.png
+54249,Flirt TV 2,tv_flirt_tv_2,Flirt TV 2,0,933,0,0,0,,
+54300,MATV National,tv_matv_national,MATV National,0,793,0,0,0,,
+54315,Pitch TV,tv_pitch_tv,Pitch TV,803,646,0,0,0,http://www.lyngsat-logo.com/logo/tv/pp/pitch_television.jpg,http://www.lyngsat-logo.com/hires/pp/pitch_television.png
+54330,Elite TV,tv_elite_tv_1,Elite TV 1,0,965,0,0,0,http://www.lyngsat-logo.com/icon/tv/ee/elite_tv_965.gif,http://www.lyngsat-logo.com/hires/ee/elite_tv_965.gif
+54345,OceanFinance,tv_ocean_finance,Ocean Finance,650,888,0,0,0,http://www.lyngsat-logo.com/logo/tv/oo/ocean_finance_tv.jpg,http://www.lyngsat-logo.com/hires/oo/ocean_finance_tv.png
+54360,Pitch World,tv_pitch_world,Pitch World,804,657,0,0,0,http://www.lyngsat-logo.com/logo/tv/pp/pitch_world.jpg,http://www.lyngsat-logo.com/hires/pp/pitch_world.png
+55002,BEN,tv_ben,BEN,0,184,0,0,0,http://www.lyngsat-logo.com/logo/tv/bb/ben.jpg,http://www.lyngsat-logo.com/hires/bb/ben.png
+55005,EWTN,radio_ewtn_europe,EWTN Europe,0,1147,0,0,1,http://www.lyngsat-logo.com/logo/radio/ee/ewtn_radio.jpg,http://www.lyngsat-logo.com/hires/ee/ewtn_radio.png
+55008,EWTN,tv_ewtn_tv,EWTN TV,0,589,0,0,0,http://www.lyngsat-logo.com/logo/tv/ee/ewtn_us.jpg,http://www.lyngsat-logo.com/hires/ee/ewtn_us.png
+55013,mov4men+1,tv_movies4men+1,Movies4Men +1,305,324,0,0,0,http://www.lyngsat-logo.com/logo/tv/mm/movies_4_men_plus1.jpg,http://www.lyngsat-logo.com/hires/mm/movies_4_men_plus1.png
+55014,Real Radio,radio_real_radio_wales,Real Radio Wales,0,1146,0,0,1,http://www.lyngsat-logo.com/logo/radio/rr/real_radio_lk.jpg,http://www.lyngsat-logo.com/hires/rr/real_radio_lk.png
+55015,Smooth,radio_smooth_radio,Smooth Radio,732,1128,0,0,1,http://www.lyngsat-logo.com/logo/radio/ss/smooth_fm.jpg,http://www.lyngsat-logo.com/hires/ss/smooth_fm.png
+55018,Madani Chnl,tv_madani_channel,Madani Channel,0,838,0,0,0,http://www.lyngsat-logo.com/logo/tv/mm/madani_channel.jpg,http://www.lyngsat-logo.com/hires/mm/madani_channel.png
+55021,Vox Africa,tv_vox_africa,Vox Africa,0,218,0,0,0,http://www.lyngsat-logo.com/logo/tv/vv/voxafrica.jpg,http://www.lyngsat-logo.com/hires/vv/voxafrica.png
+55022,Vintage TV,tv_vintage_tv,Vintage TV,515,369,0,0,0,http://www.lyngsat-logo.com/logo/tv/vv/vintage_tv.jpg,http://www.lyngsat-logo.com/hires/vv/vintage_tv.png
+55104,Gems TV Extra,tv_gems_tv_extra,Gems TV Extra,818,656,0,0,0,http://www.lyngsat-logo.com/logo/tv/gg/gems_tv_extra.jpg,http://www.lyngsat-logo.com/hires/gg/gems_tv_extra.png
+55108,Brit Asia TV,tv_brit_asia_tv,Brit Asia TV,0,833,0,0,0,http://www.lyngsat-logo.com/logo/tv/bb/brit_asia_tv.jpg,http://www.lyngsat-logo.com/hires/bb/brit_asia_tv.png
+55109,Sunrise TV,tv_sunrise_tv,Sunrise TV,0,830,0,0,0,http://www.lyngsat-logo.com/logo/tv/ss/sunrise_television.jpg,http://www.lyngsat-logo.com/hires/ss/sunrise_television.png
+55110,Gems TV,tv_gems_tv,Gems TV,805,652,0,0,0,http://www.lyngsat-logo.com/logo/tv/gg/gems_tv.jpg,http://www.lyngsat-logo.com/hires/gg/gems_tv.png
+55112,Desh TV,tv_desh_tv,Desh TV,0,850,0,0,0,http://www.lyngsat-logo.com/logo/tv/dd/desh_tv.jpg,http://www.lyngsat-logo.com/hires/dd/desh_tv.png
+55119,OHTV,tv_open_heaven_tv,Open Heaven TV,0,199,0,0,0,,
+55128,UCB Ireland,radio_ucb_ireland,UCB Ireland,0,1214,0,0,1,http://www.lyngsat-logo.com/logo/radio/uu/ucb_ireland.jpg,http://www.lyngsat-logo.com/hires/uu/ucb_ireland.png
+55132,punjabi radio,radio_punjabi_radio,Punjabi Radio,0,1187,0,0,1,http://www.lyngsat-logo.com/logo/radio/pp/punjabi_radio_uk.jpg,http://www.lyngsat-logo.com/hires/pp/punjabi_radio_uk.png
+55202,Starz TV,tv_starz_tv,Starz TV,0,371,0,0,0,http://www.lyngsat-logo.com/logo/tv/ss/starz_uk.jpg,http://www.lyngsat-logo.com/hires/ss/starz_uk.png
+55204,Lucky Star,tv_lucky_star,Lucky Star,0,910,0,0,0,,
+55207,Babestation,tv_babestation,Babestation,870,906,0,0,0,http://www.lyngsat-logo.com/icon/tv/bb/babestation.gif,http://www.lyngsat-logo.com/hires/bb/babestation.gif
+55209,Imagine Dil Se,tv_imagine_dil_se,Imagine...Dil Se,0,831,0,0,0,http://www.lyngsat-logo.com/logo/tv/ii/imagine_dil_se.jpg,http://www.lyngsat-logo.com/hires/ii/imagine_dil_se.png
+55212,Babeworld.tv,tv_the_chat_lounge,The Chat Lounge,0,0,0,0,0,,
+55213,Takbeer TV,tv_takbeer_tv,Takbeer TV,0,845,0,0,0,http://www.lyngsat-logo.com/logo/tv/tt/takbeer_tv.jpg,http://www.lyngsat-logo.com/hires/tt/takbeer_tv.png
+55214,My Channel,tv_my_channel,My Channel,0,219,0,0,0,,
+55226,Psychic Today,tv_psychic_today,Psychic Today,652,886,0,0,0,http://www.lyngsat-logo.com/logo/tv/pp/psychic_today.jpg,http://www.lyngsat-logo.com/hires/pp/psychic_today.png
+55228,Ahlulbayt TV,tv_ahlulbayt_tv,Ahlulbayt TV,0,842,0,0,0,http://www.lyngsat-logo.com/logo/tv/aa/ahlulbayt.jpg,http://www.lyngsat-logo.com/hires/aa/ahlulbayt.png
+55236,holiday+cruise,tv_holiday_and_cruise,Holiday+Cruise,0,284,0,0,0,http://www.lyngsat-logo.com/logo/tv/hh/holiday_cruise.jpg,http://www.lyngsat-logo.com/hires/hh/holiday_cruise.png
+55242,Filth,tv_filth,Filth,874,0,0,0,0,http://www.lyngsat-logo.com/logo/tv/rr/red_hot_tv_uk.jpg,http://www.lyngsat-logo.com/hires/rr/red_hot_tv_uk.png
+55246,Dirty Talk,tv_dirty_talk,Dirty Talk,0,921,0,0,0,,
+55250,The Dept Store,tv_the_dept_store,The Dept Store,0,681,0,0,0,,
+55270,propeller,tv_propeller_tv,Propeller TV,0,195,0,0,0,http://www.lyngsat-logo.com/logo/tv/pp/propeller.jpg,http://www.lyngsat-logo.com/hires/pp/propeller.png
+55280,Euronews,tv_euronews,Euronews,204,508,0,0,0,http://www.lyngsat-logo.com/logo/tv/ee/euronews.jpg,http://www.lyngsat-logo.com/hires/ee/euronews.png
+55500,Aastha,tv_aastha_tv,Aastha TV,0,849,0,0,0,http://www.lyngsat-logo.com/logo/tv/aa/aastha.jpg,http://www.lyngsat-logo.com/hires/aa/aastha.png
+55510,The Active Ch,tv_the_active_channel,The Active Channel,0,281,0,0,0,,
+55515,9XM,tv_9xm,9XM,0,851,0,0,0,,
+55520,Music India,tv_music_india,Music India,0,822,0,0,0,http://www.lyngsat-logo.com/logo/tv/mm/music_india.jpg,http://www.lyngsat-logo.com/hires/mm/music_india.png
