@@ -196,12 +196,13 @@ if __name__ == '__main__':
 
           # Update stream
           stream['channelname'] = chn.title
-          stream['dvb_eit_enable'] = 0
+          stream['mapped']      = 1;
           open(sp, 'w').write(json.dumps(stream))
 
         # Remove any channel link
         elif 'channelname' in stream and stream['channelname']:
           stream['channelname'] = ''
+          stream['mapped']      = 0;
           open(sp, 'w').write(json.dumps(stream))
 
       except Exception, e:
