@@ -43,7 +43,7 @@ import sys
 # Output channel
 def out_channel ( xml, c, extended = False ):
   ele = Element('channel', id=c.uri)
-  ele.addChild(Element('display-name', c.title))
+  ele.addChild(Element('display-name', c.title, lang='en'))
   if c.image:
     ele.addChild(Element('icon', src=c.image))
   xml.addChild(ele)
@@ -68,14 +68,14 @@ def out_episode ( xml, e, extended = False ):
   t  = e.get_title()
   st = e.get_subtitle()
   if t:
-    ele.addChild(Element('title', t))
+    ele.addChild(Element('title', t, lang='en'))
   if st:
-    ele.addChild(Element('sub-title', st))
+    ele.addChild(Element('sub-title', st, lang='en'))
 
   # Description
   d = e.get_summary()
   if d:
-    ele.addChild(Element('desc', d))
+    ele.addChild(Element('desc', d, lang='en'))
 
   # Credits
   credits = e.get_credits()
@@ -84,7 +84,7 @@ def out_episode ( xml, e, extended = False ):
     for r in [ 'director', 'presenter', 'actor', 'commentator', 'guest' ]:
       if r in credits:
         for p in credits[r]:
-          cre.addChild(Element(r, p.name))
+          cre.addChild(Element(r, p.name, lang='en'))
     ele.addChild(cre)
 
   # Date
