@@ -138,9 +138,9 @@ def _channels ():
       c.number = c.extra['sky_number'] = int(p[5])
       c.hd                             = p[6] == '1'
       c.radio                          = p[8] == '1'
-      if (p[10])
+      if (p[10]):
         c.image                        = p[10]
-      else
+      else:
         c.image                        = p[9]
 
       # Skip

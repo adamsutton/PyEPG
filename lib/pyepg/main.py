@@ -298,6 +298,7 @@ def xmltv ( opts, args ):
     sys.exit(0)
 
   # Run
+  conf.set('formatter', 'xmltv')
   grab(opts, args)
 
 #
